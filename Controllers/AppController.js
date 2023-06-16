@@ -27,4 +27,4 @@ module.exports.deleteObject=async(req,res)=>
    MovieModel
     .findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
 }
-
+// check
