@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Movie Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://movies.podcastsareus.com/wp-content/uploads/2021/04/2012Movies.jpeg");
+      background-size: cover;
+      background-position: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      border-radius: 30px;
+      background-color: #d30404;
+      padding: 20px;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(250, 222, 222, 0.7);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .movie {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .movie img {
+      width: 100px;
+      margin-right: 20px;
+    }
+
+    .movie-info {
+      flex-grow: 1;
+    }
+
+    .movie-title {
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .movie-description {
+      margin: 10px 0;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      padding: 10px;
+      width: 300px;
+      border-radius: 4px;
+    }
+
+    .settings-icon {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+
+    .favorite-icon {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Movie Website</h1>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search Movies">
+      <a href="#" class="button">Search</a>
+    </div>
+    <a href="#" class="button"><i class="settings-icon">⚙️</i>Settings</a>
+    <a href="#" class="button"><i class="favorite-icon">❤️</i>Favorites</a>
+    <a href="#" class="button">Log In</a>
+    <a href="#" class="button">Sign In</a>
+   
+  </header>
+  
+  <main>
+    <div class="movie">
+      <img src="https://assets-in.bmscdn.com/discovery-catalog/events/tr:w-400,h-600,bg-CCCCCC/et00122562-dgpxgaudlw-portrait.jpg" alt="Movie 1">
+      <div class="movie-info">
+        <h2 class="movie-title">Fast and Furious</h2>
+        <p class="movie-description">Fast and Furious 10 is an American action film released in 2023, directed by Louis Letria and written by Justin Lin and Dan Mazzeo. It is the sequel to Fast and Furious 9, serving as the tenth major installment, and the eleventh full-length film in the Fast and Furious franchise.</p>
+      </div>
+    </div>
+    
+    <div class="movie">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeFd4erT20YYvG4D5vFMSeYoOA1Nk5i2WErA&usqp=CAU" alt="Movie 2">
+      <div class="movie-info">
+        <h2 class="movie-title">Scream</h2>
+        <p class="movie-description">Scream is an American slasher franchise that includes six films, a television series, video games, and merchandise. The first four films were directed by Wes Craven, and the series was created by Kevin Williamson, who wrote the first two films and the fourth; The third was written by Arne Kruger.</p>
+      </div>
+    </div>
+    
+    <!-- Add more movie
