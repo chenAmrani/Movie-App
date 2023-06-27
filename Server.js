@@ -1,23 +1,19 @@
-const express=require('express');  // צד השרת מייבא את אקספרס
-const mongoose=require('mongoose'); // מייבאת את מונגו
-const cors=require("cors") //cors מייבאת את (קורס) המאפשרת בקשות מתחומים שונים לשרת
+const express=require('express');  
+const mongoose=require('mongoose'); 
+const cors=require("cors") 
+require('dotenv').config();
+const app=express(); 
+const movieRouter =require('./routes/MovieRoutes') ;
+const reviewRouter =require('./routes/ReviewRoutes');
+const userRouter=require('./routes/userRoutes')
+const PORT=process.env.port||1111; 
+app.use(express.json()) 
+app.use(cors()) 
 
-require('dotenv').config(); //emv טוען את משתני הסביבה מקובץ (אי אן וי) המכיל נתונים כגון מסד נתונים
-const app=express(); // יוצר מופע של אובייקט אקספרס המייצג את השרת האינטרנט
-
-// הגדרות ההתחברות
-const routers1 =require('./routes/AppRoutes') ;//מייבא את הראוטר
-const routers2 =require('./routes/ReviewRoutes');
-const PORT=process.env.port||3100; //מגדיר יציאה עבור השרת ומנסה לקרוא אותה , במקרה שלא מצליח נכנס לערך 3200
-app.use(express.json()) // מאפשר לבקשות שמגיעות להיכתב בתצורת גייסון
-app.use(cors()) //cors מוסיף את תכונת האמצע של (קורס) כדי לאפשר בקשות חוצות מוצא
-//התחברות למסד הנתוניםבאמצעות מחרוזת החיבור שמוינה במשתני הסביבה
 mongoose.
-connect(process.env.MONGODB_URL) //דרך זה ניגישים לקובץ ומתחברים למונגו db שלנו
+connect(process.env.MONGODB_URL) 
 .then(()=>console.log(`conect to MONGODB`)).catch((err)=>console.log(err));
-
-//הגדרת הנתבים - מוגדרים לטפל במסלולים שונים ובלוגיקה שקשורה אליהם, הנתבים מיובאים מקובץ הראוטר
-app.use(routers1) // האפליקציה שלנו תשתמש בrouters
-app.use(routers2)
-//מפעיל את השרת ומאזין ביציאה שהוגדרה, ורושם כשהשרת פועל
-app.listen(PORT,()=>console.log(`listen to:${PORT}`));//   שלנו באפליקציה התחברות לשרת 
+app.use(movieRouter) 
+app.use(reviewRouter)
+app.use(userRouter)
+app.listen(PORT,()=>console.log(`listen to:${PORT}`));
