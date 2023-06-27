@@ -1,5 +1,7 @@
 const userModule = require('../modules/userModules');
-
+const createError=require('http-errors');
+const {authSchema}=require('../modules/validationModule')
+const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
 
 module.exports.getUsers=async(req,res)=>{
   userModule.find().then((data)=>{
@@ -18,21 +20,50 @@ module.exports.getUsersById=async(req,res)=>{
    })
     
  }  
-module.exports.addUser = async (req, res) => {
-   const {_id, name, password, email, age } = req.body;
-   if (!email || !password || !name || !age) {
+module.exports.addUser = async (req, res,next) => {
+   try{
+   const result=await authSchema.validateAsync(req.body);
+   console.log(result);
+   if (!result.email || !result.password || !result.name || !result.age) {
      return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
    }
+   const doesExist=await userModule.findOne({email:result.email})
+   if(doesExist) throw createError.Conflict(`${result.email} is already been registered`)
+   const user=new userModule(result);
+   const savedUser=await user.save();
+   const accessToken=await signAccessToken(savedUser.id);
+   const refreshToken=await signRefreshToken(savedUser.id)
+   res.send({accessToken,refreshToken});
+} catch(error){next(error)}
+}
+module.exports.loginUser=async(req,res,next)=>{
+   try{
+      const result=await authSchema.validateAsync(req.body);
+      const user= await userModule.findOne({email:result.email})
+      if(!user) throw createError.NotFound('user not registered');
+      const isMatch= await user.isValidPassword(result.password)
+      if(!isMatch) throw createError.Unauthorized('email/password is not valid');
+      const accessToken=await signAccessToken(user.id);
+      const refreshToken=await signRefreshToken(user.id)
+
+      res.send({accessToken,refreshToken});
 
 
-   userModule.create({_id,name,email,password,age}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
-      console.log('adding to a list of users ');
-      console.log(data);
-      res.send(data) //השרת ישלח לנו את המשימה החדשה 
-  }).catch((err)=>{
-   console.log(err)
-   res.status(500).json("error")
-  })
+   }catch(error){if(error.isJoi===true) return next(createError.BadRequest("Invalide userName/password"))
+      next(error)}
+
+}
+module.exports.refreshT=async(req,res,next)=>{
+   try{
+
+     const { refreshtoken }=req.body;
+      if(!refreshtoken) {throw createError.BadRequest()};
+      const userId= await verifyRefreshToken(refreshtoken);
+      const accessToken=await signAccessToken(userId);
+      const refToken=await signRefreshToken(userId);
+      res.send({accessToken: accessToken, refreshToken: refToken})
+
+   }catch(err){next(err)}
 }
 module.exports.updateUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
@@ -46,3 +77,4 @@ module.exports.deleteUser=async (req,res)=>{
    userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
 
 }
+
