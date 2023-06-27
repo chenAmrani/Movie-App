@@ -6,6 +6,22 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
     res.send(Movie) //כביכול הלקוח יבקש את כל המשימות והשרת ישלח לו אותם
 }
 
+//return a specipic object by ID.
+module.exports.getObjectById=async(req,res)=> {
+    const movieId = req.params.id;
+    const Movie = await MovieModel.findById(movieId);
+
+    res.send(Movie) 
+}
+
+//return object ID
+module.exports.getObjectId=async(req,res)=> {
+    const MovieTitle = req.params.title;
+    const Movie = await MovieModel.findOne({ title: MovieTitle });
+
+    res.send(Movie._id); 
+}
+
 module.exports.addObject=async(req,res)=> //ליצור אובייקט חדש 
 {
     const{_id,title,year,image,actors,genre}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
