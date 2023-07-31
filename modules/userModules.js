@@ -26,6 +26,10 @@ const userModule=new mongoose.Schema({
     genre:{
         type:String
     }
+    ,
+    refreshToken:{
+      type:String
+    }
  
 });
 userModule.pre('save',async function (next){ // make the password a hash password .
