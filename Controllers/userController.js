@@ -22,6 +22,7 @@ module.exports.getUsersById=async(req,res)=>{
    })
     
  }  
+
 module.exports.addUser = async (req, res,next) => {
    try{
     const {email,password,name,age}=req.body;
