@@ -8,7 +8,6 @@ require('dotenv').config();
 const app=express(); 
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: true}))
-
 const movieRouter =require('./routes/AppRoutes') ;
 const reviewRouter =require('./routes/ReviewRoutes');
 const userRouter=require('./routes/userRoutes')

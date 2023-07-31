@@ -1,6 +1,7 @@
 const userModule = require('../modules/userModules');
 const createError=require('http-errors');
-const {authSchema}=require('../modules/validationModule')
+const {authSchema}=require('../modules/validationModule');
+
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
 
 module.exports.getUsers=async(req,res)=>{
@@ -32,7 +33,9 @@ module.exports.addUser = async (req, res,next) => {
    const user=new userModule(result);
    const savedUser=await user.save();
    const accessToken=await signAccessToken(savedUser.id);
-   const refreshToken=await signRefreshToken(savedUser.id)
+   const refreshToken=await signRefreshToken(savedUser.id);
+   
+
    res.send({accessToken,refreshToken});
 } catch(error){next(error)}
 }
@@ -44,8 +47,8 @@ module.exports.loginUser=async(req,res,next)=>{
       const isMatch= await user.isValidPassword(result.password)
       if(!isMatch) throw createError.Unauthorized('email/password is not valid');
       const accessToken=await signAccessToken(user.id);
-      const refreshToken=await signRefreshToken(user.id)
-
+      const refreshToken=await signRefreshToken(user.id);
+      
       res.send({accessToken,refreshToken});
 
 
@@ -72,6 +75,7 @@ module.exports.updateUser=async (req,res)=>{
       res.send(data)
    })
 }
+
 module.exports.deleteUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
    userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));

@@ -7,7 +7,7 @@ const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT}=r
 // User actions
 userRouter.post('/register',addUser);
 userRouter.post('/login',loginUser);
-userRouter.post('/refresh-token',refreshT)
+userRouter.post('/refresh-token',refreshT);
 
 
 // CRUD
