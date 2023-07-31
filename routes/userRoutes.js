@@ -1,6 +1,6 @@
 const { Router } = require("express"); 
 const userRouter=Router();
-const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT}=require('../Controllers/userController')
+const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT,logOutUser}=require('../Controllers/userController')
 
 
 
@@ -8,6 +8,7 @@ const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT}=r
 userRouter.post('/register',addUser);
 userRouter.post('/login',loginUser);
 userRouter.post('/refresh-token',refreshT);
+userRouter.delete('/logout',logOutUser);
 
 
 // CRUD

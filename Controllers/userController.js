@@ -3,6 +3,7 @@ const createError=require('http-errors');
 const {authSchema}=require('../modules/validationModule');
 
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
+const { default: isEmail } = require('validator/lib/isEmail');
 
 module.exports.getUsers=async(req,res)=>{
   userModule.find().then((data)=>{
@@ -23,20 +24,27 @@ module.exports.getUsersById=async(req,res)=>{
  }  
 module.exports.addUser = async (req, res,next) => {
    try{
-   const result=await authSchema.validateAsync(req.body);
-   console.log(result);
-   if (!result.email || !result.password || !result.name || !result.age) {
-     return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
-   }
-   const doesExist=await userModule.findOne({email:result.email})
-   if(doesExist) throw createError.Conflict(`${result.email} is already been registered`)
+    const {email,password,name,age}=req.body;
+    if (!email || !password || !name || !age) {
+      return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
+    }
+   
+  
+   const doesExist=await userModule.findOne({email:email})
+   if(doesExist) throw createError.Conflict(`${email} is already been registered`)
+ 
+   const accessToken=await signAccessToken(email);
+   const refreshToken=await signRefreshToken(email);
+   // user.refreshToken=refreshToken;
+   const result={
+      email,password,name,age,refreshToken
+   };
    const user=new userModule(result);
    const savedUser=await user.save();
    const accessToken=await signAccessToken(savedUser.id);
-   const refreshToken=await signRefreshToken(savedUser.id);
-   
-
+   const refreshToken=await signRefreshToken(savedUser.id)
    res.send({accessToken,refreshToken});
+
 } catch(error){next(error)}
 }
 module.exports.loginUser=async(req,res,next)=>{
@@ -47,14 +55,23 @@ module.exports.loginUser=async(req,res,next)=>{
       const isMatch= await user.isValidPassword(result.password)
       if(!isMatch) throw createError.Unauthorized('email/password is not valid');
       const accessToken=await signAccessToken(user.id);
-      const refreshToken=await signRefreshToken(user.id);
-      
+      const refreshToken=await signRefreshToken(user.id)
+
       res.send({accessToken,refreshToken});
 
 
    }catch(error){if(error.isJoi===true) return next(createError.BadRequest("Invalide userName/password"))
       next(error)}
 
+}
+module.exports.logOutUser=async(req,res)=>{
+   const {email}=req.body;
+   const user= await userModule.findOne({email:email});
+   user.refreshToken='';
+   await userModule.findByIdAndUpdate(user._id,user);
+   console.log(user);
+   
+   
 }
 module.exports.refreshT=async(req,res,next)=>{
    try{
@@ -67,6 +84,10 @@ module.exports.refreshT=async(req,res,next)=>{
       res.send({accessToken: accessToken, refreshToken: refToken})
 
    }catch(err){next(err)}
+}
+module.exports.tokenUser=async(req,res)=>{
+   const refreshToken=localStorage()
+   res.cookie()
 }
 module.exports.updateUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;

@@ -31,6 +31,10 @@ const userModule=new mongoose.Schema({
         enum: ['user', 'admin'], // Possible roles: 'user' or 'admin'
         default: 'user', // Set the default role as 'user'
       },
+    ,
+    refreshToken:{
+      type:String
+    }
  
 });
 userModule.pre('save',async function (next){ // make the password a hash password .
