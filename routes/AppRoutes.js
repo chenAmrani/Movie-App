@@ -5,6 +5,7 @@ const {
   updateObject,
   deleteObject,
 } = require("../Controllers/AppController"); // מייבאת את כל המטודות של הקראד
+
 const router = Router(); // לוקחת משתנה שהוא יהיה הרוטר שלי
 
 router.get("/Movies", getObject); // עכשיו ברגע שאני אהיה בדף הראשי יופיעו לי כל המשימות

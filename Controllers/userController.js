@@ -1,6 +1,7 @@
 const userModule = require('../modules/userModules');
 const createError=require('http-errors');
-const {authSchema}=require('../modules/validationModule')
+const {authSchema}=require('../modules/validationModule');
+
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
 const { default: isEmail } = require('validator/lib/isEmail');
 
@@ -96,6 +97,7 @@ module.exports.updateUser=async (req,res)=>{
       res.send(data)
    })
 }
+
 module.exports.deleteUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
    userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));

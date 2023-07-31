@@ -25,6 +25,15 @@ const userModule=new mongoose.Schema({
     },
     genre:{
         type:String
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'], // Possible roles: 'user' or 'admin'
+        default: 'user', // Set the default role as 'user'
+      },
+    ,
+    refreshToken:{
+      type:String
     }
     ,
     refreshToken:{

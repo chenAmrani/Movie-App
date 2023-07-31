@@ -8,6 +8,10 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
 
 module.exports.addObject=async(req,res)=> //ליצור אובייקט חדש 
 {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'You do not have admin permission to add a movie.' });
+      }
+      
     const{_id,title,year,image,actors,genre}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
    MovieModel.create({_id,title,year,image,actors,genre}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
         console.log('adding to a list of movie ');
@@ -17,12 +21,18 @@ module.exports.addObject=async(req,res)=> //ליצור אובייקט חדש
 }
 module.exports.updateObject=async(req,res)=>
 {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ error: 'You do not have admin permission to update a movie.' });
+      }
     const{_id,title,year,image,actors,genre}=req.body; //דיסטרקצר
     MovieModel
     .findByIdAndUpdate(_id,{title,year,image,actors,genre}).then(()=>res.send("update succsess")).catch((err)=>console.log(err));
 }
 module.exports.deleteObject=async(req,res)=>
 {
+    // if (req.user.role !== 'admin') {
+    //     return res.status(403).json({ error: 'You do not have admin permission to delete a movie.' });
+    // }
     const{_id}=req.body;
    MovieModel
     .findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
