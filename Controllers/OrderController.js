@@ -12,7 +12,7 @@ const getAllOrders = async (req, res) => {
     };
 
 // ---------------------------------------------------------------------------------------
-//chen is the kink
+
     const getOrderById = async (req, res) => {
         try {
           const { id } = req.body;
