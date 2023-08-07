@@ -1,5 +1,9 @@
 const userModule = require('../modules/userModules');
+const createError=require('http-errors');
+const {authSchema}=require('../modules/validationModule');
 
+const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
+const { default: isEmail } = require('validator/lib/isEmail');
 
 module.exports.getUsers=async(req,res)=>{
   userModule.find().then((data)=>{
@@ -18,21 +22,77 @@ module.exports.getUsersById=async(req,res)=>{
    })
     
  }  
-module.exports.addUser = async (req, res) => {
-   const {_id, name, password, email, age } = req.body;
-   if (!email || !password || !name || !age) {
-     return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
-   }
+ module.exports.getUserByID=async(id)=>{
+   return await userModule.findById(id);
+ }
+
+module.exports.addUser = async (req, res,next) => {
+   try{
+    const {email,password,name,age}=req.body;
+    if (!email || !password || !name || !age) {
+      return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
+    }
+   
+  
+   const doesExist=await userModule.findOne({email:email})
+   if(doesExist) throw createError.Conflict(`${email} is already been registered`)
+ 
+   const accessToken=await signAccessToken(email);
+   const refreshToken=await signRefreshToken(email);
+   // user.refreshToken=refreshToken;
+   const result={
+      email,password,name,age,refreshToken
+   };
+   const user=new userModule(result);
+   const savedUser=await user.save();
+   console.log(result);
+   // await userModule.findByIdAndUpdate(user._id,user);
+   res.send({accessToken,refreshToken});
+
+} catch(error){next(error)}
+}
+module.exports.loginUser=async(req,res,next)=>{
+   try{
+      const result=await authSchema.validateAsync(req.body);
+      const user= await userModule.findOne({email:result.email})
+      if(!user) throw createError.NotFound('user not registered');
+      const isMatch= await user.isValidPassword(result.password)
+      if(!isMatch) throw createError.Unauthorized('email/password is not valid');
+      const accessToken=await signAccessToken(user.id);
+      const refreshToken=await signRefreshToken(user.id)
+      user.refreshToken=refreshToken;
+      await userModule.findByIdAndUpdate(user._id,user);
+      res.send({accessToken,refreshToken});
 
 
-   userModule.create({_id,name,email,password,age}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
-      console.log('adding to a list of users ');
-      console.log(data);
-      res.send(data) //השרת ישלח לנו את המשימה החדשה 
-  }).catch((err)=>{
-   console.log(err)
-   res.status(500).json("error")
-  })
+   }catch(error){if(error.isJoi===true) return next(createError.BadRequest("Invalide userName/password"))
+      next(error)}
+
+}
+module.exports.logOutUser=async(req,res)=>{
+   const {email}=req.body;
+   const user= await userModule.findOne({email:email});
+   user.refreshToken='';
+   await userModule.findByIdAndUpdate(user._id,user);
+   console.log(user);
+   
+   
+}
+module.exports.refreshT=async(req,res,next)=>{
+   try{
+
+     const { refreshtoken }=req.body;
+      if(!refreshtoken) {throw createError.BadRequest()};
+      const userId= await verifyRefreshToken(refreshtoken);
+      const accessToken=await signAccessToken(userId);
+      const refToken=await signRefreshToken(userId);
+      res.send({accessToken: accessToken, refreshToken: refToken})
+
+   }catch(err){next(err)}
+}
+module.exports.tokenUser=async(req,res)=>{
+   const refreshToken=localStorage()
+   res.cookie()
 }
 module.exports.updateUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
@@ -41,8 +101,10 @@ module.exports.updateUser=async (req,res)=>{
       res.send(data)
    })
 }
+
 module.exports.deleteUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
    userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
 
 }
+
