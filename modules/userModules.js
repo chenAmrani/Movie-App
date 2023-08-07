@@ -28,7 +28,7 @@ const userModule=new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
-        default:false
+        default:false,
     },
     refreshToken:{
       type:String

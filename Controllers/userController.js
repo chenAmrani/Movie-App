@@ -22,6 +22,9 @@ module.exports.getUsersById=async(req,res)=>{
    })
     
  }  
+ module.exports.getUserByID=async(id)=>{
+   return await userModule.findById(id);
+ }
 
 module.exports.addUser = async (req, res,next) => {
    try{
