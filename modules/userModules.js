@@ -33,7 +33,19 @@ const userModule=new mongoose.Schema({
     refreshToken:{
       type:String
     },
-    
+    orders: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "order",
+        }
+    ],
+    movies :[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Movie"
+        }
+    ],
+
 
  
 });

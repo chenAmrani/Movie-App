@@ -6,6 +6,14 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
     const Movie=await MovieModel.find(); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
     res.send(Movie) //כביכול הלקוח יבקש את כל המשימות והשרת ישלח לו אותם
 }
+module.exports.getObjectById=async(req,res)=>{
+  const{_id}=req.body;
+  MovieModel.findById(_id).then((data)=>{
+    console.log("get movie by ID")
+    console.log(data);
+    res.send(data);
+  })
+}
 module.exports.validateMovie=async(req, res, next)=>
 {
     const { userId } = req.body;

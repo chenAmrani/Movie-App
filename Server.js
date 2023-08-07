@@ -11,6 +11,7 @@ app.use(express.urlencoded({extended: true}))
 const movieRouter =require('./routes/AppRoutes') ;
 const reviewRouter =require('./routes/ReviewRoutes');
 const userRouter=require('./routes/userRoutes')
+const orderRouter=require('./routes/OrderRoutes')
 const PORT=process.env.port||1113; 
 app.use(express.json()) 
 app.use(cors()) 
@@ -23,4 +24,5 @@ connect(process.env.MONGODB_URL)
 app.use(movieRouter) 
 app.use(reviewRouter)
 app.use(userRouter)
+app.use(orderRouter)
 app.listen(PORT,()=>console.log(`listen to:${PORT}`));

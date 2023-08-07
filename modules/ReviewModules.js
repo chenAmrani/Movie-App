@@ -16,6 +16,14 @@ const reviewSchema = new mongoose.Schema({
   starRank: {
     type: Number,
     required: true
+  },
+  User:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"user"
+  },
+  Movie:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Movie"
   }
 });
 

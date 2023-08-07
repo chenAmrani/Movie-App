@@ -20,7 +20,13 @@ const movieSchema = new mongoose.Schema({
   genre: {
     type: [String],
     required: true
-  }
+  },
+  reviews:[
+    {
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"Review"
+    }
+  ]
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

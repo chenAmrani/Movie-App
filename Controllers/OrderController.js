@@ -2,6 +2,7 @@ const Order = require("../modules/OrderModules");
 const userController = require("./userController");
 
 
+
 const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find().populate("user").populate("games");
@@ -61,7 +62,7 @@ const updateOrder = async (req, res) => {
       const { id } = req.body;
       const deletedOrder = await Order.findByIdAndDelete(id);
       const user = await userController.getUserById(deletedOrder.user);
-      user.orders.pull(deletedOrder._id);
+      user.orders.pull(deletedOrder._id); 
       await userController.updateUser(user._id, user);
       res.status(200).send(deletedOrder);
     } catch (err) {

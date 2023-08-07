@@ -1,14 +1,15 @@
 // define the routs for the order of the server.
 
-const express = require("express");
-const ordersController = require("../Controllers/OrderController");
-const router = express.Router();
-
-router.get("/getAllOrders", ordersController.getAllOrders);
-router.get("/:id", ordersController.getOrderById);
-router.post("/createOrder", ordersController.createOrder);
-router.post("/updateOrder", ordersController.updateOrder);
-router.delete("/deleteOrderById", ordersController.deleteOrderById);
+const { Router } = require("express"); 
+const{
+    getAllOrders,getOrderById,createOrder,updateOrder,deleteOrderById
+} =require("../Controllers/OrderController")
+const OrderRouter=Router();
+OrderRouter.get("/getAllOrders", getAllOrders);
+OrderRouter.get("/:id",getOrderById);
+OrderRouter.post("/createOrder",createOrder);
+OrderRouter.post("/updateOrder", updateOrder);
+OrderRouter.delete("/deleteOrderById", deleteOrderById);
 
 //check if we need the routes.
-module.exports = router;
+module.exports = OrderRouter;
