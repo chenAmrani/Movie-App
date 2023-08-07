@@ -1,4 +1,5 @@
 const userModule = require('../modules/userModules');
+const userController=require('../Controllers/userController')
 const MovieModel=require('../modules/AppModules') // מייבאת את התיקייה של המודל 
 module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת אותה שאוכל להשתמש דרך האובייקט של המודל נשתמש בכל הפונקציות
 {
@@ -8,29 +9,28 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
 module.exports.validateMovie=async(req, res, next)=>
 {
     const { userId } = req.body;
+    console.log(req.body);
   
-    // Check if the 'userId' is provided
-    if (!userId) {
+    if (await userModule.findById(userId)==null) {
+      console.log("userId doesant find")
       res.status(400);
-    } else {
-      const user = await userModule.findById(userId);
-      // Check if the user exists
-      if (!user) {
-        res.status(400).json("Invalid user id");
-      } else {
-        // Check if the user is an admin
-        if (user.isAdmin !== true) {
-          res.status(400).json("Only admin can edit/add/remove games");
-        }
-      }
+      return;
     }
-    next();
+     else{
+          const user = await userController.getUserByID(userId);
+        if (user.isAdmin !== true) {
+          console.log("user is not admin");
+          res.status(400).json("Only admin can edit/add/remove movies");
+          return;
+        }
+    }
+    next(); 
 }
-
 module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חדש 
-{     
-    const{_id,title,year,image,actors,genre}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
-   MovieModel.create({_id,title,year,image,actors,genre}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
+{   
+  console.log("Arrived"); 
+    const{_id,title,year,image,rating,actors,price,genre}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
+   MovieModel.create({_id,title,year,image,rating,actors,price,genre}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
         console.log('adding to a list of movie ');
         console.log(data);
         res.send(data) //השרת ישלח לנו את המשימה החדשה 
@@ -38,14 +38,19 @@ module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חד�
 }
 module.exports.updateObject=async(req,res,next)=>
 {
-    const{_id,title,year,image,actors,genre}=req.body; //דיסטרקצר
-    MovieModel
-    .findByIdAndUpdate(_id,{title,year,image,actors,genre}).then(()=>res.send("update succsess")).catch((err)=>console.log(err));
+    console.log("Arrived");
+    const{movieId,title,year,image,rating,actors,price,genre}=req.body; 
+    const isUpdated=await MovieModel
+    .findByIdAndUpdate(movieId,{title,year,image,rating,actors,price,genre});
+    if (isUpdated) res.send("Movie has been updated");
+    else ("There was an issue updating the movie");
 }
 module.exports.deleteObject=async(req,res,next)=>
 {
-    const{_id}=req.body;
-   MovieModel
-    .findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
+  console.log("Arrived");
+    const{movieId}=req.body;
+   const isDeleted= await MovieModel
+    .findByIdAndDelete({_id:movieId});
+    if(isDeleted) res.send("Movie has been deleted");
+    else res.send("There was an issue deleting the movie");
 }
-// check
