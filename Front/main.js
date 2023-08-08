@@ -1,12 +1,12 @@
 let shop = document.getElementById('shop');
 
-
+// pulling data from the local storage.
 let basket = JSON.parse(localStorage.getItem("data")) || []; //if the client has a data its return it from the local sorage else its make empty basket.
 
 //console.log(shop);
 
 let generateShop = () =>{
-   shop.innerHTML= shopItemsData.map((x)=>{
+   return shop.innerHTML= shopItemsData.map((x)=>{
     let { id , name , price, desc , year , rating , actors , img } = x;
     let search = basket.find((x) => x.id === id) || []//check if the item is exist in the local sorage.
     return  `
@@ -29,7 +29,7 @@ let generateShop = () =>{
     </div>
 </div>
     `;
-}).join((''));
+}).join((""));
 };
 
 
