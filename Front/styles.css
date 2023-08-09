@@ -9,8 +9,8 @@ body{
     background-image: url("/imges/back.jpg"); 
     background-size: cover;  
     background-repeat: no-repeat;
-    background-attachment: fixed; 
-    background-position: center center;
+    /* background-attachment: fixed;  */
+    /* background-position: center center; */
     
 }
 
@@ -36,7 +36,7 @@ a{
 
 .item.img{
     width: 100%;
-    height: 50%;
+
 }
 
 .cart{
@@ -156,6 +156,8 @@ a{
 * style rules for the shopping-cart
 **/
 .shopping-cart{
+  background-color: black;
+  color: white;
   display: grid;
   grid-template-columns: repeat(1,320px);
   justify-content: center;
@@ -190,5 +192,13 @@ a{
     color: white;
     border-radius: 4px;
     padding: 3px 6px;
+}
+
+.cart-body{
+    background-color: black;
+}
+
+.cart-html{
+    background-color: black;
 }
 
