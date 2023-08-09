@@ -6,6 +6,12 @@
 
 body{
     font-family: sans-serif;
+    background-image: url("/imges/back.jpg"); 
+    background-size: cover;  
+    background-repeat: no-repeat;
+    /* background-attachment: fixed;  */
+    /* background-position: center center; */
+    
 }
 
 i{
@@ -14,7 +20,7 @@ i{
 
 a{
     text-decoration: none;
-    color: white;
+    color: red;
 }
 
 .navbar{
@@ -24,12 +30,13 @@ a{
     align-items: center;
     background-color: #212529;
     color: white;
-    padding: 25px 60px;
+    padding: 25px 20px;
     margin-bottom: 30px;
 }
 
 .item.img{
     width: 100%;
+
 }
 
 .cart{
@@ -76,8 +83,10 @@ a{
 }
 
 .item{
-    border:  2px solid #212529;
-    border-radius: 4px;
+    border:  2px solid white;
+    border-radius: 3px;
+    color: white;
+    background-color: #212529;
 }
 
 .details{
@@ -114,7 +123,6 @@ a{
 **/ 
 
 .text-center{
-
     text-align: center;
     margin-bottom: 20px;
 }
@@ -148,6 +156,8 @@ a{
 * style rules for the shopping-cart
 **/
 .shopping-cart{
+  background-color: black;
+  color: white;
   display: grid;
   grid-template-columns: repeat(1,320px);
   justify-content: center;
@@ -183,4 +193,13 @@ a{
     border-radius: 4px;
     padding: 3px 6px;
 }
+
+.cart-body{
+    background-color: black;
+}
+
+.cart-html{
+    background-color: black;
+}
+/* chen check */
 
