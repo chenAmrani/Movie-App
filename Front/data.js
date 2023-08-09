@@ -37,7 +37,7 @@ let shopItemsData = [{
     price:45,
     desc:"movie1",
     year: 1999,
-    rating: 4,
+    rating: "rating : 4 " ,
     actors: "chen,ori,nir,dorin",
     img: "/imges/image1.jpg"
 },
@@ -47,8 +47,8 @@ let shopItemsData = [{
     price: 25,
     desc:"movie2",
     year: 2002,
-    rating: 7,
-    actors: "chen,ori,nir,dorin",
+    rating: "rating : 7 ",
+    actors: " actors : chen,ori,nir,dorin",
     img: "/imges/image2.jpg"
 },
 {
@@ -57,8 +57,8 @@ name: "movie3",
 price: 15,
 desc:"movie3",
 year: 2022,
-rating: 6,
-actors: "chen,ori,nir,dorin",
+rating: "rating : 3 ",
+actors: " actors : chen,ori,nir,dorin",
 img: "/imges/image3.jpg"
 },
 {
@@ -67,8 +67,8 @@ name: "movie4",
 price: 35,
 desc:"movie4",
 year: 1964,
-rating: 5,
-actors: "chen,ori,nir,dorin",
+rating: "rating : 5 ",
+actors: " actors : chen,ori,nir,dorin",
 img: "/imges/image4.jpg"
 }
 ];
