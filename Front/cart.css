@@ -5,12 +5,7 @@
 }
 
 body{
-    font-family: sans-serif;
-    background-image: url("/imges/back.jpg"); 
-    background-size: cover;  
-    background-repeat: no-repeat;
-    /* background-attachment: fixed;  */
-    /* background-position: center center; */
+    background-color: white;
     
 }
 
@@ -20,7 +15,7 @@ i{
 
 a{
     text-decoration: none;
-    color: red;
+    color: rgb(231, 19, 19);
 }
 
 .navbar{
@@ -53,7 +48,7 @@ a{
     top: -15px;
     right: -10px;
     font-size: 16px;
-    background-color: red;
+    background-color:rgb(231, 19, 19);
     color: white;
     padding: 3px;
     border-radius: 3px;
@@ -83,13 +78,16 @@ a{
 }
 
 .item{
-    border:  2px solid white;
+    border:  2px solid transparent;
     border-radius: 3px;
     color: white;
     background-color: #212529;
 }
 
 .details{
+    
+    background-color: white;
+    color: #212529;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -112,10 +110,12 @@ a{
 
 .bi-bag-dash-fill{
     color: red;
+    font-size: x-large;
 }
 
 .bi-bag-plus-fill{
     color: green;
+    font-size: x-large;
 }
 
 /**
@@ -125,6 +125,8 @@ a{
 .text-center{
     text-align: center;
     margin-bottom: 20px;
+    padding-bottom: 10px;
+    
 }
 
 .HomeBtn,
@@ -155,8 +157,24 @@ a{
 /**
 * style rules for the shopping-cart
 **/
+
+.text-center{
+    background-color: white;
+    color: #212529;
+}
+
+
+.Shopping-Cart-HeadLine{
+    margin-bottom: 20px;
+    color: black;
+}
+
+.Total-Bill-HeadLine{
+    color: black;
+}
 .shopping-cart{
-  background-color: black;
+    
+  background-color: white;
   color: white;
   display: grid;
   grid-template-columns: repeat(1,320px);
@@ -188,26 +206,21 @@ a{
 }
 
 .cart-item-price{
-    background-color: #212529;
-    color: white;
+    background-color: white;
+    color: #212529;
     border-radius: 4px;
     padding: 3px 6px;
 }
 
-.cart-body{
-    background-color: black;
-}
 
-.cart-html{
-    background-color: black;
-}
+
 
 .search{
-    font-size: 20px
+    font-size: 20px;
 }
 
 .bi-search{
-    font-size: 20px
+    font-size: 20px;
     
 }
 
@@ -219,3 +232,28 @@ a{
     justify-content: center;
     margin-right: 5px;
 }
+
+.logIn{
+    right: 80px;
+    background-color: white;
+    color: #212529;
+    position:fixed;
+    font-size: 30px;
+    border-radius: 4px;
+    /* size: 10px; */
+}
+
+.LogInButton{
+    right: 80px;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    position:fixed;
+    font-size: 16px;
+    margin-top: -15px; 
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+}
+
