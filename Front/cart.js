@@ -29,11 +29,14 @@ let generateCartItems =()=>{
              <div class="details">
 
                 <div class="title-price-x">
-                    <h4 class="title-price">
+                        <h3>
                         <p>${name}</p>
-                        <p class="cart-item-price">$ ${price}</p>
-                    </h4>
+                        </h3>                  
                     <i onclick="removeItem(${id})" class="bi bi-x-lg"></i>
+                </div>
+
+                <div class="item-price">
+                <p class="cart-item-price">$ ${price}</p>
                 </div>
 
                 <div class="buttons">
@@ -42,7 +45,7 @@ let generateCartItems =()=>{
                     <i onclick="increment(${id})" class="bi bi-bag-plus-fill"></i>
                 </div>
                     
-                <h3>$ ${item * price}</h3>
+                <h3>Subtotal : $ ${item * price}</h3>
              </div>   
             </div>
             `;  
@@ -127,9 +130,14 @@ let TotalAmount = ()=>{
             return item*search.price;
         }).reduce((x,y)=>x+y,0);
         lable.innerHTML =`
+        <div class="Shopping-Cart-HeadLine">
+        <h1>SHOOPING CART</h1>
+        </div>
+        <div class="Total-Bill-HeadLine">
         <h2>Total Bill: $ ${amount}</h2>
         <button class="checkout">Checkout</button>
         <button onclick="clearCart()" class="removeAll">Clear Cart</button>
+        </div>
         `
     }
     else return
