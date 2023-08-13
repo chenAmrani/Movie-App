@@ -208,4 +208,14 @@ a{
 
 .bi-search{
     font-size: 20px
+    
+}
+
+.search-bar{
+    align-items: center;
+    font-size: 20px;
+    border-radius: 10px;
+    border-color: transparent;
+    justify-content: center;
+    margin-right: 5px;
 }
