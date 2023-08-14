@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>login</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Modal-Login-form.css">
+</head>
+
+<body>
+    <div id="myModal">
+        <div class="modal-dialog modal-login"></div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="margin-bottom: -6px;"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-content">
+                    <div class="modal-header" style="height: 59px;">
+                        <h4 class="h4 modal-title">Member Login</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="confirmation" method="post">
+                            <div class="form-group"><i class="fa fa-star fa-user"></i><input class="form-control" type="text" placeholder="Email" required="required"></div>
+                            <div class="form-group"><i class="fa fa-star fa-lock"></i><input class="form-control" type="password" placeholder="Password" required="required"></div>
+                            <div class="form-group"><button class="btn btn-primary btn-block btn-lg" type="submit" value="Login">Login</button></div>
+                        </form>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
