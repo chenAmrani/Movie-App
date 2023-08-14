@@ -1,3 +1,4 @@
+
 let shop = document.getElementById('shop');
 
 // pulling data from the local storage.
@@ -5,35 +6,44 @@ let basket = JSON.parse(localStorage.getItem("data")) || []; //if the client has
 
 //console.log(shop);
 
-let generateShop = () =>{
-   return shop.innerHTML= shopItemsData.map((x)=>{
-    let { id , name , price, desc , year , rating , actors , img } = x;
-    let search = basket.find((x) => x.id === id) || []//check if the item is exist in the local sorage.
-    return  `
+
+
+let generateShop = () => {
+    return shop.innerHTML = shopItemsData.map((x) => {
+        let { id, title, price, desc, year, rating, actors, image } = x;
+        let search = basket.find((x) => x.id === id) || [];
+    // Create star rating representation
+    let stars = '';
+    for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+            stars += '<i class="bi bi-star-fill"></i>';
+        } else {
+            stars += '<i class="bi bi-star"></i>';
+        }
+    }
+
+    return `
     <div id=product-id-${id} class="item">
-    <img width="220" src="${img}" alt="">
-    <div class="details">
-        <h3>${name}</h3>
-        <p>${year}</p>
-        <p>${actors}</p>
-        <p>${desc}</p>
-        <p>${rating}</p>
-        <div class="price-quantity">
-            <h2>$ ${price}</h2>
-            <div class="buttons">
-                <i onclick="decrement(${id})" class="bi bi-bag-dash-fill"></i>
-                <div id=${id} class="quantity">${search.item===undefined?0: search.item }</div>
-                <i onclick="increment(${id})" class="bi bi-bag-plus-fill"></i>
+        <img width="220" src="${image}" alt="image should be here" >
+        <div class="details">
+            <h3 class="title-movie-details">${title}</h3>
+            <p>${year}</p>
+            <p>${desc}</p>
+            <p>${stars}</p> <!-- Display star rating here -->
+            <div class="price-quantity">
+                <h2 class="movie-price-details">$ ${price}</h2>
+                <div class="buttons">
+                    <i onclick="decrement(${id})" class="bi bi-bag-dash-fill"></i>
+                    <div id=${id} class="quantity">${search.item === undefined ? 0 : search.item}</div>
+                    <i onclick="increment(${id})" class="bi bi-bag-plus-fill"></i>
+                </div>
             </div>
         </div>
     </div>
-</div>
     `;
-}).join((""));
+}).join("");
 };
 
-
-generateShop();
 
 let increment = (id)=>{
     let selecteditem = id;
@@ -77,12 +87,15 @@ let calculation = ()=>{
     cartIcon.innerHTML = basket.map((x)=>x.item).reduce((x,y)=>x+y,0) 
 };
 
-calculation();
+
+async function init(){
+    await fetchDataAsync();
+    generateShop();
+    calculation();
+}
 
 
-
-
-
+init();
 
 
 
