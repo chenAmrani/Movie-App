@@ -10,6 +10,36 @@
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/accordion-faq-list.css">
     <link rel="stylesheet" href="assets/css/SlideShow.css">
+    <style>
+        /* Adjust the position of the arrow buttons */
+        .prev,
+        .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            outline: none;
+            transition: background-color 0.3s;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev {
+            left: 0;
+        }
+
+        .next {
+            right: 0;
+        }
+        </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 
@@ -68,26 +98,20 @@
                         <div class="col" style="max-width: auto;">
                             <div style="margin-top: 100px;">
                                 <div class="slideshow-container" style="width: 200px;height: 250px;margin-top: -40px;">
-                                    <div class="mySlides bruno-fade">
-                                        <div class="numbertext"><span>1/3</span></div><img src="assets/img/img_nature_wide.jpg" width="100%" style="height: 250px;width: 200px;">
-                                        <div class="text"><span>Montanha</span></div>
-                                    </div>
-                                    <div class="mySlides bruno-fade">
-                                        <div class="numbertext"><span>2/3</span></div><img src="assets/img/img_snow_wide.jpg" width="100%" style="height: 250px;width: 200px;">
-                                        <div class="text"><span>Neve</span></div>
-                                    </div>
-                                    <div class="mySlides bruno-fade">
-                                        <div class="numbertext"><span>3/3</span></div><img src="assets/img/img_mountains_wide.jpg" width="100%" style="width: 200px;height: 250px;">
-                                        <div class="text"><span>Plano Verde</span></div>
-                                    </div>
-                                </div><br>
-                                <div style="text-align:center"><span class="dot" onclick="currentSlide(1)"></span> 
-  <span class="dot" onclick="currentSlide(2)"></span> 
-  <span class="dot" onclick="currentSlide(3)"></span></div>
+                                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                    <div id="movieContainer"></div> <!-- Container for movie slides -->
+                                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                                </div>
+                                <div style="text-align:center">
+                                    <span class="dot" onclick="currentSlide(1)"></span>
+                                    <span class="dot" onclick="currentSlide(2)"></span>
+                                    <span class="dot" onclick="currentSlide(3)"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            
                 <div class="col justify-content-center align-items-center" style="width: 300px;max-width: 300px;">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">Recent orders</h2>
                     <section class="py-5 bg-light">

@@ -23,7 +23,7 @@ module.exports.getUserByEmail = async (req, res) => {
             path:'movies',
             model:'Movie'
          }
-      }).populate.exec();
+      }).populate("movies").exec();
       console.log(user);
       res.send(user);
    } catch (error) {
