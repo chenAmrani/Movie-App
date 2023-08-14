@@ -98,9 +98,22 @@ async function init(){
 init();
 
 
+// Open the login modal when the login button is clicked
+document.getElementById("loginButton").addEventListener("click", function() {
+    document.getElementById("loginModal").style.display = "block";
+});
 
+// Close the login modal when the close button is clicked
+document.getElementById("closeModal").addEventListener("click", function() {
+    document.getElementById("loginModal").style.display = "none";
+});
 
-
+// Close the login modal when clicking outside the modal
+window.addEventListener("click", function(event) {
+    if (event.target === document.getElementById("loginModal")) {
+        document.getElementById("loginModal").style.display = "none";
+    }
+});
 
 
 // ----------------------------------------------------------------------------------------------------
