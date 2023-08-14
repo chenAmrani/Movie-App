@@ -5,11 +5,12 @@ const{
     getAllOrders,getOrderById,createOrder,updateOrder,deleteOrderById
 } =require("../Controllers/OrderController")
 const OrderRouter=Router();
+
+OrderRouter.get("/order",getOrderById);
 OrderRouter.get("/getAllOrders", getAllOrders);
-OrderRouter.get("/:id",getOrderById);
 OrderRouter.post("/createOrder",createOrder);
 OrderRouter.post("/updateOrder", updateOrder);
-OrderRouter.delete("/deleteOrderById", deleteOrderById);
+OrderRouter.post("/deleteOrderById", deleteOrderById);
 
 //check if we need the routes.
 module.exports = OrderRouter;

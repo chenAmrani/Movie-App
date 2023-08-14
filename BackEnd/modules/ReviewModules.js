@@ -7,7 +7,8 @@ const reviewSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: true
+    required: true,
+    default: Date.now,
   },
   text: {
     type: String,
@@ -17,13 +18,13 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  User:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"user"
-  },
-  Movie:{
+  movieId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Movie"
+  },
+  userId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"user"
   }
 });
 

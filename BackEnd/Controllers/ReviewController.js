@@ -1,7 +1,6 @@
 const ReviewModel = require("../modules/ReviewModules");
 const User=require("../modules/userModules")
 const Movie=require("../modules/AppModules")
-const MovieController=require("../Controllers/AppController")
 
 module.exports.getObject = async (req, res) => {
   const Review = await ReviewModel.find();
@@ -10,34 +9,37 @@ module.exports.getObject = async (req, res) => {
 
 //add Review
 module.exports.addObject = async (req, res) => {
-  const { _id, name, date, text, starRank } = req.body
-  // const { id: userId } = User;
-  const Review=ReviewModel.create({ _id, name, date, text, starRank }).then((data) => {
-    console.log("adding a review to the movie");
-    console.log(data);
-    res.send(data);
-  })
-  // const{movieId}=Review.movie;
-  // const movie=await MovieController.getObjectById(movieId);
-  // movie.Review.push(Review._id);
-
+  const {name, date, text, starRank, movieId, userId} = req.body
+  try{
+    const movie= await Movie.findById(movieId);
+    const user= await User.findById(userId);
+    const newReview=new ReviewModel({ name, date, text, starRank,movieId,userId });
+    const savedReview=await newReview.save();
+    
+    movie.reviews.push(savedReview._id);
+    const changedMovie=await Movie.findByIdAndUpdate(movie._id,movie);
+    console.log(changedMovie);
+    res.send(savedReview);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 module.exports.updateObject = async (req, res) => {
-  const { _id, name, date, text, starRank } = req.body;
-  // const { id: userId } = User;
-  // const{id:movieId}=Movie
-  
-  ReviewModel
-    .findByIdAndUpdate(_id, { name, date, text, starRank ,userId })
-    .then(() => res.send("update succeeded"))
-    .catch((err) => console.log(err));
+  const { _id, name, date, text, starRank} = req.body;
+  const newReview=await ReviewModel.findByIdAndUpdate(_id, { name, date, text, starRank });
+  res.send(newReview);
+  console.log("update succeded");
 }
 
 module.exports.deleteObject = async (req, res) => {
   const { _id } = req.body;
-  ReviewModel
-    .findByIdAndDelete(_id)
-    .then(() => res.send("DELETE succsess"))
-    .catch((err) => console.log(err));
+  const deletedReview=await ReviewModel.findById(_id);
+  console.log(deletedReview);
+  const movie=await Movie.findById(deletedReview.movieId);
+   console.log(movie);
+  movie.reviews.pull(deletedReview._id);
+  await ReviewModel.findByIdAndDelete(deletedReview._id);
+  const changedMovie=await Movie.findByIdAndUpdate(movie._id,movie);
+   res.send("Review deleted")
 }

@@ -7,12 +7,12 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
     res.send(Movie) //כביכול הלקוח יבקש את כל המשימות והשרת ישלח לו אותם
 }
 module.exports.getObjectById=async(req,res)=>{
-  const{_id}=req.body;
-  MovieModel.findById(_id).then((data)=>{
-    console.log("get movie by ID")
-    console.log(data);
-    res.send(data);
-  })
+  try {
+    const { id } = req.query;
+    const movie = await MovieModel.findById(id).populate("movies").exec();
+    if (movie) return movie;
+    res.status(200).send(movie);
+  } catch (err) {}
 }
 module.exports.validateMovie=async(req, res, next)=>
 {

@@ -13,44 +13,74 @@ module.exports.getUsers=async(req,res)=>{
   }); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
    
 }  
+module.exports.getUserByEmail = async (req, res) => {
+   try {
+      const { email } = req.query; // Change req.body to req.query
+      console.log(email);
+      const user = await userModule.findOne({ email: email }).populate({
+         path:'orders',
+         populate:{
+            path:'movies',
+            model:'Movie'
+         }
+      }).populate.exec();
+      console.log(user);
+      res.send(user);
+   } catch (error) {
+      console.error(error);
+      res.status(500).send("An error occurred while fetching the user by email.");
+   }
+};
+
 module.exports.getUsersById=async(req,res)=>{
-   const {_id} = req.body
+   const {_id} = req.query
    userModule.findById(_id).then((data)=>{
       console.log("get Users by ID");
-      console.log(data);
       res.send(data);
    })
     
  }  
+ 
  module.exports.getUserByID=async(id)=>{
    return await userModule.findById(id);
  }
-
-module.exports.addUser = async (req, res,next) => {
-   try{
-    const {email,password,name,age}=req.body;
-    if (!email || !password || !name || !age) {
-      return res.status(400).json({ error: "Missing Name/Password/Email/Age" });
-    }
-   
-  
-   const doesExist=await userModule.findOne({email:email})
-   if(doesExist) throw createError.Conflict(`${email} is already been registered`)
  
-   const accessToken=await signAccessToken(email);
-   const refreshToken=await signRefreshToken(email);
-   // user.refreshToken=refreshToken;
-   const result={
-      email,password,name,age,refreshToken
-   };
-   const user=new userModule(result);
-   const savedUser=await user.save();
-   console.log(result);
-   // await userModule.findByIdAndUpdate(user._id,user);
-   res.send({accessToken,refreshToken});
 
-} catch(error){next(error)}
+ module.exports.addUser = async (req, res, next) => {
+   try {
+      const { email, password, name, age } = req.body;
+
+      // Validate input data using the authSchema
+      await authSchema.validateAsync({ name, email, password, age });
+
+      const doesExist = await userModule.findOne({ email: email });
+      if (doesExist) {
+         const errorMessage = `${email} is already registered`;
+         res.status(409).json({ error: errorMessage });
+         return;
+      }
+
+      const accessToken = await signAccessToken(email);
+      const refreshToken = await signRefreshToken(email);
+
+      const result = {
+         email, password, name, age, refreshToken
+      };
+
+      const user = new userModule(result);
+      const savedUser = await user.save();
+      
+      res.send({ accessToken, refreshToken });
+
+   } catch (error) {
+      if (error.isJoi === true) {
+         const errorMessage = error.details[0].message; // Extract the error message from the validation error
+         res.status(400).json({ error: errorMessage }); // Return the error message as JSON
+      }
+      next(error);
+   }
 }
+
 module.exports.loginUser=async(req,res,next)=>{
    try{
       const result=await authSchema.validateAsync(req.body);
