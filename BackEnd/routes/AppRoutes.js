@@ -1,16 +1,16 @@
-const { Router } = require("express"); // מייבאת את הרוטר עי אקספרס
+const { Router } = require("express");
 const {
   getObject,
   addObject,
   updateObject,
   deleteObject,
   validateMovie
-} = require("../Controllers/AppController"); // מייבאת את כל המטודות של הקראד
+} = require("../Controllers/AppController");
 
-const router = Router(); // לוקחת משתנה שהוא יהיה הרוטר שלי
+const router = Router(); 
 
-router.get("/Movies", getObject); // עכשיו ברגע שאני אהיה בדף הראשי יופיעו לי כל המשימות
-router.post("/add",validateMovie, addObject); //יוצרת אובייקט
-router.post("/update",validateMovie, updateObject); // מעדכנת אובייקט    // שלושתם חייבים להיות פוסט כדי שיתעדכן בהתאמה
-router.delete("/delete", validateMovie,deleteObject); //מוחקת אובייקט
+router.get("/Movies", getObject); 
+router.post("/add",validateMovie, addObject); 
+router.post("/update",validateMovie, updateObject); 
+router.delete("/delete", validateMovie,deleteObject); 
 module.exports = router;

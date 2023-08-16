@@ -9,8 +9,7 @@ body{
     background-image: url("/Movie-App/BackEnd/imges/back.jpg"); 
     background-size: cover;  
     background-repeat: no-repeat;
-    /* background-attachment: fixed;  */
-    /* background-position: center center; */
+    background-blend-mode: luminosity;
     
 }
 
@@ -22,7 +21,12 @@ a{
     text-decoration: none;
     color: red;
 }
-
+.sticky {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 100 !important;
+}
 .navbar{
     display: flex;
     flex-direction: row;
@@ -32,6 +36,14 @@ a{
     color: white;
     padding: 25px 20px;
     margin-bottom: 30px;
+}
+
+#logo{
+    width: 220px;
+    height: 60px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .item.img{
@@ -46,6 +58,8 @@ a{
     font-size: 30px;
     padding: 5px;
     border-radius: 4px;
+    margin-right: 20px;
+    margin-top: 10px;
 }
 
 .cartAmount{
@@ -68,6 +82,7 @@ a{
     grid-template-columns: repeat(4,223px);
     gap: 30px;
     justify-content: center;
+    margin-top: 110px;
 }
 
 @media (max-width: 1000px){
@@ -145,6 +160,14 @@ a{
     border-radius: 3px;
     cursor: pointer;
     margin-top: 10px;
+}
+.titleClass {
+    min-height: 75px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .checkout{
@@ -254,6 +277,33 @@ a{
     border-radius: 5px;
     border-color: transparent;
     padding: 5px;
+}
+
+.logoutButton{
+    right: 80px;
+    background-color:rgb(231, 19, 19);
+    color: white;
+    cursor: pointer;
+    position:fixed;
+    font-size: 16px;
+    margin-top: -15px; 
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;}
+.userProfileButton{
+    right: 80px;
+    background-color:rgb(231, 19, 19);
+    color: white;
+    cursor: pointer;
+    position:fixed;
+    font-size: 16px;
+    margin-top: -15px; 
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+    margin-right: 80px;
 }
 
 /* Styles for the Modal */

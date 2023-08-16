@@ -1,7 +1,7 @@
 // Function to send AJAX request on site load
 function fetchUserDataOnLoad() {
     const email = localStorage.getItem('email');
-    console.log(email); // Make sure email is not null/undefined here
+    // console.log(email); // Make sure email is not null/undefined here
 
     $.ajax({
         url: "http://localhost:1113/email",
@@ -9,7 +9,7 @@ function fetchUserDataOnLoad() {
         data: { email: email }, // Send email as an object
 
         success: function(response) {
-            console.log(response); // Make sure you see the response
+            // console.log(response); // Make sure you see the response
             document.getElementById('userName').textContent = response.name;
             document.getElementById('userEmail').textContent = response.email;
             document.getElementById('userAge').textContent = response.age;
@@ -47,7 +47,7 @@ function fetchOrders(OrderID){
         type: "GET",
         data: data, // Send email as an object
     success: function(response){
-         console.log(response);
+        //  console.log(response);
     }
     });
     
@@ -57,7 +57,7 @@ function fetchOrders(OrderID){
 
 function printOrders(orders){
     const faqlist= document.getElementById("faqlist");
-    console.log("orders to print",orders);
+    // console.log("orders to print",orders);
     for (let i=0;i<orders.length;i++){
 
         const movieName=[];

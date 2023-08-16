@@ -11,6 +11,30 @@
     <link rel="stylesheet" href="assets/css/accordion-faq-list.css">
     <link rel="stylesheet" href="assets/css/SlideShow.css">
     <style>
+    body {
+        background-color: #333333; /* Dark background color */
+    }
+
+    .clean-block.about-us {
+        background-color: #444444; /* Darker background for the main section */
+        padding: 50px 0;
+    }
+
+    .card.clean-card {
+        border: 2px solid #666666; /* Pretty border for cards */
+        background-color: #555555; /* Darker background for cards */
+        margin-bottom: 20px;
+    }
+
+    .info {
+        padding: 20px;
+    }
+
+    .labels {
+        color: white;
+    }
+
+
         /* Adjust the position of the arrow buttons */
         .prev,
         .next {
@@ -37,7 +61,32 @@
         }
 
         .next {
-            right: 0;
+            right: 0;   
+        }
+        .accordion-flush .accordion-item .accordion-button, .accordion-flush .accordion-item .accordion-button.collapsed {
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            background-color: #555555;
+        }
+        .accordion-item {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            background-color: #666666;
+            margin-bottom: 5px;
+            border:transparent;
+        }
+        .accordion-flush .accordion-collapse {
+            border-width: 0;
+            background-color: #555555;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .buttonsRow {
+            display: flex;
+            justify-content: center;
+        }
+        .returnBtn{
+            margin-right: 150px;
         }
         </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -46,16 +95,37 @@
 <body>
     <main class="page" style="min-height: 100%;">
         <section class="clean-block about-us">
-            <div class="row" style="margin-right: 0px;margin-left: 0px;">
-                <div class="col-md-12" style="margin-bottom: 25px;padding-left: 75px;font-size: 21px;margin-top: 73px;"><a class="anone" href="127.0.0.1:5500/homepage.html"><i class="fa fa-long-arrow-left"></i><span>&nbsp; Return</span></a></div>
+            <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px; margin-top: 73px;">
+                <div class="buttonsRow" style="align-items: center;">
+                        <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-secondary" style="margin-right: 320px;">
+                            <i class="fa fa-long-arrow-left" style="margin-right: 10px;"></i> Return
+                        </button>
+                        <script>
+                            function navigateToHomepage() {
+                                // Use JavaScript to navigate to the desired URL
+                                window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
+                            }
+                            </script>
+                        <button id="adminBtn" onclick="navigateToAdminPanel()" class="btn btn-secondary">
+                            Admin Panel <i class="fa fa-cog" style="margin-left: 5px;"></i>
+                        </button>
+                        <script>
+                        function navigateToAdminPanel() {
+                            // Use JavaScript to navigate to the admin panel URL
+                            window.location.href = "admin-panel.html";
+                        }
+                        </script>
+                </div>
             </div>
+                        
+             </div>
             <div class="row" style="margin-right: 0px;margin-left: 0px;">
                 <div class="col text-center">
                     <h2 style="color: rgb(0,0,0);">Profile page</h2>
                 </div>
             </div>
             <div class="row justify-content-center" style="margin-right: 0px;margin-left: 0px;">
-                <div class="col-sm-6 col-lg-4" style="padding-right: 0px;padding-left: 0px;">
+                <div class="col-sm-6 col-lg-4" style="padding-right: 0px;padding-left: 0px;max-width: 400px;">
                     <div class="card clean-card text-center">
                         <div class="card-body info">
                             <div class="row" style="margin-top: -24px;">
@@ -91,37 +161,29 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center" style="height: 659px;">
-                <div class="col text-center justify-content-center align-items-center" style="max-width: 300px;width: 300px;">
+            <div class="row justify-content-center" style="height: 400px;">
+                <div class="col text-center justify-content-center align-items-center" style="max-width: 300px;width: 300px;border: 2px solid #888888;border-radius: 10px;background-color: #666666;padding: 20px;margin: 10px 0;margin-right: 5px;">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">My Movies</h2>
                     <div class="row" style="height: 242px;">
                         <div class="col" style="max-width: auto;">
-                            <div style="margin-top: 100px;">
+                            <div style="margin-top: 50px;">
                                 <div class="slideshow-container" style="width: 200px;height: 250px;margin-top: -40px;">
                                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                                     <div id="movieContainer"></div> <!-- Container for movie slides -->
                                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
                                 </div>
-                                <div style="text-align:center">
-                                    <span class="dot" onclick="currentSlide(1)"></span>
-                                    <span class="dot" onclick="currentSlide(2)"></span>
-                                    <span class="dot" onclick="currentSlide(3)"></span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             
-                <div class="col justify-content-center align-items-center" style="width: 300px;max-width: 300px;">
+                <div class="col justify-content-center align-items-center" style="width: 300px;max-width: 300px;border: 2px solid #888888;border-radius: 10px;background-color: #666666;padding: 20px;margin: 10px 0;">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">Recent orders</h2>
-                    <section class="py-5 bg-light">
+                    <section class="recentOrders">
                         <div class="container" style="width: 220px;">
-                            <div class="row justify-content-center align-content-center" style="width: 220px;margin-left: -30.3px;">
-                                <div class="col-md-6 offset-md-3" style="width: 200px;">
-                                    <div id="faqlist" class="accordion accordion-flush">
-                                        
-                                    </div>
-                                </div>
+                            <div id="faqlist" class="accordion accordion-flush">
+                                <!-- Accordion items will be added here using JavaScript -->
                             </div>
                         </div>
                     </section>

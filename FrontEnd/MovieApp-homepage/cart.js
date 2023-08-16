@@ -1,4 +1,49 @@
 
+function fetchMovie() {
+    const dataString = localStorage.getItem('data'); // Retrieve the string from localStorage
+    const dataArray = JSON.parse(dataString); // Parse the string into an array
+
+    if (Array.isArray(dataArray) && dataArray.length > 0) {
+        const movieId = dataArray[0].id; // Access the "id" property of the first item in the array
+        console.log(movieId); // This will log the value of "id"
+    } 
+
+    $.ajax({
+        url: "http://localhost:1113/email",
+        type: "GET",
+        data: { email: email }, // Send email as an object
+
+        success: function(response) {
+            // console.log(response); // Make sure you see the response
+            document.getElementById('userName').textContent = response.name;
+            document.getElementById('userEmail').textContent = response.email;
+            document.getElementById('userAge').textContent = response.age;
+            const user=response;
+            const orders=user.orders;
+            printOrders(orders)
+            const movies=user.movies;
+            const movieContainer = document.getElementById('movieContainer');
+            movieContainer.innerHTML = ''; // Clear previous content
+
+            for (let i = 0; i < movies.length; i++) {
+                const movie = movies[i];
+                const movieHTML = `
+                    <div class="mySlides">
+                        <div class="numbertext"><span>${i + 1}/${movies.length}</span></div>
+                        <img src="${movie.image}" width="100%" style="height: 250px;width: 200px;">
+                    </div>`;
+                movieContainer.innerHTML += movieHTML;
+            }
+
+            // After adding movies, initialize the slideshow
+            showSlides(slideIndex); // Make sure slideIndex is defined in your SlideShow.js
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", status, error);
+        },
+    });
+}
+
 let lable =document.getElementById('lable')
 let shoppingCart = document.getElementById('shopping-cart')
 
@@ -25,7 +70,7 @@ let generateCartItems =()=>{
             let {img,name,price} = search
             return `
             <div class="cart-item">
-                <img width="100" src=${img} alt=""/>
+                <img width="100" src=${img} alt="movie-picture"/>
              <div class="details">
 
                 <div class="title-price-x">
@@ -143,3 +188,10 @@ let TotalAmount = ()=>{
     else return
 }
 TotalAmount();
+
+window.onload = async function() {
+    await fetchMovie();
+    
+    
+    
+};

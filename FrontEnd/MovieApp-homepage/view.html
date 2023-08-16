@@ -7,13 +7,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="HomePage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Movie-App/FrontEnd/MovieApp-register/assets/css/Ludens-Users---2-Register.css">
     <link rel="stylesheet" href="/Movie-App/FrontEnd/MovieApp-register/assets/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="navbar">
+    <div class="navbar sticky">
         <a href="view.html">
-        <h2>Movie Store</h2>
+         <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
     </a>
 
     <div class="search">
@@ -22,9 +21,11 @@
     </div>
 
     <!-- ask nir and dorin which page i need to connect after press the button -->
-    <div class="logIn" id="loginButton">
-        <button class="LogInButton">Log In</button>    
-        </div>
+    <div class="loginButtons">
+        <button class="logoutButton" id="logoutButton" style="display: none;">Logout</button>
+        <button class="userProfileButton" id="userProfileButton" style="display: none;">User Profile</button>
+        <button class="LogInButton" id="loginActionButton">Log In</button>
+    </div>
         
     
 
