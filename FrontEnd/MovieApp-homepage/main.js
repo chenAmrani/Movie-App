@@ -7,6 +7,49 @@ let basket = JSON.parse(localStorage.getItem("data")) || []; //if the client has
 //console.log(shop);
 
 
+$(document).ready(function() {
+    // Attach a click event listener to the login button
+    $("#loginForm").submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        
+        // Get the form data
+        var email = $("#email").val();
+        var password = $("#password").val();
+        
+        // Prepare the data to send in the POST request
+        var postData = {
+            email: email,
+            password: password
+        };
+        
+        // Send an AJAX POST request
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:1113/login",
+            data: postData,
+            success: function(response) {
+                // Handle the response from the server here
+                localStorage.setItem("email", postData.email);
+                $('#responseModalBody').text("Login successful!"); // Display a success message
+                $('#responseModal').modal('show'); // Show the modal
+               
+                // You can redirect the user or perform other actions as needed
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText); // Parse the JSON error response
+                    var errorMessage = errorResponse.error; // Extract the error message
+                    $('#responseModalBody').text(errorMessage); // Display the error message
+                    $('#responseModal').modal('show'); // Show the modal
+                } catch (e) {
+                    // Handle other types of errors
+                    $('#responseModalBody').text("An error occurred during registration."); // Display a generic error message
+                    $('#responseModal').modal('show'); // Show the modal
+                }
+            }
+        });
+    });
+});
 
 let generateShop = () => {
     return shop.innerHTML = shopItemsData.map((x) => {
