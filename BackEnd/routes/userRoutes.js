@@ -1,6 +1,6 @@
 const { Router } = require("express"); 
 const userRouter=Router();
-const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT,getUserByID,getUserByEmail}=require('../Controllers/userController')
+const{addUser ,getUsers,getUsersById,updateUser,deleteUser,loginUser,refreshT,getUserByEmail}=require('../Controllers/userController')
 
 
 
@@ -10,9 +10,9 @@ userRouter.post('/login',loginUser);
 userRouter.post('/refresh-token',refreshT)
 
 
-// CRUD
 
-userRouter.get("/users", getUsers);
+// CRUD
+// userRouter.get("/users", getUsers); לזכור להוסיף לפני שעושה pull
 userRouter.get("/email", getUserByEmail);
 userRouter.get("/:id", getUsersById);
 userRouter.post('/updateUser',updateUser);

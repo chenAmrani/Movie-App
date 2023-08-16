@@ -67,7 +67,7 @@ function printOrders(orders){
         
            
         }
-        faqlist.innerHTML+=`<div class="accordion-item">
+        faqlist.innerHTML+=`<div class="accordion-item style=border-radius:10px;">
         <h2 class="accordion-header"><button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-${i+1}" style="height: 58px;">Order number${i+1}</button></h2>
         <div id="content-accordion-${i+1}" class="accordion-collapse collapse" data-bs-parent="#faqlist">
            

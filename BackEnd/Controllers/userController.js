@@ -2,17 +2,12 @@ const userModule = require('../modules/userModules');
 const createError=require('http-errors');
 const {authSchema}=require('../modules/validationModule');
 
+
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
 const { default: isEmail } = require('validator/lib/isEmail');
 
-module.exports.getUsers=async(req,res)=>{
-  userModule.find().then((data)=>{
-   console.log("get all users")
-   console.log(data)
-   res.send(data)
-  }); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
-   
-}  
+
+
 module.exports.getUserByEmail = async (req, res) => {
    try {
       const { email } = req.query; // Change req.body to req.query
@@ -80,6 +75,14 @@ module.exports.getUsersById=async(req,res)=>{
       next(error);
    }
 }
+module.exports.getUsers=async(req,res)=>{
+   userModule.find().then((data)=>{
+    console.log("get all users")
+    console.log(data)
+    res.send(data)
+   }); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
+    
+ }
 
 module.exports.loginUser=async(req,res,next)=>{
    try{
