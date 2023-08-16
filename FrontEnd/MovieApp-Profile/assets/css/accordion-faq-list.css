@@ -1,5 +1,6 @@
 .accordion collapse {
   border: 0;
+  border-radius: 10px;
 }
 
 .accordion-button:focus {
