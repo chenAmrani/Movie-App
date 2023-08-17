@@ -79,13 +79,16 @@ a{
 * !shoop item styles are here
 **/
 
-.shop{
+.shop {
     display: grid;
-    grid-template-columns: repeat(4,223px);
-    gap: 30px;
+    width: 55%;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 50px;
     justify-content: center;
-    margin-top: 110px;
+    margin: 150px auto 0; /* Reordered margin properties */
+    padding: 0 15px;
 }
+
 
 @media (max-width: 1000px){
     .shop{
@@ -104,6 +107,15 @@ a{
     border-radius: 3px;
     color: white;
     background-color: black;
+        border: 2px solid black;
+        border-radius: 3px;
+        color: white;
+        background-color: black;
+        width:250px;
+        margin-block:5px;
+        margin-right:1000px;
+        margin-left:25px;
+        justify-content: space-between;
 }
 
 .title-movie-details{
