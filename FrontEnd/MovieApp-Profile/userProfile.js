@@ -1,89 +1,106 @@
-// Function to send AJAX request on site load
+let currentPage = 1;
+const ordersPerPage = 6;
+let user; // Store user data globally
+
 function fetchUserDataOnLoad() {
     const email = localStorage.getItem('email');
-    // console.log(email); // Make sure email is not null/undefined here
-
+    
     $.ajax({
         url: "http://localhost:1113/email",
         type: "GET",
-        data: { email: email }, // Send email as an object
-
+        data: { email: email },
         success: function(response) {
-            // console.log(response); // Make sure you see the response
             document.getElementById('userName').textContent = response.name;
             document.getElementById('userEmail').textContent = response.email;
             document.getElementById('userAge').textContent = response.age;
-            const user=response;
-            const orders=user.orders;
-            printOrders(orders)
-            const movies=user.movies;
+            
+            user = response; // Store user data
+
+            const orders = user.orders;
+            printOrders(orders);
+            
+            const movies = user.movies;
             const movieContainer = document.getElementById('movieContainer');
-            movieContainer.innerHTML = ''; // Clear previous content
+            movieContainer.innerHTML = '';
 
             for (let i = 0; i < movies.length; i++) {
                 const movie = movies[i];
                 const movieHTML = `
                     <div class="mySlides">
                         <div class="numbertext"><span>${i + 1}/${movies.length}</span></div>
-                        <img src="${movie.image}" width="100%" style="height: 250px;width: 200px;">
+                        <img src="${movie.image}" style="height: 400px;width: 230px;">
                     </div>`;
                 movieContainer.innerHTML += movieHTML;
             }
-
-            // After adding movies, initialize the slideshow
-            showSlides(slideIndex); // Make sure slideIndex is defined in your SlideShow.js
+            
+            showSlides(slideIndex);
         },
         error: function(xhr, status, error) {
             console.error("AJAX Error:", status, error);
         },
     });
 }
-function fetchOrders(OrderID){
 
-    var data={id:OrderID}
+function printOrders(orders) {
+    const faqlist = document.getElementById("faqlist");
 
-    $.ajax({
-        url: "http://localhost:1113/order",
-        type: "GET",
-        data: data, // Send email as an object
-    success: function(response){
-        //  console.log(response);
+    const startIdx = (currentPage - 1) * ordersPerPage;
+    const endIdx = startIdx + ordersPerPage;
+    const ordersToDisplay = orders.slice(startIdx, endIdx);
+
+    faqlist.innerHTML = '';
+
+    for (let i = 0; i < ordersToDisplay.length; i++) {
+        const order = ordersToDisplay[i];
+        const movieNames = order.movies.map(movie => `• ${movie.title}`).join('<br>');
+        const orderHTML = `
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-${i + 1}" style="height: 58px;">
+                        Order number ${i + startIdx + 1}
+                    </button>
+                </h2>
+                <div id="content-accordion-${i + 1}" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                    <p class="movieName">${movieNames}</p>
+                </div>
+            </div>`;
+        faqlist.innerHTML += orderHTML;
     }
-    });
-    
 
+    const paginationButtons = `
+        <div class="buttonsRow">
+            ${currentPage > 1 ? '<button class="btn btn-secondary" onclick="goToPage(currentPage - 1)">Back</button>' : ''}
+            ${endIdx < orders.length ? '<button class="btn btn-secondary" onclick="goToPage(currentPage + 1)">Next</button>' : ''}
+        </div>`;
+    faqlist.innerHTML += paginationButtons;
 }
 
-
-function printOrders(orders){
-    const faqlist= document.getElementById("faqlist");
-    // console.log("orders to print",orders);
-    for (let i=0;i<orders.length;i++){
-
-        const movieName=[];
-        let counter=0;
-        for (let j=0;j<orders[i].movies.length;j++){
-            movieName.push(orders[i].movies[j].title);
-        
-           
-        }
-        faqlist.innerHTML+=`<div class="accordion-item">
-        <h2 class="accordion-header"><button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-${i+1}" style="height: 58px;">Order number${i+1}</button></h2>
-        <div id="content-accordion-${i+1}" class="accordion-collapse collapse" data-bs-parent="#faqlist">
-           
-        </div>
-         </div>`
-        const myAccordionBody=document.getElementById(`content-accordion-${i+1}`);
-        for (let j=0;j<movieName.length;j++){
-            myAccordionBody.innerHTML+= `<p class="movieName"> • ${movieName[j]} </p>`
-}
-    }
+function goToPage(page) {
+    currentPage = page;
+    printOrders(user.orders);
 }
 
-// Call the function when the page loads
 window.onload = async function() {
     await fetchUserDataOnLoad();
-    
-    
-    
 };
+
+var slideIndex = 1;
+
+function plusSlides(n) {
+    showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = slides.length }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex - 1].style.display = "block";
+}

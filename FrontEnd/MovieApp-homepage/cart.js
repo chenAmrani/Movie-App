@@ -136,8 +136,8 @@ async function generateCartItems() {
 
             lineContainer.innerHTML += `
             <div class="cart-item">
-                <img width="150" height="250" src=${image} alt="movie-picture"/>
-             <div class="details" style="display:flex">
+                <img width="150" height="250" src=${image} style="border-radius: 58px 0 0 58px;" alt="movie-picture"/>
+             <div class="details" style="display:flex;border-radius:0 58px 58px 0">
 
                 <div class="title-price-x">
                         <h3>
@@ -224,6 +224,7 @@ async function fetchUserCheckout() {
 let orderNumber=1;
 
 let cashout = async () => {
+    if (localStorage.getItem("email")!=undefined){
     try {
         const user = await fetchUserCheckout();
 
@@ -243,6 +244,9 @@ let cashout = async () => {
                 // Show the success modal using vanilla JavaScript
                 let successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
+                setTimeout(function() {
+                window.location.href = "/Movie-App/FrontEnd/MovieApp-profile/userprofile.html";
+                },2000)
             },
             error: function(xhr, status, error) {
                 console.error("AJAX Error:", status, error);
@@ -253,6 +257,12 @@ let cashout = async () => {
         // Handle the error if needed
         console.error("Error:", error);
     }
+    }
+    else{
+        $('#responseModalLabel').text("You have to be logged in in order to buy")
+        $('#responseModalBody').text("Please LOGIN");
+        $('#responseModal').modal('show');
+    }
 }
 
 
@@ -261,7 +271,7 @@ let cashout = async () => {
 let TotalAmount = ()=>{
     if(basket.length !==0){
         lable.innerHTML =`
-        <div class="Shopping-Cart-HeadLine" style="margin-top:140px">
+        <div class="Shopping-Cart-HeadLine" style="margin-top:15px">
         <h1>SHOOPING CART</h1>
         </div>
         <div class="Total-Bill-HeadLine">

@@ -9,7 +9,8 @@ body{
     background-image: url("/Movie-App/BackEnd/imges/back.jpg"); 
     background-size: cover;  
     background-repeat: no-repeat;
-    background-blend-mode: luminosity;
+    background-blend-mode: hue;
+    background-color: #ffffff54!important;
     
 }
 
@@ -87,6 +88,7 @@ a{
     justify-content: center;
     margin: 150px auto 0; /* Reordered margin properties */
     padding: 0 15px;
+
 }
 
 
@@ -106,16 +108,15 @@ a{
     border:  2px solid black;
     border-radius: 3px;
     color: white;
-    background-color: black;
-        border: 2px solid black;
-        border-radius: 3px;
-        color: white;
-        background-color: black;
-        width:250px;
-        margin-block:5px;
-        margin-right:1000px;
-        margin-left:25px;
-        justify-content: space-between;
+    background-color: #0000004a;
+    border: 2px solid black;
+    border-radius: 40px;
+    color: white;
+    width:250px;
+    margin-block:5px;
+    margin-right:1000px;
+    margin-left:25px;
+    justify-content: space-between;
 }
 
 .title-movie-details{
@@ -125,7 +126,7 @@ a{
 
 
 .details{
-    background-color: black;
+    background-color: #ffffff04;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -248,11 +249,21 @@ a{
     padding: 3px 6px;
 }
 
-
-
+#footerpad {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: #212529;
+    color: #fff;
+  }
+.footerLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .search{
     font-size: 20px;
+    margin-left: 180px;
 }
 
 .bi-search{
@@ -267,6 +278,7 @@ a{
     border-color: transparent;
     justify-content: center;
     margin-right: 5px;
+    width: 400px;
 }
 
 .logIn{
