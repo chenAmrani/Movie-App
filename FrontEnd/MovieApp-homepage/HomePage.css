@@ -118,6 +118,9 @@ a{
     margin-left:25px;
     justify-content: space-between;
 }
+.clickable-image{
+    cursor: pointer;
+}
 
 .title-movie-details{
     margin-bottom: 2px;

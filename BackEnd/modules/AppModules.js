@@ -17,9 +17,18 @@ const movieSchema = new mongoose.Schema({
     type: [String],
     required: true
   },
+  actors_facets: {
+    type: [String],
+  },
+  description:{
+    type: String,
+  },
   genre: {
     type: [String],
     required: true
+  },
+  trailer: {
+    type: String,
   },
   reviews:[
     {

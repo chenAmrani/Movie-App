@@ -8,7 +8,10 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
 }
 module.exports.getObjectById = async (req, res) => {
   try {
-      const { id } = req.query;
+      const { id } = req.query; // Use req.params instead of req.query
+      if (id==undefined){
+        const {id} =req.query;
+      }
       console.log(id);
       const movie = await MovieModel.findById(id)
       if (movie) {
