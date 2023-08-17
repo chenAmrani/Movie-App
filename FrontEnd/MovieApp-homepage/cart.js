@@ -1,3 +1,83 @@
+$(document).ready(function() {
+    var userEmail = localStorage.getItem("email");
+    if (userEmail) {
+        $("#loginActionButton").hide();
+        $("#userProfileButton").show();
+        $("#logoutButton").show();
+    } else {
+        $("#loginActionButton").show();
+        $("#userProfileButton").hide();
+        $("#logoutButton").hide();
+    }
+
+    $("#loginForm").submit(function(event) {
+        event.preventDefault();
+        var email = $("#email").val();
+        var password = $("#password").val();
+        var postData = {
+            email: email,
+            password: password
+        };
+        
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:1113/login", 
+            data: postData,
+            success: function(response) {
+                localStorage.setItem("email", postData.email);
+                $('#responseModalBody').text("Login successful!, you are redirected");
+                $('#responseModal').modal('show');
+                setTimeout(function() {
+                    window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/cart.html";
+                }, 2000);
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText);
+                    var errorMessage = errorResponse.error;
+                    $('#responseModalBody').text(errorMessage);
+                    $('#responseModal').modal('show');
+                } catch (e) {}
+            }
+        });
+    });
+
+    $("#logoutButton").click(function() {
+        localStorage.removeItem("email");
+        $("#loginActionButton").show();
+        $("#userProfileButton").hide();
+        $("#logoutButton").hide();
+    });
+
+    $("#loginActionButton").click(function() {
+        document.getElementById("loginModal").style.display = "block";
+    });
+
+    $("#userProfileButton").click(function() {
+        window.location.href = '/Movie-App/FrontEnd/MovieApp-Profile/userProfile.html';
+    });
+    $(".modal").click(function(event) {
+        // Check if the click target is the modal itself or its content
+        if (event.target === this) {
+            document.getElementById("loginModal").style.display = "none";
+        }
+    });
+    $("#closeModal").click(function() {
+        document.getElementById("loginModal").style.display = "none";
+    });
+
+    
+});
+
+document.getElementById("closeModal").addEventListener("click", function() {
+    document.getElementById("loginModal").style.display = "none";
+});
+
+window.addEventListener("click", function(event) {
+    if (event.target === document.getElementById("loginModal")) {
+        document.getElementById("loginModal").style.display = "none";
+    }
+});
 
 
 // Function to fetch movie data using AJAX
@@ -36,23 +116,36 @@ let total=0;
 async function generateCartItems() {
     if (basket.length !== 0) {
         // Create an array of promises to fetch movie data
+        let lineCount = 1;
+        let lineContainer = document.createElement('div');
+        lineContainer.classList.add('cart-line');
+
         for (let i = 0; i < basket.length; i++) {
             let id = basket[i].id;
             const movie = await fetchMovie(basket[i].id);
             let { image, title, price } = movie;
             total += price;
-            shoppingCart.innerHTML += `
+
+            if (i !== 0 && i % 4 === 0) {
+                // Start a new line after every 4 items
+                shoppingCart.appendChild(lineContainer);
+                lineContainer = document.createElement('div');
+                lineContainer.classList.add('cart-line');
+                lineCount++;
+            }
+
+            lineContainer.innerHTML += `
             <div class="cart-item">
                 <img width="150" height="250" src=${image} alt="movie-picture"/>
-             <div class="details">
+             <div class="details" style="display:flex">
 
                 <div class="title-price-x">
                         <h3>
                         <p>${title}</p>
                         </h3>                  
-                    <i onclick="removeItem('${id}')" class="bi bi-x-lg"></i>
-                </div>
 
+                </div>
+                <i onclick="removeItem('${id}')" class="bi bi-trash fs-3" style="align-self:end"></i>
                 <div class="item-price">
                 </div>
 
@@ -60,20 +153,21 @@ async function generateCartItems() {
                     <!-- Rest of your buttons... -->
                 </div>
                     
-                <h3>Subtotal : $ ${price}</h3>
+                <h3 style="text-align:center">Subtotal : $ ${price}</h3>
              </div>   
             </div>
             `;
-
         }
-        TotalAmount();
+
+        shoppingCart.appendChild(lineContainer); // Append the last line container
+        TotalAmount()
 
         
-    
     } else {
+        console.log(basket);
         shoppingCart.innerHTML = ``;
         lable.innerHTML = `
-        <h2>Cart is Empty</h2>
+        <h2 style="margin-top:140px">Cart is Empty</h2>
         <a href="view.html">
             <button class="HomeBtn">Back to store</button>
         </a>
@@ -108,15 +202,71 @@ let clearCart=()=>{
     localStorage.setItem("data",JSON.stringify(basket));
 };
 
+async function fetchUserCheckout() {
+    return new Promise((resolve, reject) => {
+        const email = localStorage.getItem('email');
+
+        $.ajax({
+            url: "http://localhost:1113/email",
+            type: "GET",
+            data: { email: email },
+            success: function(response) {
+                resolve(response); // Resolve the promise with the response data
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", status, error);
+                reject(error); // Reject the promise with the error
+            },
+        });
+    });
+}
+
+let orderNumber=1;
+
+let cashout = async () => {
+    try {
+        const user = await fetchUserCheckout();
+
+        // Assuming you have the order data in some format
+        const orderData = {
+            user: user._id,
+            movies: basket.map(item => item.id),
+            orderNumber: orderNumber++,
+        };
+
+        $.ajax({
+            url: "http://localhost:1113/createOrder",
+            type: "POST",
+            data: { order: orderData },
+            success: function(response) {
+                console.log(response);
+                // Show the success modal using vanilla JavaScript
+                let successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", status, error);
+                // Handle the error if needed
+            },
+        });
+    } catch (error) {
+        // Handle the error if needed
+        console.error("Error:", error);
+    }
+}
+
+
+
+
 let TotalAmount = ()=>{
     if(basket.length !==0){
         lable.innerHTML =`
-        <div class="Shopping-Cart-HeadLine">
+        <div class="Shopping-Cart-HeadLine" style="margin-top:140px">
         <h1>SHOOPING CART</h1>
         </div>
         <div class="Total-Bill-HeadLine">
         <h2>Total Bill: $ ${total}</h2>
-        <button class="checkout">Checkout</button>
+        <button onclick="cashout() "class="checkout">Checkout</button>
         <button onclick="clearCart()" class="removeAll">Clear Cart</button>
         </div>
         `

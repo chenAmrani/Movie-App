@@ -60,6 +60,7 @@ a{
     border-radius: 4px;
     margin-right: 20px;
     margin-top: 10px;
+    width: 40px;
 }
 
 .cartAmount{
@@ -70,7 +71,8 @@ a{
     background-color: red;
     color: white;
     padding: 3px;
-    border-radius: 3px;
+    border-radius: 50%;
+    width: 15px;
 }
 
 /**
