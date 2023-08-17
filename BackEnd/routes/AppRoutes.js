@@ -4,11 +4,13 @@ const {
   addObject,
   updateObject,
   deleteObject,
-  validateMovie
+  validateMovie,
+  getObjectById
 } = require("../Controllers/AppController");
 
 const router = Router(); 
 
+router.get("/MovieById", getObjectById);
 router.get("/Movies", getObject); 
 router.post("/add",validateMovie, addObject); 
 router.post("/update",validateMovie, updateObject); 

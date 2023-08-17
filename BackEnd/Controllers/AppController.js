@@ -6,14 +6,20 @@ module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת
     const Movie=await MovieModel.find(); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
     res.send(Movie) //כביכול הלקוח יבקש את כל המשימות והשרת ישלח לו אותם
 }
-module.exports.getObjectById=async(req,res)=>{
+module.exports.getObjectById = async (req, res) => {
   try {
-    const { id } = req.query;
-    const movie = await MovieModel.findById(id).populate("movies").exec();
-    if (movie) return movie;
-    res.status(200).send(movie);
-  } catch (err) {}
-}
+      const { id } = req.query;
+      console.log(id);
+      const movie = await MovieModel.findById(id)
+      if (movie) {
+          res.status(200).json(movie); // Send the movie as a JSON response
+      } else {
+          res.status(404).json({ message: "Movie not found" }); // Movie not found
+      }
+  } catch (err) {
+      res.status(500).json({ message: "Internal server error" }); // Handle errors
+  }
+};
 module.exports.validateMovie=async(req, res, next)=>
 {
     const { userId } = req.body;

@@ -58,12 +58,7 @@ $(document).ready(function() {
     });
 
     $("#userProfileButton").click(function() {
-        var userEmail = localStorage.getItem("email");
-        if (!userEmail) {
-            document.getElementById("loginModal").style.display = "block";
-        } else {
-            // Handle the user profile action here
-        }
+        window.location.href = '/Movie-App/FrontEnd/MovieApp-Profile/userProfile.html';
     });
     $(".modal").click(function(event) {
         // Check if the click target is the modal itself or its content

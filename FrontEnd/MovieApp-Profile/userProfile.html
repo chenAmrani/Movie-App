@@ -16,8 +16,8 @@
     }
 
     .clean-block.about-us {
-        background-color: #444444; /* Darker background for the main section */
-        padding: 50px 0;
+        background-color: #444444db; /* Darker background for the main section */
+        padding: 110px 0;
     }
 
     .card.clean-card {
@@ -94,10 +94,12 @@
 
 <body>
     <main class="page" style="min-height: 100%;">
+        <container style="display:flex;justify-content: center;height: 1291px;background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-blend-mode: luminosity;background-color: black;background-size: cover; ">
         <section class="clean-block about-us">
             <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px; margin-top: 73px;">
+                <div class="row"></div>
                 <div class="buttonsRow" style="align-items: center;">
-                        <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-secondary" style="margin-right: 320px;">
+                        <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-secondary" style="margin-right: 1000px;">
                             <i class="fa fa-long-arrow-left" style="margin-right: 10px;"></i> Return
                         </button>
                         <script>
@@ -117,7 +119,10 @@
                         </script>
                 </div>
             </div>
-                        
+            </div>
+            <div class="logoPicture" style="display: flex; align-items: center;justify-content: center;">
+                <img src="/Movie-App/BackEnd/imges/cineheaven%20logo.png" alt="CineHeaven Logo" height="200px" width="750px">
+            </div>  
              </div>
             <div class="row" style="margin-right: 0px;margin-left: 0px;">
                 <div class="col text-center">
@@ -190,6 +195,7 @@
                 </div>
             </div>
         </section>
+        </container>
     </main>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/SlideShow-SlideShowJava.js"></script>
