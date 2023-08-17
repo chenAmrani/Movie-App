@@ -75,6 +75,7 @@ $(document).ready(function() {
 
 
 let generateShop = () => {
+    console.log(shopItemsData);
     return shop.innerHTML = shopItemsData.map((x) => {
         let { _id, title, price, desc, year, rating, actors, image } = x;
         let search = basket.find((item) => item.id === _id); // Use item.id
@@ -88,7 +89,9 @@ let generateShop = () => {
         }
         return `
         <div id="product-id-${_id}" class="item">
-            <img width="250" height="400" src="${image}" style="border-radius:35px 35px 0 0" alt="image should be here">
+            <div class="clickable-image" onclick="generateMovieModal('${_id}')">
+                <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0" alt="image should be here">
+            </div>
             <div class="details">
                 <div class="titleClass">
                     <h3 class="title-movie-details">${title}</h3>
@@ -106,7 +109,26 @@ let generateShop = () => {
         </div>
         `;
     }).join("");
+
 };
+
+let generateMovieModal= (_id)=>{
+
+    console.log(_id);
+
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:1113//MovieById", 
+        data: _id,
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(xhr, status, error) {
+            
+        }
+    });
+
+}
 
 let increment = (_id) => {
     let selecteditem = _id;
