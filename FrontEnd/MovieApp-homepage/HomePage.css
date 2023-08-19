@@ -1,3 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.loader__text {
+    margin-top: 40px;
+    color: #3D314A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: Anton, sans-serif;
+    font-size: 34px;
+}
+
+.loader__filmstrip {
+    position: relative;
+    width: 168px;
+    height: 208px;
+    background: #ffffff;
+    z-index: -1;
+}
+
+.loader__filmstrip:before,
+.loader__filmstrip:after {
+    content: '';
+    position: absolute;
+    height: 120%;
+    border-left: 5px dashed #000000;
+    animation: roll 20ms infinite;
+}
+
+.loader__filmstrip:before {
+    left: 5px;
+}
+
+.loader__filmstrip:after {
+    right: 5px;
+}
+    
+@keyframes roll {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: -15px;
+    }
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -13,6 +68,7 @@ body{
     background-color: #ffffff54!important;
     
 }
+
 
 i{
     cursor: pointer;
@@ -88,6 +144,7 @@ a{
     justify-content: center;
     margin: 150px auto 0; /* Reordered margin properties */
     padding: 0 15px;
+    min-height: 900px;
 
 }
 
@@ -114,9 +171,8 @@ a{
     color: white;
     width:250px;
     margin-block:5px;
-    margin-right:1000px;
-    margin-left:25px;
     justify-content: space-between;
+    overflow: hidden;
 }
 .clickable-image{
     cursor: pointer;
@@ -129,11 +185,12 @@ a{
 
 
 .details{
-    background-color: #ffffff04;
+    background-color: #00000061;
     display: flex;
     flex-direction: column;
     padding: 10px;
     gap:10px;
+
 }
 
 .price-quantity{
@@ -221,6 +278,7 @@ a{
   justify-content: center;
   gap:  15px;
 }
+
 
 /**
 * style rules for the cart-item
@@ -356,6 +414,8 @@ a{
     width: 80%;
     max-width: 400px;
 }
+
+
 
 .close {
     color: #aaa;

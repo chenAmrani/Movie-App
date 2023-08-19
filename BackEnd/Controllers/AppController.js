@@ -13,7 +13,7 @@ module.exports.getObjectById = async (req, res) => {
         const {id} =req.query;
       }
       console.log(id);
-      const movie = await MovieModel.findById(id)
+      const movie = await MovieModel.findById(id).populate("reviews");
       if (movie) {
           res.status(200).json(movie); // Send the movie as a JSON response
       } else {

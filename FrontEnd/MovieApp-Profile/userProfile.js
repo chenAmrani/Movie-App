@@ -54,13 +54,13 @@ function printOrders(orders) {
         const order = ordersToDisplay[i];
         const movieNames = order.movies.map(movie => `• ${movie.title}`).join('<br>');
         const orderHTML = `
-            <div class="accordion-item">
+            <div class="accordion-item" style="background-color: #f0f8ff00;>
                 <h2 class="accordion-header">
-                    <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-${i + 1}" style="height: 58px;">
+                    <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#content-accordion-${i + 1}"style="height: 58px;border-radius: 25px 25px 0 0;background-color:#ffffff7d">
                         Order number ${i + startIdx + 1}
                     </button>
                 </h2>
-                <div id="content-accordion-${i + 1}" class="accordion-collapse collapse" data-bs-parent="#faqlist">
+                <div id="content-accordion-${i + 1}" class="accordion-collapse collapse" data-bs-parent="#faqlist" style="border-bottom-left-radius: 25px;border-bottom-right-radius: 25px;background-color:#ffffff7d">
                     <p class="movieName">${movieNames}</p>
                 </div>
             </div>`;

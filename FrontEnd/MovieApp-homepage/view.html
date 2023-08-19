@@ -20,6 +20,7 @@
 
 </head>
 <body>
+
     <div class="navbar sticky">
         <a href="view.html">
          <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
@@ -48,7 +49,14 @@
         </div>
     </a>
     </div>
-
+    <div class="wrapper">
+    <div class="loader justify-content-center" id="loader">
+        <div class="loader__filmstrip">
+        </div>
+        <p class="loader__text">
+            Site is loading
+        </p>
+    </div>
     <div class="shop" id="shop">
     </div>
     <!-- LOGIN and response modals -->
@@ -57,7 +65,7 @@
             <span class="close" id="closeModal">&times;</span>
             <h2>Login</h2>
             <form id="loginForm">
-                <label for="username">Email:</label>
+                <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required><br>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required><br>
@@ -90,7 +98,7 @@
     </div>
 
     <!-- End of each movie modal -->
-
+    </div>
     <!-- Footer -->
     <footer id="footerpad">
         <div class="container">
@@ -113,6 +121,7 @@
 <script src="data.js"></script>
 <script src="main.js"></script>
 <script src="/Movie-App/FrontEnd/MovieApp-register/assets/bootstrap/js/bootstrap.min.js"></script>
+
 
 
 </html>

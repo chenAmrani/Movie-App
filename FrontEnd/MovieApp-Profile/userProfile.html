@@ -16,14 +16,15 @@
     }
 
     .clean-block.about-us {
-        background-color: #444444db; /* Darker background for the main section */
-        padding: 110px 0;
+        background-color: #e7e0e094; /* Darker background for the main section */
     }
 
     .card.clean-card {
-        border: 2px solid #666666; /* Pretty border for cards */
-        background-color: #555555; /* Darker background for cards */
+        border: 2px solid #e0c5c5; /* Pretty border for cards */
+        background-color: #00000047; /* Darker background for cards */
         margin-bottom: 20px;
+        border-radius:40px;
+
     }
 
     .info {
@@ -88,15 +89,35 @@
         .returnBtn{
             margin-right: 150px;
         }
+        .myMovies{
+            max-width: 300px;
+            width: 300px;
+            border: 2px solid #e0c5c5;
+            border-radius: 40px;
+            background-color: #00000047;
+            padding: 20px;
+            margin: 10px 0;
+            margin-right: 5px;
+        }
+        .recentOrders{
+            max-width: 300px;
+            width: 300px;
+            border: 2px solid #e0c5c5;
+            border-radius: 40px;
+            background-color: #00000047;
+            padding: 20px;
+            margin: 10px 0;
+            margin-right: 5px;
+        }
         </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-</head>
+</head>  
 
 <body>
     <main class="page" style="min-height: 100%;">
-        <container style="display:flex;justify-content: center;height: 1291px;background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-blend-mode: luminosity;background-color: black;background-size: cover; ">
-        <section class="clean-block about-us">
-            <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px; margin-top: 73px;">
+        <container style="display:flex;justify-content: center;height: 1291px;background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-repeat: no-repeat;background-blend-mode: hue;background-color: #ffffff54!important;;background-size: cover; ">
+        <section class="clean-block about-us py-1 px-1 my-5" style="border-radius: 15px;height: 1026px;">
+            <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px;">
                 <div class="row"></div>
                 <div class="buttonsRow" style="align-items: center;">
                         <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-secondary" style="margin-right: 1000px;">
@@ -167,7 +188,7 @@
                 </div>
             </div>
             <div class="row justify-content-center" style="height: 532px;">
-                <div class="col text-center justify-content-center align-items-center" style="max-width: 300px;width: 300px;border: 2px solid #888888;border-radius: 10px;background-color: #666666;padding: 20px;margin: 10px 0;margin-right: 5px;">
+                <div class="myMovies">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">My Movies</h2>
                     <div class="row" style="height: 242px;">
                         <div class="col" style="max-width: auto;">
@@ -183,9 +204,9 @@
                     </div>
                 </div>
             
-                <div class="col justify-content-center align-items-center" style="width: 300px;max-width: 300px;border: 2px solid #888888;border-radius: 10px;background-color: #666666;padding: 20px;margin: 10px 0;">
+                <div class="recentOrders">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">Recent orders</h2>
-                    <section class="recentOrders">
+                    <section class="orders">
                         <div class="container">
                             <div id="faqlist" class="accordion accordion-flush">
                                 <!-- Accordion items will be added here using JavaScript -->

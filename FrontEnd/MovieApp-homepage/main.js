@@ -3,6 +3,8 @@ let movieModal = document.getElementById('movieModal');
 
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
+
+
 $(document).ready(function() {
     var userEmail = localStorage.getItem("email");
     if (userEmail) {
@@ -14,6 +16,18 @@ $(document).ready(function() {
         $("#userProfileButton").hide();
         $("#logoutButton").hide();
     }
+
+    $(document).on('click', '.clickable-image', function(event) {
+        event.stopPropagation(); // Prevent event from bubbling up
+        let movieId = $(this).closest('.item').attr('id').replace('product-id-', '');
+        fetchMovie(movieId);
+    });
+
+    // Prevent modal closing when clicking on the modal content
+    $(document).on('click', '.modal-content-movie', function(event) {
+        event.stopPropagation(); // Prevent event from bubbling up
+    });
+
 
     $("#loginForm").submit(function(event) {
         event.preventDefault();
@@ -70,20 +84,12 @@ $(document).ready(function() {
     $("#closeModal").click(function() {
         document.getElementById("loginModal").style.display = "none";
     });
-    // Prevent modal closing when clicking on the modal content
-$("#movieModal").click(function(event) {
-    event.stopPropagation();
-});
 
-// Close modal when clicking outside (except modal content)
-$(document).click(function(event) {
-    if (!$(event.target).closest(".modal-content-movie").length) {
-        $('#modal-video-watch').modal('hide');
-    }
-});
+
 
     
 });
+
 
 
 let generateShop = () => {
@@ -101,7 +107,7 @@ let generateShop = () => {
         }
         return `
         <div id="product-id-${_id}" class="item">
-            <div class="clickable-image" onclick="fetchMovie('${_id}')">
+            <div class="clickable-image">
                 <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0" alt="image should be here">
             </div>
             <div class="details">
@@ -140,54 +146,61 @@ let fetchMovie = (_id) => {
     });
 
 }
-let generateMovieModal=(movie)=>{
 
+let currentReviewIndex = 0;
+
+
+let generateMovieModal=(movie)=>{
+            const nextButton = `
+            <button id="nextReviewsButton" class="btn btn-primary">Next</button>
+            `;
+        console.log("arrived");
         const modalHtml=`
-        <div class="modal fade" role="dialog" tabindex="-1" id="modal-1" style="background: var(--bs-body-color);">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Write a review</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                        <h4 class="modal-title">Write a review</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal" data-bs-target="#modal-video-watch" data-bs-toggle="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="addReviewForm">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend"></div>
                             </div>
                             <div></div>
-                            <div class="mb-3"><label class="form-label shadow" for="reviewerName" style="margin: 0 px 0px 4 px;color: var(--bs-secondary-bg);">Your Name:</label><input class="shadow form-control item" type="text" id="reviewerName" placeholder="Please tell us your full name" required="" minlength="3" style="border-radius: 8 px;"></div>
+                            <div class="mb-3"><label class="form-label" for="reviewerName" style="margin: 0 0 4px 0;">Your Name:</label><input class="shadow form-control item" type="text" id="reviewerName" placeholder="Please tell us your full name" required="" minlength="3" style="border-radius: 8 px;"></div>
                             <div class="mb-3" style="border-radius: 8 px;"></div>
                             <div class="mb-3" style="box-shadow: 0px 0px;"></div>
-                            <div class="mb-3 my-3"><label class="form-label" for="review" style="box-shadow: 0px 0px;color: var(--bs-secondary-bg);">Review:</label><textarea class="shadow form-control item" id="message" placeholder="Tell us honestly about what we do well and not so well." required="" minlength="10" maxlength="500" rows="7" style="border-style: solid;border-radius: 16px;"></textarea></div>
-                            <div class="mb-3"><button class="btn btn-success btn-lg d-block mx-auto" type="submit" data-bs-target="#modal-video-watch" data-bs-toggle="modal">Submit Form</button></div>
+                            <div class="mb-3 my-3"><label class="form-label" for="review" style="box-shadow: 0px 0px;">Review:</label><textarea class="shadow form-control item" id="message" placeholder="Tell us your thoughts about the movie." required="" minlength="8" maxlength="500" rows="7" style="border-style: solid;border-radius: 16px;"></textarea></div>
+                            <div class="mb-3">    <button class="btn btn-success btn-lg d-block mx-auto" type="submit">Submit Form</button></div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal fade bg-dark sys-box-course-modal" role="dialog" tabindex="-1" id="modal-video-watch">
+        <div class="modal fade sys-box-course-modal" role="dialog" tabindex="-1" id="modal-video-watch">
             <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-                <div class="modal-content-movie">
-                    <div class="modal-header">
-                        <h4 class="modal-title"><i class="fa fa-video-camera me-3"></i>Movie Preview</h4>
-                        <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                <div class="modal-content" id="movieModal" style="max-width:1100px;background-color: #333333;border-radius: 25px;"> 
+                    <div class="modal-header data-bs-theme=dark" style="background-color: black;border-radius: 25px;">
+                        <h4 class="modal-title" style="color:white"><i class="fa fa-video-camera me-3"></i>Movie Preview</h4>
+                        <button class="btn-close btn-close-white" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body sys-box-course-modal">
                         <div class="dh-box-2-sides" style="display: flex;height: 100%;">
                             <div class="col-md-6 dh-box-left" style="background: var(--bs-secondary-color);height: auto;">
                                 <h1 style="color: rgb(115,110,110);">${movie.title}</h1>
-                                <p style="height: auto;margin-bottom: -7px;">
-                                    <span style="font-weight: normal !important; color: rgb(115, 110, 110); background-color: rgb(33, 37, 41);">
+                                <p style="height: auto;">
+                                    <span style="font-weight: normal !important; color: rgb(115, 110, 110);">
                                         ${movie.description}
                                     </span><br>
-                                    <p style="font-size: 24px;">
-                                        <span style="font-weight: normal !important; color: rgb(115, 110, 110); background-color: rgb(33, 37, 41);">
+                                    <p style="font-size: 32px;">
+                                        <span style="font-weight: normal !important; color: rgb(115, 110, 110);">
                                             ${movie.year}
                                         </span>
                                     </p>
                                 </p>
                             </div>
-                            <div class="col-md-6 dh-box-right" style="height: auto;">
+                            <div class="col-md-6 dh-box-right" style="height: auto;background-color:var(--bs-secondary-color)">
                                 <h1 style="color: rgb(115, 110, 110);">Actors</h1>
                                 <div class="container" style="width: 95%;">
                                     <div class="row justify-content-center">
@@ -200,44 +213,196 @@ let generateMovieModal=(movie)=>{
                             <div class="col-md-6 dh-box-left" style="background: var(--bs-secondary-color);height: auto;width: 100%;margin-top: 7px;border-radius: 20px;padding: 10px;margin-bottom: 7px;">
                                 <h1 style="color: rgb(115,110,110);">Reviews</h1>
                                 <div class="container py-4 py-xl-5">
-                                    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3 justify-content-center align-items-center" style="border-style: none;">
-                                        <div class="col" style="border-radius: 20px;border-style: solid;border-color: var(--bs-emphasis-color);padding-top: 8px;margin-left: 0px;width: 360px;">
-                                            <div class="d-flex">
-                                                <div class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-3 bs-icon">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-pencil-square">
-                                                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
-                                                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="px-3">
-                                                    <h4 style="margin-top: 4px;">Review name 1</h4>
-                                                    <p>Erat netus est hendrerit, nullam et quis ad cras porttitor iaculis. Bibendum vulputate cras aenean.</p>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3 style="border-style: none;" style="justify-content: center;">
+                                    <div class="mb-3" style="width:min-content">
+                                    <div class="review-cards-container" style="display:flex;width:fit-content">
+                                        <!-- Generate the first 6 review cards here -->
+                                        ${generateReviewCards(movie.reviews, currentReviewIndex)}
+                                    </div>
+                                    ${movie.reviews.length > currentReviewIndex + 6 ? nextButton : ''}
+                                </div>
                                     </div>
                                 </div>
                                 <button class="btn btn-primary" type="button" data-bs-target="#modal-1" data-bs-toggle="modal">Write a review</button>
                             </div>
                         </div>
-                        
-                        <div class="video-container" style="height: 200px;">
-                        <iframe allowfullscreen="" frameborder="0" width="853" height="480" style="height: 100%; border-radius: 18px;"
-                            src="https://www.youtube.com/embed/${movie.youtube_video_id}">
-                        </iframe>
-                    </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <div class="video-container" style="height: 200px;"><iframe allowfullscreen="" frameborder="0" src="${convertToEmbedUrl(movie.trailer)}" width="853" height="480" style="height: 100%;border-radius: 18px;"></iframe></div>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
+
+    $(document).on('click', '#nextReviewsButton', function() {
+        currentReviewIndex += 6;
+        const reviewCardsHtml = generateReviewCards(movie.reviews, currentReviewIndex);
+        $('.review-cards-container').html(reviewCardsHtml);
+    });
+    
     movieModal.innerHTML = modalHtml;
     $('#modal-video-watch').modal('show');
+
+    $("#addReviewForm").submit(function(event) {
+        event.preventDefault();
+    
+        var name = $("#reviewerName").val().trim();
+        var text = $("#message").val();
+    
+        if (name === "") {
+            alert("Please enter your full name.");
+            return; // Stop the function execution
+        }
+    
+        if (text.length < 8) {
+            alert("Please enter a review with at least 8 characters.");
+            return; // Stop the function execution
+        }
+    
+        var postData = {
+            name: name,
+            text: text,
+            movieId: movie._id,
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:1113/addreview",
+            data: postData,
+            success: function (response) {
+                // Create the HTML markup for the new review card
+                const newReviewCard = generateSingleReviewCard({
+                    name: postData.name,
+                    text: postData.text,
+                    date: new Date().toISOString(),
+                });
+
+                // Append the new review card to the existing review cards
+                $('.review-cards-container').append(newReviewCard);
+
+                $('#modal-1').modal('hide');
+                $('#modal-video-watch').modal('show');
+
+
+                // Optionally, you can reset the form inputs here
+            
+                return true;
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+            },
+        });
+    });
 }
+
+
+
+let generateReviewCards = (reviews, startIndex) => {
+    let reviewCardsHtml = '';
+    const endIndex = Math.min(startIndex + 6, reviews.length);
+
+    if(reviews.length >1){
+    for (let i = startIndex; i < endIndex; i += 3) {
+        reviewCardsHtml += `
+            <div class="row">
+        `;
+
+        for (let j = 0; j < 3; j++) {
+            const currentIndex = i + j;
+            if (currentIndex < endIndex) {
+                const review = reviews[currentIndex];
+
+                // Parse the date string and format it
+                const reviewDate = new Date(review.date);
+                const formattedDate = `
+                    <p style="margin-bottom:0!important">Date: ${reviewDate.toISOString().slice(0, 10)}</p>
+                    <p>Time: ${reviewDate.toISOString().slice(11, 19)}</p>
+                `;
+
+                reviewCardsHtml += `
+                    <div class="col">
+                        <div class="col" style="border-radius: 20px;border-style: solid;padding-top: 8px;margin-right:15px;margin-bottom:15px;width: 360px;">
+                            <div class="d-grid">
+                                <!-- ... Rest of the code ... -->
+                                <div class="px-3">
+                                    <h4 style="margin-top: 4px;">Review writer: ${review.name}</h4>
+                                    <p>${review.text}</p>
+                                    ${formattedDate}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        reviewCardsHtml += `
+            </div>
+        `;
+    }
+    }
+    else{
+        reviewCardsHtml += `
+            <div class="row">
+        `;
+        reviewCardsHtml += `\
+        <div class="col">
+        <div class="col" style="border-radius: 20px;border-style: solid;padding-top: 8px;margin-right:15px;margin-bottom:15px;width: 360px;height:150px">
+        <div class="d-grid">
+            <!-- ... Rest of the code ... -->
+            <div class="px-3">
+                <h4 style="margin-top: 4px;">There are no reviews yet.</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+    }
+    return reviewCardsHtml;
+}
+function generateSingleReviewCard(review) {
+    const reviewDate = new Date(review.date);
+    const formattedDate = `
+    <p style="margin-bottom:0!important">Date: ${reviewDate.toISOString().slice(0, 10)}</p>
+    <p>Time: ${reviewDate.toISOString().slice(11, 19)}</p>
+    `;
+    return `
+        <div class="col">
+            <div class="col" style="border-radius: 20px;border-style: solid;padding-top: 8px;margin-right:15px;margin-bottom:15px;width: 360px;">
+                <div class="d-grid">
+                    <div class="px-3">
+                        <h4 style="margin-top: 4px;">Review writer: ${review.name}</h4>
+                        <p>${review.text}</p>
+                        <p>Date: ${formattedDate}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+function convertToEmbedUrl(originalUrl) {
+    // Regular expressions for different YouTube URL formats
+    const regexList = [
+        /youtube\.com\/watch\?v=([A-Za-z0-9_-]+)/,
+        /youtu\.be\/([A-Za-z0-9_-]+)/
+    ];
+
+    let videoId = null;
+    for (const regex of regexList) {
+        const match = originalUrl.match(regex);
+        if (match && match[1]) {
+            videoId = match[1];
+            break;
+        }
+    }
+
+    if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}`;
+    }
+    console.log('https://www.youtube.com/embed/${videoId}');
+    return null; // Return null if the URL doesn't contain a video ID
+}
+
 
 let generateActorCards = (actorFacets, actorNames) => {
     let actorCardsHtml = '';
@@ -246,8 +411,8 @@ let generateActorCards = (actorFacets, actorNames) => {
             <div class="col-sm-6 col-md-4" style="height: 196.2px;display: flex;color: var(--bs-body-color);">
                 <div class="box" style="height: 95%;border-radius: 20px;width: 85%;">
                     <img src="${actorFacets[i]}" alt="Actor" style="height: 100%;border-radius: 20px;">
-                    <div class="box-content" style="height: 100%;border-radius: 20px;">
-                        <h4 class="text-capitalize text-center title" style="color: var(--bs-body-color);font-family: 'Source Sans Pro', sans-serif;">${actorNames[i]}</h4>
+                    <div class="box-content" style="height: 100%;border-radius: 20px;background-color: #333333;">
+                        <h5 class="text-capitalize text-center title" style="font-size: 14px;color: #ffffff;font-family: 'Source Sans Pro', sans-serif;margin-top: auto;">${actorNames[i]}</h5>
                     </div>
                 </div>
             </div>
@@ -304,6 +469,13 @@ async function init() {
     await fetchDataAsync();
     generateShop();
     calculation();
+    hideLoader(); // Hide the loader once movies are loaded
+
+}
+function hideLoader() {
+    const loader = document.getElementById('loader');
+
+    loader.style.display = 'none';
 }
 
 init();
@@ -319,6 +491,3 @@ window.addEventListener("click", function(event) {
         document.getElementById("loginModal").style.display = "none";
     }
 });
-
-
-  
