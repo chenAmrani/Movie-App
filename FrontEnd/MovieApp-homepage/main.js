@@ -151,17 +151,19 @@ let currentReviewIndex = 0;
 
 
 let generateMovieModal=(movie)=>{
-            const nextButton = `
-            <button id="nextReviewsButton" class="btn btn-primary">Next</button>
-            `;
-        console.log("arrived");
+    const nextButton = `
+        <button id="nextReviewsButton" class="btn btn-primary">Next</button>
+    `;
+    const previousButton = `
+        <button id="previousReviewsButton" class="btn btn-primary" style="display: none;">Previous</button>
+    `;
         const modalHtml=`
         <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">Write a review</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal" data-bs-target="#modal-video-watch" data-bs-toggle="modal"></button>
-                    </div>
+                    </div>  
                     <div class="modal-body">
                         <form id="addReviewForm">
                             <div class="input-group mb-3">
@@ -219,6 +221,7 @@ let generateMovieModal=(movie)=>{
                                         <!-- Generate the first 6 review cards here -->
                                         ${generateReviewCards(movie.reviews, currentReviewIndex)}
                                     </div>
+                                    ${previousButton}
                                     ${movie.reviews.length > currentReviewIndex + 6 ? nextButton : ''}
                                 </div>
                                     </div>
@@ -234,14 +237,34 @@ let generateMovieModal=(movie)=>{
     `;
 
 
-    $(document).on('click', '#nextReviewsButton', function() {
-        currentReviewIndex += 6;
-        const reviewCardsHtml = generateReviewCards(movie.reviews, currentReviewIndex);
-        $('.review-cards-container').html(reviewCardsHtml);
-    });
     
+
     movieModal.innerHTML = modalHtml;
     $('#modal-video-watch').modal('show');
+
+    $('#nextReviewsButton').on('click', function() {
+        currentReviewIndex += 6;
+        
+        // Update visibility of "Previous" button
+        if (currentReviewIndex > 0) {
+            $('#previousReviewsButton').show();
+        }
+        
+        // Update review cards and button visibility
+        updateReviewCards(movie);
+    });
+
+    $('#previousReviewsButton').on('click', function() {
+        currentReviewIndex -= 6;
+        
+        // Update visibility of "Next" button
+        if (movie.reviews.length > currentReviewIndex + 6) {
+            $('#nextReviewsButton').show();
+        }
+        
+        // Update review cards and button visibility
+        updateReviewCards(movie);
+    });
 
     $("#addReviewForm").submit(function(event) {
         event.preventDefault();
@@ -271,14 +294,16 @@ let generateMovieModal=(movie)=>{
             data: postData,
             success: function (response) {
                 // Create the HTML markup for the new review card
-                const newReviewCard = generateSingleReviewCard({
-                    name: postData.name,
-                    text: postData.text,
-                    date: new Date().toISOString(),
-                });
-
+                const newReview = {
+                    name: name,
+                    text: text,
+                    date: new Date().toISOString()
+                };
+                
+                movie.reviews.push(newReview);
+                const updatedReviewCardsHtml = generateReviewCards(movie.reviews, currentReviewIndex);
                 // Append the new review card to the existing review cards
-                $('.review-cards-container').append(newReviewCard);
+                $('.review-cards-container').html(updatedReviewCardsHtml);
 
                 $('#modal-1').modal('hide');
                 $('#modal-video-watch').modal('show');
@@ -296,12 +321,31 @@ let generateMovieModal=(movie)=>{
 }
 
 
+function updateReviewCards(movie) {
+    const reviewCardsHtml = generateReviewCards(movie.reviews, currentReviewIndex);
+    $('.review-cards-container').html(reviewCardsHtml);
+
+    // Update visibility of "Next" and "Previous" buttons
+    if (currentReviewIndex > 0) {
+        $('#previousReviewsButton').show();
+    } else {
+        $('#previousReviewsButton').hide();
+    }
+
+    if (movie.reviews.length > currentReviewIndex + 6) {
+        $('#nextReviewsButton').show();
+    } else {
+        $('#nextReviewsButton').hide();
+    }
+}
+
+
 
 let generateReviewCards = (reviews, startIndex) => {
     let reviewCardsHtml = '';
     const endIndex = Math.min(startIndex + 6, reviews.length);
 
-    if(reviews.length >1){
+    if(reviews.length >=1){
     for (let i = startIndex; i < endIndex; i += 3) {
         reviewCardsHtml += `
             <div class="row">
@@ -357,6 +401,9 @@ let generateReviewCards = (reviews, startIndex) => {
             </div>
         </div>
         `
+        reviewCardsHtml += `
+        </div>
+         `;
     }
     return reviewCardsHtml;
 }
@@ -373,7 +420,7 @@ function generateSingleReviewCard(review) {
                     <div class="px-3">
                         <h4 style="margin-top: 4px;">Review writer: ${review.name}</h4>
                         <p>${review.text}</p>
-                        <p>Date: ${formattedDate}</p>
+                        <p>${formattedDate}</p>
                     </div>
                 </div>
             </div>

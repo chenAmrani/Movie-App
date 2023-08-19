@@ -17,11 +17,32 @@ function fetchUserDataOnLoad() {
             user = response; // Store user data
 
             const orders = user.orders;
-            printOrders(orders);
+            const noOrdersMessage = `<p class="text-center" style="color: white;">You didn't order anything yet</p>`;
+            
+            if (orders.length === 0) {
+                const faqlist = document.getElementById("faqlist");
+                faqlist.innerHTML = noOrdersMessage;
+            } else {
+                printOrders(orders);
+            }
             
             const movies = user.movies;
             const movieContainer = document.getElementById('movieContainer');
-            movieContainer.innerHTML = '';
+            const noMoviesMessage = document.getElementById('noMoviesMessage');
+            const prevButton = document.querySelector('.prev');
+            const nextButton = document.querySelector('.next');
+            
+            if (movies.length === 0) {
+                movieContainer.style.display = 'none';
+                noMoviesMessage.style.display = 'block';
+                prevButton.style.display = 'none';
+                nextButton.style.display = 'none';
+            } else {
+                movieContainer.style.display = 'block';
+                noMoviesMessage.style.display = 'none';
+                prevButton.style.display = 'block';
+                nextButton.style.display = 'block';
+            }
 
             for (let i = 0; i < movies.length; i++) {
                 const movie = movies[i];
@@ -50,6 +71,10 @@ function printOrders(orders) {
 
     faqlist.innerHTML = '';
 
+    if (ordersToDisplay.length === 0) {
+        const noOrdersMessage = `<p class="text-center" style="color: white;">You didn't order anything yet</p>`;
+        faqlist.innerHTML = noOrdersMessage;
+    } else {
     for (let i = 0; i < ordersToDisplay.length; i++) {
         const order = ordersToDisplay[i];
         const movieNames = order.movies.map(movie => `• ${movie.title}`).join('<br>');
@@ -67,14 +92,14 @@ function printOrders(orders) {
         faqlist.innerHTML += orderHTML;
     }
 
-    const paginationButtons = `
+        const paginationButtons = `
         <div class="buttonsRow">
             ${currentPage > 1 ? '<button class="btn btn-secondary" onclick="goToPage(currentPage - 1)">Back</button>' : ''}
             ${endIdx < orders.length ? '<button class="btn btn-secondary" onclick="goToPage(currentPage + 1)">Next</button>' : ''}
         </div>`;
     faqlist.innerHTML += paginationButtons;
 }
-
+}
 function goToPage(page) {
     currentPage = page;
     printOrders(user.orders);

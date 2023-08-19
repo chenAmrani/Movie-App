@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>profilePage</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
@@ -57,13 +59,7 @@
             background-color: rgba(0, 0, 0, 0.8);
         }
 
-        .prev {
-            left: 0;
-        }
 
-        .next {
-            right: -30px;   
-        }
         .accordion-flush .accordion-item .accordion-button, .accordion-flush .accordion-item .accordion-button.collapsed {
             border-top-right-radius: 10px;
             border-top-left-radius: 10px;
@@ -109,13 +105,89 @@
             margin: 10px 0;
             margin-right: 5px;
         }
+        .sticky {
+        position: fixed !important;
+        top: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        }
+        .navbar{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #212529;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        #logo{
+            width: 220px;
+            height: 60px;
+            margin-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .item.img{
+            width: 100%;
+
+        }
+
+        .cart{
+            position: relative;
+            background-color: white;
+            color: #212529;
+            font-size: 30px;
+            padding: 5px;
+            border-radius: 4px;
+            margin-right: 20px;
+            margin-top: 10px;
+            width: 40px;
+        }
+
+        .cartAmount{
+            position: absolute;
+            top: -15px;
+            right: -10px;
+            font-size: 16px;
+            background-color: red;
+            color: white;
+            padding: 3px;
+            border-radius: 50%;
+            width: 15px;
+        }
+        #footerpad {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: #212529;
+            color: #fff;
+        }
+        .footerLogo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+
+
         </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>  
 
 <body>
-    <main class="page" style="min-height: 100%;">
-        <container style="display:flex;justify-content: center;height: 1291px;background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-repeat: no-repeat;background-blend-mode: hue;background-color: #ffffff54!important;;background-size: cover; ">
+    
+    <div class="navbar sticky">
+        <a href="/Movie-App/FrontEnd/MovieApp-homepage/view.html">
+         <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
+    </a>
+
+
+    <!-- ask nir and dorin which page i need to connect after press the button -->
+    
+    </div>
+        <container style="display:flex;justify-content: center;margin-top: 90px;background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-repeat: no-repeat;background-blend-mode: hue;background-color: #ffffff54!important;;background-size: cover; ">
         <section class="clean-block about-us py-1 px-1 my-5" style="border-radius: 15px;height: 1026px;">
             <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px;">
                 <div class="row"></div>
@@ -190,12 +262,14 @@
             <div class="row justify-content-center" style="height: 532px;">
                 <div class="myMovies">
                     <h2 style="color: rgb(0,0,0);margin-top: 5px;text-align: center;">My Movies</h2>
-                    <div class="row" style="height: 242px;">
-                        <div class="col" style="max-width: auto;">
+                    <div class="row" style="height: fit-content;">
+                        <div class="col">
                             <div style="margin-top: 50px;">
-                                <div class="slideshow-container" style="width: 200px;height: 250px;margin-top: -40px;">
+                                <div class="slideshow-container" style="width: fit-content;height: fit-content;margin-top: -40px;">
                                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                                     <div id="movieContainer"></div> <!-- Container for movie slides -->
+                                    <div id="movieContainer"></div>
+                                    <div id="noMoviesMessage" class="text-center" style="color: white; display: none;">You didn't buy movies yet</div>
                                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
                                 </div>
 
@@ -217,7 +291,22 @@
             </div>
         </section>
         </container>
-    </main>
+        <footer id="footerpad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-8 mx-auto">
+                        <div class="footerLogo">
+                            <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
+                        </div>
+                        <ul class="list-inline text-center" style="margin-top: 5px;">
+                            <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
+                            <li class="list-inline-item"><a href="/Movie-App/FrontEnd/MovieApp-map/index.html"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-inverse"></i></span></a></li>
+                        </ul>
+                        <p class="copyright text-muted text-center" style="color: var(--bs-body-bg)!important;">Copyright © All rights reserved to Nir Miranda, Dorin Cohen, Chen Amrani, Ori Farkash</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/SlideShow-SlideShowJava.js"></script>
     <script src="userProfile.js"></script>
