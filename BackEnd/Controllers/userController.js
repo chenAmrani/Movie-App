@@ -16,7 +16,6 @@ module.exports.getUsers=async(req,res)=>{
 module.exports.getUserByEmail = async (req, res) => {
    try {
       const { email } = req.query; // Change req.body to req.query
-      console.log(email);
       const user = await userModule.findOne({ email: email }).populate({
          path:'orders',
          populate:{
@@ -24,7 +23,6 @@ module.exports.getUserByEmail = async (req, res) => {
             model:'Movie'
          }
       }).populate("movies").exec();
-      console.log(user);
       res.send(user);
    } catch (error) {
       console.error(error);

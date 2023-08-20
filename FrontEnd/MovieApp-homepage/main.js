@@ -17,10 +17,29 @@ $(document).ready(function() {
         $("#logoutButton").hide();
     }
 
-    $(document).on('click', '.clickable-image', function(event) {
+    $(document).on('click', '.item .clickable-image', function (event) {
         event.stopPropagation(); // Prevent event from bubbling up
-        let movieId = $(this).closest('.item').attr('id').replace('product-id-', '');
-        fetchMovie(movieId);
+
+        // Find the closest '.item' element
+        let itemElement = $(this).closest('.item');
+
+        // Get the movie ID from the 'id' attribute of the '.item' element
+        let movieId = itemElement.attr('id');
+        if (movieId) {
+            movieId = movieId.replace('product-id-', '');
+            fetchMovie(movieId);
+        } else {
+            console.log("Movie ID attribute not found.");
+        }
+    });
+    
+    $(document).on('click', '.dropdown-item', function () {
+        let movieId = $(this).find('.clickable-image').attr('data-movie-id');
+        if (movieId) { // Check if movieId is not undefined
+            fetchMovie(movieId);
+        } else {
+            console.log("Movie ID attribute not found.");
+        }
     });
 
     // Prevent modal closing when clicking on the modal content
@@ -113,7 +132,7 @@ let generateShop = () => {
         return `
         <div id="product-id-${_id}" class="item">
             <div class="clickable-image">
-                <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0" alt="image should be here">
+                <img width="250" height="400" src="${image}"  style="border-radius: 35px 35px 0 0;min-height:400px"  alt="image should be here">
             </div>
             <div class="details">
                 <div class="titleClass">
@@ -542,4 +561,65 @@ window.addEventListener("click", function(event) {
     if (event.target === document.getElementById("loginModal")) {
         document.getElementById("loginModal").style.display = "none";
     }
+});
+
+
+// From here on , is the part of SEARCH
+document.addEventListener('DOMContentLoaded', function () {
+    const searchBar = document.getElementById('search-bar');
+    const searchIcon = document.getElementById('search-icon');
+    const searchResultsDropdown = document.getElementById('search-results-dropdown');
+
+    searchBar.addEventListener('input', function () {
+        const query = this.value.trim();
+        getMoviesByQuery(query);
+    });
+
+    searchIcon.addEventListener('click', function () {
+        const query = searchBar.value.trim();
+        getMoviesByQuery(query);
+    });
+
+    function populateSearchResultsDropdown(movies) {
+        searchResultsDropdown.innerHTML = ''; // Clear previous search results
+
+        movies.forEach(function (movie) {
+            const { _id, title, image } = movie;
+
+            const dropdownItem = document.createElement('a');
+            dropdownItem.classList.add('dropdown-item');
+            dropdownItem.innerHTML = `
+                <div class="clickable-image" data-movie-id="${_id}">
+                    <img width="55" height="45" src="${image}" alt="Movie Image">
+                    <span>${title}</span>
+            </a>
+            `;
+
+            searchResultsDropdown.appendChild(dropdownItem);
+        });
+
+        searchResultsDropdown.style.display = 'block';
+    }
+
+    function getMoviesByQuery(query) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:1113/Movies',
+            success: function (movies) {
+                const filteredMovies = movies.filter(function (movie) {
+                    return movie.title.toLowerCase().includes(query.toLowerCase());
+                });
+                populateSearchResultsDropdown(filteredMovies);
+            },
+            error: function (error) {
+                console.error('Error fetching movies: ', error);
+            }
+        });
+    }
+
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.dropdown')) {
+            searchResultsDropdown.style.display = 'none';
+        }
+    });
 });

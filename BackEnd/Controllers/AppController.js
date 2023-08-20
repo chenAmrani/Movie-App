@@ -26,7 +26,6 @@ module.exports.getObjectById = async (req, res) => {
 module.exports.validateMovie=async(req, res, next)=>
 {
     const { userId } = req.body;
-    console.log(req.body);
   
     if (await userModule.findById(userId)==null) {
       console.log("userId doesant find")
@@ -46,8 +45,8 @@ module.exports.validateMovie=async(req, res, next)=>
 module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חדש 
 {   
   console.log("Arrived"); 
-    const{_id,title,year,image,rating,actors,price,genre}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
-   MovieModel.create({_id,title,year,image,rating,actors,price,genre}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
+    const{_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
+   MovieModel.create({_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
         console.log('adding to a list of movie ');
         console.log(data);
         res.send(data) //השרת ישלח לנו את המשימה החדשה 

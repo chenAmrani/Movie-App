@@ -27,8 +27,12 @@
     </a>
 
     <div class="search">
-        <input class="search-bar" type="text" id="search-bar" placeholder="Search Movie">
-        <i class="bi bi-search"></i>
+        <div class="dropdown">
+            <input class="search-bar" type="text" id="search-bar" placeholder="Search Movie">
+            <i class="bi bi-search" id="search-icon"></i>
+            <div class="dropdown-menu" id="search-results-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: 55px;">
+            </div>
+        </div>
     </div>
 
     <!-- ask nir and dorin which page i need to connect after press the button -->
@@ -118,6 +122,7 @@
         </div>
     </footer>
     <!-- end of footer -->
+    
 </body>
 <script src="data.js"></script>
 <script src="main.js"></script>

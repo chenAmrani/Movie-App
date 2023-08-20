@@ -12,174 +12,7 @@
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/accordion-faq-list.css">
     <link rel="stylesheet" href="assets/css/SlideShow.css">
-    <style>
-    body {
-        background-color: #333333; /* Dark background color */
-    }
-
-    .clean-block.about-us {
-        background-color: #e7e0e094; /* Darker background for the main section */
-    }
-
-    .card.clean-card {
-        border: 2px solid #e0c5c5; /* Pretty border for cards */
-        background-color: #00000047; /* Darker background for cards */
-        margin-bottom: 20px;
-        border-radius:40px;
-
-    }
-
-    .info {
-        padding: 20px;
-    }
-
-    .labels {
-        color: white;
-    }
-
-
-        /* Adjust the position of the arrow buttons */
-        .prev,
-        .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 8px;
-            color: white;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: none;
-            outline: none;
-            transition: background-color 0.3s;
-        }
-
-        .prev:hover,
-        .next:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-
-        .accordion-flush .accordion-item .accordion-button, .accordion-flush .accordion-item .accordion-button.collapsed {
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-            background-color: #555555;
-        }
-        .accordion-item {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            background-color: #666666;
-            margin-bottom: 5px;
-            border:transparent;
-        }
-        .accordion-flush .accordion-collapse {
-            border-width: 0;
-            background-color: #555555;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-        .buttonsRow {
-            display: flex;
-            justify-content: center;
-        }
-        .returnBtn{
-            margin-right: 150px;
-        }
-        .myMovies{
-            max-width: 300px;
-            width: 300px;
-            border: 2px solid #e0c5c5;
-            border-radius: 40px;
-            background-color: #00000047;
-            padding: 20px;
-            margin: 10px 0;
-            margin-right: 5px;
-        }
-        .recentOrders{
-            max-width: 300px;
-            width: 300px;
-            border: 2px solid #e0c5c5;
-            border-radius: 40px;
-            background-color: #00000047;
-            padding: 20px;
-            margin: 10px 0;
-            margin-right: 5px;
-        }
-        .sticky {
-        position: fixed !important;
-        top: 0 !important;
-        width: 100% !important;
-        z-index: 100 !important;
-        }
-        .navbar{
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #212529;
-            color: white;
-            margin-bottom: 60px;
-        }
-
-        #logo{
-            width: 220px;
-            height: 60px;
-            margin-left: 20px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-
-        .item.img{
-            width: 100%;
-
-        }
-
-        .cart{
-            position: relative;
-            background-color: white;
-            color: #212529;
-            font-size: 30px;
-            padding: 5px;
-            border-radius: 4px;
-            margin-right: 20px;
-            margin-top: 10px;
-            width: 40px;
-        }
-
-        .cartAmount{
-            position: absolute;
-            top: -15px;
-            right: -10px;
-            font-size: 16px;
-            background-color: red;
-            color: white;
-            padding: 3px;
-            border-radius: 50%;
-            width: 15px;
-        }
-        #footerpad {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            background-color: #212529;
-            color: #fff;
-        }
-        .footerLogo{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #addMovie button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 15px;
-}
-
-
-
-        </style>
+    <link rel="stylesheet" href="userProfile.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>  
 
@@ -208,7 +41,7 @@
                                 window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
                             }
                             </script>
-                <button id="adminBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adminPanelModal" style="display: none;">
+                <button id="adminBtn" class="btn btn-primary" style="display: none;">
                     Admin Panel <i class="fa fa-cog" style="margin-left: 5px;"></i>
                 </button>
                 </div>
@@ -312,59 +145,65 @@
 
         <div class="modal fade" id="adminPanelModal" tabindex="-1" role="dialog" aria-labelledby="adminPanelModal" aria-hidden="true">
             <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="adminPanelModal">Admin Panel</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+                <div class="modal-content" style="width: 600px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="adminPanelModal">Admin Panel</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="display: grid; justify-content: center; padding: 30px;">
+                        <div class="row" style="margin-bottom: 5px; justify-content: end;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal" style="justify-self: end; width: 150px;">Add new movie</button>
+                        </div>
+                        <div>
+                            <div class="eachMovie" id="eachMovie" style="text-align: center;">
+                                <!-- Your table with movie information goes here -->
+                            </div>
+                            <div class="buttonsRow">
+                                <button class="btn btn-secondary" onclick="changePage(-1)" style="margin-right: 5px;">Previous</button>
+                                <button class="btn btn-secondary" onclick="changePage(1)">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
                 </div>
-                <div class="modal-body" style="display: grid;justify-content: center;">
-                    <div class="row" style="margin-bottom: 5px;"></div>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add new movie</button>
-                    <div class="row" style="margin-bottom: 5px;"></div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Update existing movie</button>
-                    <div class="row" style="margin-bottom: 5px;"></div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Delete a movie</button>
-                </div>
-                <div class="modal-footer">
-                </div>
-              </div>
             </div>
-          </div>
-
-          
+        </div>
+        <div id="successMessage" class="alert alert-success" style="display: none;"></div>
         <div class="modal fade" id="addMovieModal" tabindex="-1" role="dialog" aria-labelledby="addMovieModal" aria-hidden="true">
             <div class="modal-dialog" role="document" style="display: grid; justify-content: center;">
               <div class="modal-content" style="width: 650px;">
                 <div class="modal-header">
                   <h5 class="modal-title" id="addMovieModal">Add new movie to the website</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" class="close" onclick="closeAddMovieModal()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
                 </div>
                 <div class="modal-body" style="display: grid;justify-content: center;border-radius: 25px;">
+                    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
                     <form id="addMovie">
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="title" placeholder="Movie name" name="title" required style="width: 460px;text-align: center;border-radius: 25px;height: 50px">
+                            <input type="text" id="title" placeholder="Movie name" name="title" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                                <input type="number" id="year" placeholder="Year" name="year" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 25px;height: 50px;"><br>
-                                <input type="number" aria-valuemax="5" aria-valuemin="1" id="rating" placeholder="Rating" name="rating" required style="width: 225px;text-align: center;border-radius: 25px;"><br>
+                                <input type="number" id="year" placeholder="Year" name="year" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 15px;height: 50px;"><br>
+                                <input type="number" aria-valuemax="5" aria-valuemin="1" id="rating" placeholder="Rating" name="rating" required style="width: 225px;text-align: center;border-radius: 15px"><br>
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="actorName1" placeholder="Actor 1 name" name="actorName1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;height: 50px"><br>
-                            <input type="text" id="actorName2" placeholder="Actor 2 name" name="actorName2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
-                            <input type="text" id="actorName3" placeholder="Actor 3 name" name="actorName3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                            <input type="text" id="actorName1" placeholder="Actor 1 name" name="actorName1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px;height: 50px"><br>
+                            <input type="text" id="actorName2" placeholder="Actor 2 name" name="actorName2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                            <input type="text" id="actorName3" placeholder="Actor 3 name" name="actorName3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="actorURL1" placeholder="Actor 1 image url" name="actorURL1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;height: 50px"><br>
-                            <input type="text" id="actorURL2" placeholder="Actor 2 image url" name="actorURL2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
-                            <input type="text" id="actorURL3" placeholder="Actor 3 image url" name="actorURL3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                            <input type="text" id="actorURL1" placeholder="Actor 1 image url" name="actorURL1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px;height: 50px"><br>
+                            <input type="text" id="actorURL2" placeholder="Actor 2 image url" name="actorURL2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                            <input type="text" id="actorURL3" placeholder="Actor 3 image url" name="actorURL3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="number" id="price" placeholder="Movie price $" name="price" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 25px;height: 50px"><br>
-                            <select name="genre" id="genre" aria-placeholder="Select genre" style="width: 225px;text-align: center;border-radius: 25px;">
+                            <input type="number" id="price" placeholder="Movie price $" name="price" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 15px;height: 50px"><br>
+                            <select name="genre" id="genre" aria-placeholder="Select genre" style="width: 225px;text-align: center;border-radius: 15px;">
                                 <option value="#">Choose genre</option>
                                 <option value="Action">Action</option>
                                 <option value="Comedy">Comedy</option>
@@ -376,11 +215,17 @@
                             </select>
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="description" placeholder="Enter description about the movie" name="description" required style="width: 460px;text-align: center;height: 150px;border-radius: 25px;"><br>
+                            <input type="text" id="image" placeholder="Movie Image URL" name="image" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                        <button type="submit" style="border-radius: 25px;">Add movie</button>
-                    </div>
+                            <input type="text" id="trailer" placeholder="Trailer URL" name="trailer" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="description" placeholder="Enter description about the movie" name="description" required style="width: 460px;text-align: center;height: 150px;border-radius: 15px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <button type="button" id="submitButton" onclick="createNewMovie()" style="border-radius: 15px;">Add movie</button>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -388,6 +233,22 @@
               </div>
             </div>
           </div>
+          <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="responseModalLabel">nice to see you!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="responseModalBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
