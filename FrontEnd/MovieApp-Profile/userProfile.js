@@ -15,7 +15,13 @@ function fetchUserDataOnLoad() {
             document.getElementById('userAge').textContent = response.age;
             
             user = response; // Store user data
-
+            const isAdmin = user.isAdmin;
+            const adminBtn = document.getElementById('adminBtn');
+            if (isAdmin) {
+                adminBtn.style.display = 'block';
+            } else {
+                adminBtn.style.display = 'none';
+            }
             const orders = user.orders;
             const noOrdersMessage = `<p class="text-center" style="color: white;">You didn't order anything yet</p>`;
             

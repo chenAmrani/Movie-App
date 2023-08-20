@@ -168,7 +168,14 @@
             justify-content: center;
             align-items: center;
         }
-
+        #addMovie button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 15px;
+}
 
 
 
@@ -192,7 +199,7 @@
             <div class="col-md-12" style="margin-bottom: 25px; font-size: 21px;">
                 <div class="row"></div>
                 <div class="buttonsRow" style="align-items: center;">
-                        <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-secondary" style="margin-right: 1000px;">
+                        <button id="returnBtn" onclick="navigateToHomepage()" class="btn btn-primary" style="margin-right: 1000px;">
                             <i class="fa fa-long-arrow-left" style="margin-right: 10px;"></i> Return
                         </button>
                         <script>
@@ -201,15 +208,9 @@
                                 window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
                             }
                             </script>
-                        <button id="adminBtn" onclick="navigateToAdminPanel()" class="btn btn-secondary">
-                            Admin Panel <i class="fa fa-cog" style="margin-left: 5px;"></i>
-                        </button>
-                        <script>
-                        function navigateToAdminPanel() {
-                            // Use JavaScript to navigate to the admin panel URL
-                            window.location.href = "admin-panel.html";
-                        }
-                        </script>
+                <button id="adminBtn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#adminPanelModal" style="display: none;">
+                    Admin Panel <i class="fa fa-cog" style="margin-left: 5px;"></i>
+                </button>
                 </div>
             </div>
             </div>
@@ -307,6 +308,88 @@
                 </div>
             </div>
         </footer>
+
+
+        <div class="modal fade" id="adminPanelModal" tabindex="-1" role="dialog" aria-labelledby="adminPanelModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="adminPanelModal">Admin Panel</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="display: grid;justify-content: center;">
+                    <div class="row" style="margin-bottom: 5px;"></div>
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add new movie</button>
+                    <div class="row" style="margin-bottom: 5px;"></div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Update existing movie</button>
+                    <div class="row" style="margin-bottom: 5px;"></div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Delete a movie</button>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+        <div class="modal fade" id="addMovieModal" tabindex="-1" role="dialog" aria-labelledby="addMovieModal" aria-hidden="true">
+            <div class="modal-dialog" role="document" style="display: grid; justify-content: center;">
+              <div class="modal-content" style="width: 650px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addMovieModal">Add new movie to the website</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="display: grid;justify-content: center;border-radius: 25px;">
+                    <form id="addMovie">
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="title" placeholder="Movie name" name="title" required style="width: 460px;text-align: center;border-radius: 25px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                                <input type="number" id="year" placeholder="Year" name="year" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 25px;height: 50px;"><br>
+                                <input type="number" aria-valuemax="5" aria-valuemin="1" id="rating" placeholder="Rating" name="rating" required style="width: 225px;text-align: center;border-radius: 25px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="actorName1" placeholder="Actor 1 name" name="actorName1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;height: 50px"><br>
+                            <input type="text" id="actorName2" placeholder="Actor 2 name" name="actorName2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                            <input type="text" id="actorName3" placeholder="Actor 3 name" name="actorName3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="actorURL1" placeholder="Actor 1 image url" name="actorURL1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;height: 50px"><br>
+                            <input type="text" id="actorURL2" placeholder="Actor 2 image url" name="actorURL2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                            <input type="text" id="actorURL3" placeholder="Actor 3 image url" name="actorURL3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 25px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="number" id="price" placeholder="Movie price $" name="price" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 25px;height: 50px"><br>
+                            <select name="genre" id="genre" aria-placeholder="Select genre" style="width: 225px;text-align: center;border-radius: 25px;">
+                                <option value="#">Choose genre</option>
+                                <option value="Action">Action</option>
+                                <option value="Comedy">Comedy</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Science-fiction">Science fiction</option>
+                                <option value="drama">Drama</option>
+                                <option value="sports">Sports</option>
+                                <option value="Fantasy">Fantasy</option>
+                            </select>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="description" placeholder="Enter description about the movie" name="description" required style="width: 460px;text-align: center;height: 150px;border-radius: 25px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                        <button type="submit" style="border-radius: 25px;">Add movie</button>
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+          </div>
+
+
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/SlideShow-SlideShowJava.js"></script>
     <script src="userProfile.js"></script>

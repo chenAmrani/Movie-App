@@ -50,13 +50,18 @@ $(document).ready(function() {
                     window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
                 }, 2000);
             },
-            error: function(xhr, status, error) {
-                try {
-                    var errorResponse = JSON.parse(xhr.responseText);
-                    var errorMessage = errorResponse.error;
-                    $('#responseModalBody').text(errorMessage);
-                    $('#responseModal').modal('show');
-                } catch (e) {}
+            error: function (xhr, status, error) {
+                if (error) {
+                    $('#responseModalLabel').text("Oops"); 
+                    $('#responseModalBody').text("Wrong email/password, Please try again");
+                    
+                    // Clear the password field
+                    $("#password").val("");
+                } else {
+                    $('#responseModalLabel').text("Oops");
+                    $('#responseModalBody').text("An error occurred. Please try again later.");
+                }
+                $('#responseModal').modal('show');
             }
         });
     });
