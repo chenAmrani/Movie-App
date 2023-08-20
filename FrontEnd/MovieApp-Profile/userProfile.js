@@ -140,6 +140,10 @@ $("#adminBtn").click(function() {
     getMoviesForAdminPanel();
 });
 
+$("#deleteModalCloseBtn").click(function() {
+    getMoviesForAdminPanel();
+});
+
 let adminPanel = document.getElementById('eachMovie');
 
 let moviesData; // Store the movies data globally
@@ -159,6 +163,7 @@ function getMoviesForAdminPanel() {
         }
     });
 }
+
 
 function printAdminPanelModal() {
     const adminPanel = document.getElementById('eachMovie');
@@ -194,8 +199,8 @@ function printAdminPanelModal() {
                     </div>
                 </td>
                 <td class="movie-cell">
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateMovieModal" style="width: 150px;margin-bottom:20px">Update Movie</button>
-                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteMovieModal" style="width: 150px;">Delete movie</button>
+                    <button type="button" class="btn btn-secondary" onclick="updateMovieModal('${i+(5*(currentPageAdmin-1))}')" style="width: 150px;margin-bottom:20px">Update Movie</button>
+                    <button type="button" class="btn btn-secondary" style="width: 150px;" onclick="deleteMovie('${movie._id}')">Delete movie</button>
                 </td>
             </tr>
         `;
@@ -224,8 +229,33 @@ function closeAddMovieModal() {
     $('#addMovieModal').modal('hide'); // Close the addMovieModal
     $('#adminPanelModal').modal('show'); // Show the adminPanelModal
 }
+function closeUpdateMovieModal() {
+    $('#updateMovieModal').modal('hide'); // Close the addMovieModal
+    $('#adminPanelModal').modal('show'); // Show the adminPanelModal
+}
 
+function deleteMovie(movieId) {
+    userId=user._id;
+    const postData= {userId,movieId};
 
+    $.ajax({
+        type: 'DELETE',
+        url: `http://localhost:1113/delete`,
+        data: postData,
+        success: function (response) {
+            // Refresh the admin panel after deletion
+            $('#responseModal1Label').text("Movie Deleted"); 
+            $('#responseModal1Body').text("You have deleted the movie successfuly");
+            $('#adminPanelModal').modal('hide');
+            $('#responseModal1').modal('show');
+        },
+        error: function (error) {
+            $('#responseModal1Label').text("Oops"); 
+            $('#responseModal1Body1').text("Something went wrong");
+            $('#responseModal1').modal('show');
+        }
+    });
+}
 
 let createNewMovie=()=>{
     const userId= user._id;
@@ -282,5 +312,136 @@ let createNewMovie=()=>{
         }
     });
 
-    
+}
+
+let updateModal = document.getElementById('updateMovieModal');
+
+let updateMovieModal=(movieNumber)=>{
+    $('#adminPanelModal').modal('hide');
+    let movie= moviesData[movieNumber];
+    let updateModalHtml=`
+    <div class="modal-dialog" role="document" style="display: grid; justify-content: center;">
+              <div class="modal-content" style="width: 650px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="updateMovieModal">Update existing movie</h5>
+                  <button type="button" class="close" onclick="closeUpdateMovieModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" style="display: grid;justify-content: center;border-radius: 25px;">
+                    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+                    <form id="updateMovie">
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updatetitle" placeholder="Movie name" value="${movie.title}" name="updatetitle" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                                <input type="number" id="updateyear" placeholder="Year" value="${movie.year}" name="updateyear" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 15px;height: 50px;"><br>
+                                <input type="number" aria-valuemax="5" value="${movie.rating}" aria-valuemin="1" id="updaterating" placeholder="Rating" name="updaterating" required style="width: 225px;text-align: center;border-radius: 15px"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updateactorName1" placeholder="Actor 1 name" value="${movie.actors[0]}" name="updateactorName1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px;height: 50px"><br>
+                            <input type="text" id="updateactorName2" placeholder="Actor 2 name" value="${movie.actors[1]}" name="updateactorName2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                            <input type="text" id="updateactorName3" placeholder="Actor 3 name" value="${movie.actors[2]}" name="updateactorName3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updateactorURL1" placeholder="Actor 1 image url" value="${movie.actor_facets[0]}" name="updateactorURL1" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px;height: 50px"><br>
+                            <input type="text" id="updateactorURL2" placeholder="Actor 2 image url" value="${movie.actor_facets[1]}" name="updateactorURL2" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                            <input type="text" id="updateactorURL3" placeholder="Actor 3 image url" value="${movie.actor_facets[2]}" name="updateactorURL3" required style="width: 150px;text-align: center;margin-right: 4.5px;border-radius: 15px"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="number" id="updateprice" placeholder="Movie price $" value="${movie.price}" name="updateprice" required style="width: 225px;text-align: center;margin-right: 10px;border-radius: 15px;height: 50px"><br>
+                            <select name="genre" id="updategenre" aria-placeholder="Select genre" value="${movie.genre[0]}" style="width: 225px;text-align: center;border-radius: 15px;">
+                                <option value="#">Choose genre</option>
+                                <option value="Action">Action</option>
+                                <option value="Comedy">Comedy</option>
+                                <option value="Horror">Horror</option>
+                                <option value="Science-fiction">Science fiction</option>
+                                <option value="drama">Drama</option>
+                                <option value="sports">Sports</option>
+                                <option value="Fantasy">Fantasy</option>
+                            </select>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updateimage" placeholder="Movie Image URL" value="${movie.image}" name="updateimage" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updatetrailer" placeholder="Trailer URL" value="${movie.trailer}" name="updatetrailer" required style="width: 460px;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updatedescription" placeholder="Enter description about the movie" value="${movie.description}" name="updatedescription" required style="width: 460px;text-align: center;height: 150px;border-radius: 15px;"><br>
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <button type="button" id="updateSubmitButton" style="border-radius: 15px;">Update movie</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+            `
+            updateModal.innerHTML=updateModalHtml;
+            $('#updateMovieModal').modal('show');
+
+            $('#updateSubmitButton').on('click', function() {
+
+            const userId= user._id;
+            const movieId=movie._id;
+            const title = document.getElementById("updatetitle").value;
+            const year = document.getElementById("updateyear").value;
+            const rating = document.getElementById("updaterating").value;
+            const actorName1 = document.getElementById("updateactorName1").value;
+            const actorName2 = document.getElementById("updateactorName2").value;
+            const actorName3 = document.getElementById("updateactorName3").value;
+            const actors=[actorName1,actorName2,actorName3];
+            const actorURL1 = document.getElementById("updateactorURL1").value;
+            const actorURL2 = document.getElementById("updateactorURL2").value;
+            const actorURL3 = document.getElementById("updateactorURL3").value;
+            const actor_facets = [actorURL1,actorURL2,actorURL3];
+            const price = document.getElementById("updateprice").value;
+            const genre = document.getElementById("updategenre").value;
+            const trailer = document.getElementById("updatetrailer").value;
+            const image = document.getElementById("updateimage").value;
+            const description = document.getElementById("updatedescription").value;
+            const validate= {userId,movieId,title, year, rating, actorName1,actorName2,actorURL1,actorURL2,actorURL3,actorName3,price, genre, trailer,image, description}
+
+            function isEmpty(value) {
+                return value === undefined || value === null || value === '';
+            }
+            
+            // Check if any property is empty
+            for (const property in validate) {
+                if (isEmpty(validate[property])) {
+                    const errorMessageDiv = document.getElementById("errorMessage");
+                    $('#responseModalLabel').text("Oops"); 
+                    $('#responseModalBody').text(property+" is missing");
+                    $('#responseModal').modal('show');
+                    return;
+                }
+            }
+            const postData= {userId,movieId,title, year, rating, actors,actor_facets,price, genre, trailer,image, description};
+            
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:1113/update',
+                data: postData,
+
+                success: function (response) {
+                    $('#responseModal1Label').text("Movie updates"); 
+                    $('#responseModal1Body').text("You have updated the movie successfuly");
+                    $('#updateMovieModal').modal('hide');
+                    $('#responseModal1').modal('show');
+                    
+
+                },
+                error: function (error) {
+                    $('#responseModal1Label').text("Oops"); 
+                    $('#responseModal1Body').text("Something went wrong");
+                    $('#responseModal1').modal('show');
+                }
+            });
+        })
+
+
 }

@@ -54,16 +54,14 @@ module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חד�
 }
 module.exports.updateObject=async(req,res,next)=>
 {
-    console.log("Arrived");
-    const{movieId,title,year,image,rating,actors,price,genre}=req.body; 
+    const{movieId,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}=req.body; 
     const isUpdated=await MovieModel
-    .findByIdAndUpdate(movieId,{title,year,image,rating,actors,price,genre});
+    .findByIdAndUpdate(movieId,{title, year, rating, actors,actor_facets,price, genre, trailer,image, description});
     if (isUpdated) res.send("Movie has been updated");
     else ("There was an issue updating the movie");
 }
 module.exports.deleteObject=async(req,res,next)=>
 {
-  console.log("Arrived");
     const{movieId}=req.body;
    const isDeleted= await MovieModel
     .findByIdAndDelete({_id:movieId});
