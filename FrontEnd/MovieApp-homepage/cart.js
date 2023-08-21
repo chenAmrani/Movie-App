@@ -232,7 +232,7 @@ let cashout = async () => {
         const orderData = {
             user: user._id,
             movies: basket.map(item => item.id),
-            orderNumber: orderNumber++,
+            orderNumber: 1,
         };
 
         $.ajax({
