@@ -117,7 +117,6 @@ $(document).ready(function() {
 
 
 let generateShop = () => {
-    console.log(shopItemsData);
     return shop.innerHTML = shopItemsData.map((x) => {
         let { _id, title, price, description, year, rating, actors, image } = x;
         let search = basket.find((item) => item.id === _id); // Use item.id
