@@ -36,7 +36,6 @@ module.exports.getUsersById=async(req,res)=>{
       console.log("get Users by ID");
       res.send(data);
    })
-    
  }  
  
  module.exports.getUserByID=async(id)=>{
