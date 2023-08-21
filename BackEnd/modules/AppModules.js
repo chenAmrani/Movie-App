@@ -13,8 +13,22 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  rating:{
+    type: Number,
+    required: true
+  },
   actors: {
     type: [String],
+    required: true
+  },
+  description:{
+    type: String,
+  },
+  actor_facets: {
+    type: [String],
+  },
+  price: {
+    type: Number,
     required: true
   },
   genre: {
@@ -26,7 +40,10 @@ const movieSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref:"Review"
     }
-  ]
+  ],
+  trailer: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('Movie', movieSchema);

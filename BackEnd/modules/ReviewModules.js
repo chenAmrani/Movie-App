@@ -14,18 +14,10 @@ const reviewSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  starRank: {
-    type: Number,
-    required: true
-  },
   movieId:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Movie"
   },
-  userId:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"user"
-  }
 });
 
 module.exports = mongoose.model('Review', reviewSchema);

@@ -8,32 +8,112 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Ludens-Users---2-Register.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+          body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Minimum height to fill the viewport */
+        }
+        .main-wrapper {
+            flex-grow: 1; /* Allow wrapper to grow and push footer */
+        }
+        .sticky {
+        position: fixed !important;
+        top: 0 !important;
+        width: 100% !important;
+        z-index: 100 !important;
+        }
+        .navbar{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #212529;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        #logo{
+            width: 220px;
+            height: 60px;
+            margin-left: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #footerpad {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: #212529;
+            color: #fff;
+        }
+        .footerLogo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-control::placeholder {
+            font-size: 15px; /* Adjust the font size as needed */
+            color: #776666; /* Placeholder text color */
+        }
+    </style>
 </head>
 
-<body class="bg-dark d-flex flex-column">
-    <section class="d-md-table-row flex-shrink-1 register-photo" style="background-color: transparent;padding-top: 10px;padding-bottom: 10px;">
-        <div class="container d-md-flex flex-shrink-1 justify-content-center justify-content-md-center align-items-md-start" style="border-color: var(--bs-body-color);position: relative;overflow: visible;padding: 39px;height: 100vh;width: 100vh;">
-            <div class="row justify-content-lg-center">
-                <div class="col-sm-6 col-lg-4 d-flex d-lg-table justify-content-center align-self-baseline flex-md-shrink-1 align-items-md-center"><img class="flex-grow-1 flex-shrink-1" src="assets/img/Designer%20(3).png" style="height: 390px;width: 270px;min-width: 232px;max-width: 270px;min-height: 400px;max-height: 520px;" width="315" height="599"></div>
-                <div class="col-sm-6 col-md-6 col-lg-4 d-lg-grid justify-content-center align-self-center justify-content-md-center">
-                    <form id="register" class="text-bg-dark" method="post" action="afterRegister.html" style="height: 450px;min-width: 220px;max-width: 280px;max-height: 420px;">
-                        <h4 class="text-center" style="margin-bottom: 8px;margin-top: -34px;"><strong>Create an account</strong></h4>
-                        <div class="form-group mb-3"><input class="form-control" type="text" id="Name" placeholder="*Name" style="width: 150px;height: 30px;font-size: 12px;text-align: left;"></div><script></script>
-                        <div class="form-group mb-3"><input class="form-control" type="text" id="Email"  placeholder="*Email" style="border-radius: 8px;width: 150px;height: 30px;font-size: 12px;text-align: left;"></div>
-                        <div class="form-group mb-3"><input class="form-control" type="password" id="Password"  placeholder="*Password" style="border-radius: 8px;width: 150px;height: 30px;font-size: 12px;text-align: left;"></div>
-                        <div class="form-group mb-3"><input class="form-control" type="number" id="Age" placeholder="*Age" style="border-radius: 8px;width: 150px;height: 30px;font-size: 12px;text-align: left;"></div>
+<body class="d-flex flex-column" style="background-image: url(/Movie-App/BackEnd/imges/back.jpg); background-repeat: no-repeat;background-blend-mode: hue;background-color: #ffffff54!important;;background-size: cover;">
+    <div class="navbar sticky">
+        <a href="/Movie-App/FrontEnd/MovieApp-homepage/view.html">
+         <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
+    </a>
+    </div>
+    <div class="main-wrapper d-md-table-row flex-shrink-1" style="background-color: transparent;padding-top: 10px;padding-bottom: 10px;margin-top: 70px;">
+
+    <section class="register-photo" style="background-color: transparent;">
+        <div class="container d-md-flex flex-shrink-1 justify-content-center justify-content-md-center align-items-md-start" style="border-color: var(--bs-body-color);position: relative;overflow: visible;padding: 39px;">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4 d-flex d-lg-table justify-content-center align-self-baseline flex-md-shrink-1 align-items-md-center">
+                    <img class="flex-grow-1 flex-shrink-1" src="assets/img/Designer%20(3).png" style="height: 600px;margin-right: 30px;border-radius:75px;width: 460px;min-width: 232px;min-height: 400px;">
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-4 d-lg-grid justify-content-center align-self-center justify-content-md-center;" style="margin-left:30px">
+                    <form id="register" class="text-bg-dark" method="post" action="afterRegister.html" style="height: 600px;min-width: 220px;width: 460px;border-radius:75px">
+                        <h4 class="text-center" style="margin-bottom: 8px;"><strong>Create an account</strong></h4>
+                        <div class="form-group mb-3"><input class="form-control" type="text" id="Name" placeholder="*Name" style="height: 50px;font-size: 12px;text-align: left;margin-bottom: 30px;margin-top: 30px;"></div><script></script>
+                        <div class="form-group mb-3"><input class="form-control" type="text" id="Email"  placeholder="*Email" style="border-radius: 8px;height: 50px;font-size: 12px;text-align: left;margin-bottom: 30px;"></div>
+                        <div class="form-group mb-3"><input class="form-control" type="password" id="Password"  placeholder="*Password" style="border-radius: 8px;height: 50px;font-size: 12px;text-align: left;margin-bottom: 30px;"></div>
+                        <div class="form-group mb-3"><input class="form-control" type="number" id="Age" placeholder="*Age" style="border-radius: 8px;height: 50px;font-size: 12px;text-align: left;margin-bottom: 30px;"></div>
                         <div id="passwordsError" style="display: none;margin-bottom: 16.5px;"><span id="errorMessage" class="text-danger" style="font-size:13px;"></span></div>
-                        <div class="dropdown d-grid" style="margin-bottom: 35px;margin-top: -34px;"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="width: 150px;">Genre</button>
-                            <div class="dropdown-menu"><a class="dropdown-item" href="#">Drama</a><a class="dropdown-item" href="#">Comedy</a><a class="dropdown-item" href="#">History</a><a class="dropdown-item" href="#">Science fiction</a><a class="dropdown-item" href="#">Crime</a><a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">War</a></div>
+                                        <div class="form-group">
+                            <div class="form-check" style="margin-top: 30px;">
+                                <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox" style="width: 18px; height: 18px;">
+                                <label class="form-check-label" for="agreeCheckbox" style="font-size: 18 px;">
+                                    <span style="margin-right: 5px;font-size: 20px;margin-left: 10px;">I agree to terms of services.</span>
+                                </label>
+                            </div>
                         </div>
-                        <div class="form-group mb-3" style="width: 150px;margin-top: -31px;"><button class="btn btn-primary d-inline w-100" id="submitButton" type="submit" style="color: rgb(255,255,255);background-color: #00b5a8;width: 150px;height: 44px;">Register</button></div>
+                        <div class="mb-3"><button class="btn btn-primary d-inline w-100" id="submitButton" type="submit" style="color: rgb(255,255,255);background-color: #00b5a8;border-radius:75px;margin-top: 45px;">Register</button></div>
                     </form>
                 </div>
             </div>
         </div>
-    </section>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="register.js"></script>
+        
+     </section>
+    </div>
+
+    <footer id="footerpad">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 mx-auto">
+                    <div class="footerLogo">
+                        <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
+                    </div>
+                    <ul class="list-inline text-center" style="margin-top: 5px;">
+                        <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
+                        <li class="list-inline-item"><a href="/Movie-App/FrontEnd/MovieApp-map/index.html"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-inverse"></i></span></a></li>
+                    </ul>
+                    <p class="copyright text-muted text-center" style="color: var(--bs-body-bg)!important;">Copyright © All rights reserved to Nir Miranda, Dorin Cohen, Chen Amrani, Ori Farkash</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
 <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -50,6 +130,8 @@
     </div>
 </div>
 
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="register.js"></script>
 </body>
 
 </html> 

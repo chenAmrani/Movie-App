@@ -18,7 +18,6 @@ module.exports.addObject = async (req, res) => {
     
     movie.reviews.push(savedReview._id);
     const changedMovie=await Movie.findByIdAndUpdate(movie._id,movie);
-    console.log(changedMovie);
     res.send(savedReview);
   } catch (err) {
     console.error(err);
