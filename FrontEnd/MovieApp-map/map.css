@@ -1,0 +1,80 @@
+body {
+    height: 100%;
+    font-family: sans-serif;
+    background-image: url("/Movie-App/BackEnd/imges/back.jpg"); 
+    background-size: cover;  
+    background-repeat: no-repeat;
+    background-blend-mode: hue;
+    background-color: #ffffff54!important;
+}
+.sticky {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 100 !important;
+    }
+    .navbar{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #212529;
+        color: white;
+        margin-bottom: 60px;
+    }
+
+    #logo{
+        width: 220px;
+        height: 60px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .item.img{
+        width: 100%;
+
+    }
+
+    .cart{
+        position: relative;
+        background-color: white;
+        color: #212529;
+        font-size: 30px;
+        padding: 5px;
+        border-radius: 4px;
+        margin-right: 20px;
+        margin-top: 10px;
+        width: 40px;
+    }
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        min-height: 85vh;
+    }
+    
+    footer {
+        margin-top: auto;
+    }
+    .cartAmount{
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        font-size: 16px;
+        background-color: red;
+        color: white;
+        padding: 3px;
+        border-radius: 50%;
+        width: 15px;
+    }
+    #footerpad {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        background-color: #212529;
+        color: #fff;
+    }
+    .footerLogo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }

@@ -26,7 +26,6 @@ module.exports.cumlatioveAmountPerMounth = async (req, res) => {
         },
       },
     ]);
-    res.send(year);
     const months = [];
     const averages = [];
 
