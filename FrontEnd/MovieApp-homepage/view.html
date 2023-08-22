@@ -7,24 +7,42 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="HomePage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/Movie-App/FrontEnd/MovieApp-register/assets/css/Ludens-Users---2-Register.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
     <link rel="stylesheet" href="/Movie-App/FrontEnd/MovieApp-register/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/Movie-App/FrontEnd/MovieApp-homepage/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Bold-BS4-Cards-with-Hover-Effect-92.css">
+    <link rel="stylesheet" href="assets/css/dh-box-2-sides.css">
+    <link rel="stylesheet" href="assets/css/Features-Small-Icons-icons.css">
+    <!-- <link rel="stylesheet" href="assets/css/Modal-Video-Plyrjs-Customized.css"> -->
+    <link rel="stylesheet" href="assets/css/Responsive-Youtube-Embed.css">
+    <link rel="stylesheet" href="assets/css/Reviews---Manage-reviews-and-ratings_v1.css">
+
+
 </head>
 <body>
-    <div class="navbar">
-        <a href="view.html">
-        <h2>Movie Store</h2>
+
+    <div class="navbar sticky">
+        <a href="/Movie-App/FrontEnd/MovieApp-homepage/view.html">
+         <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
     </a>
 
     <div class="search">
-        <input class="search-bar" type="text" id="search-bar" placeholder="Search Movie">
-        <i class="bi bi-search"></i>
+        <div class="dropdown">
+            <input class="search-bar" type="text" id="search-bar" placeholder="Search Movie">
+            <i class="bi bi-search" id="search-icon"></i>
+            <div class="dropdown-menu" id="search-results-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: 55px;">
+            </div>
+        </div>
     </div>
 
-    <div class="logIn" id="loginButton">
-        <button class="LogInButton">Log In</button>    
-        </div>
+    <!-- ask nir and dorin which page i need to connect after press the button -->
+    <div class="loginButtons">
+        <button class="logoutButton" id="logoutButton" style="display: none;">Logout</button>
+        <button class="userProfileButton" id="userProfileButton" style="display: none;">User Profile</button>
+        <button class="LogInButton" id="loginActionButton">Log In</button>
+    </div>
         
+
     
 
     <a href="cart.html">
@@ -36,25 +54,33 @@
         </div>
     </a>
     </div>
-
+    <div class="wrapper">
+    <div class="loader justify-content-center" id="loader">
+        <div class="loader__filmstrip">
+        </div>
+        <p class="loader__text">
+            Site is loading
+        </p>
+    </div>
     <div class="shop" id="shop">
     </div>
-
+    <!-- LOGIN and response modals -->
     <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <label for="username">Email:</label>
-                <input type="text" id="email" name="email" required><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required><br>
-                <button type="submit">Login</button>
-                <p>Didn't registered yet? <a href="/Movie-App/FrontEnd/MovieApp-register/register.html">Click here to register</a></p>           
-             </form>
-        </div>
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+            <span class="error-message" id="emailErrorMessage"></span> <!-- Add error message span -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required minlength="6"><br>
+            <span class="error-message" id="passwordErrorMessage"></span> <!-- Add error message span -->
+            <button type="submit">Login</button>
+            <p>Didn't registered yet? <a href="/Movie-App/FrontEnd/MovieApp-register/register.html">Click here to register</a></p>           
+         </form>
     </div>
-
+</div>
     <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -70,6 +96,59 @@
             </div>
         </div>
     </div>
+    <!-- end of login and response modals -->
+
+    <!-- Each movie modal -->
+    <div class movieModal id="movieModal">
+
+    </div>
+
+    <!-- End of each movie modal -->
+    </div>
+    <button
+        onclick="validationUser()"
+        class="btn btn-info border rounded-pill border-secondary d-flex d-sm-flex d-md-flex d-lg-flex align-items-center align-items-sm-center align-items-md-center align-items-lg-center"
+        type="button"
+        style="height: 25px; margin-left: 0.5rem"
+        data-bs-target="#modal-6"
+        data-bs-toggle="modal"
+        >
+        Live Chat
+    </button>
+
+    <div class="modal-dialog d-flex justify-content-center align-items-center" role="document">
+        <div class="modal-content" style="width: 70vw;">
+          <div class="modal-body text-start d-flex flex-column align-items-center" style="width: 70vw; height: 90vh;">
+            <h1 class="mb-4" style=" text-shadow: 3px 0px rgb(39, 39, 39); color: black;">Live Chat</h1>
+            <div class="w-75" id="chatContainer">
+              <ul id="messageList" class="list-unstyled"></ul>
+            </div>
+            <input maxlength="50" type="text" id="messageInput" class="form-control mt-3" placeholder="Type your message...">
+            <button id="sendButton" class="btn btn-primary mt-3">Send</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    
+    <!-- Footer -->
+    <footer id="footerpad">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8 mx-auto">
+                    <div class="footerLogo">
+                        <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
+                    </div>
+                    <ul class="list-inline text-center" style="margin-top: 5px;">
+                        <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
+                        <li class="list-inline-item"><a href="/Movie-App/FrontEnd/MovieApp-map/map.html"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-inverse"></i></span></a></li>
+                    </ul>
+                    <p class="copyright text-muted text-center" style="color: var(--bs-body-bg)!important;">Copyright © All rights reserved to Nir Miranda, Dorin Cohen, Chen Amrani, Ori Farkash</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end of footer -->
+    
 </body>
 <script src="data.js"></script>
 <script src="main.js"></script>

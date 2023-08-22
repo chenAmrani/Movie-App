@@ -11,7 +11,6 @@ const { default: isEmail } = require('validator/lib/isEmail');
 module.exports.getUserByEmail = async (req, res) => {
    try {
       const { email } = req.query; // Change req.body to req.query
-      console.log(email);
       const user = await userModule.findOne({ email: email }).populate({
          path:'orders',
          populate:{
@@ -19,7 +18,6 @@ module.exports.getUserByEmail = async (req, res) => {
             model:'Movie'
          }
       }).populate("movies").exec();
-      console.log(user);
       res.send(user);
    } catch (error) {
       console.error(error);
@@ -33,7 +31,6 @@ module.exports.getUsersById=async(req,res)=>{
       console.log("get Users by ID");
       res.send(data);
    })
-    
  }  
  
  module.exports.getUserByID=async(id)=>{
@@ -84,24 +81,31 @@ module.exports.getUsers=async(req,res)=>{
     
  }
 
-module.exports.loginUser=async(req,res,next)=>{
-   try{
-      const result=await authSchema.validateAsync(req.body);
-      const user= await userModule.findOne({email:result.email})
-      if(!user) throw createError.NotFound('user not registered');
-      const isMatch= await user.isValidPassword(result.password)
-      if(!isMatch) throw createError.Unauthorized('email/password is not valid');
-      const accessToken=await signAccessToken(user.id);
-      const refreshToken=await signRefreshToken(user.id)
-      user.refreshToken=refreshToken;
-      await userModule.findByIdAndUpdate(user._id,user);
-      res.send({accessToken,refreshToken});
+module.exports.loginUser = async (req, res, next) => {
+   try {
+       const result = await authSchema.validateAsync(req.body);
+       const user = await userModule.findOne({ email: result.email });
+       if (!user) {
+           throw createError.NotFound('User not registered');
+       }
+       const isMatch = await user.isValidPassword(result.password);
+       if (!isMatch) {
+           throw createError.Unauthorized('Email/Password is not valid');
+       }
+       userMovies=user.movies;
+       const accessToken = await signAccessToken(user.id);
+       const refreshToken = await signRefreshToken(user.id);
+       user.refreshToken = refreshToken;
+       await userModule.findByIdAndUpdate(user._id, user);
+       res.json({ accessToken, refreshToken }); // Sending JSON response
 
-
-   }catch(error){if(error.isJoi===true) return next(createError.BadRequest("Invalide userName/password"))
-      next(error)}
-
-}
+   } catch (error) {
+       if (error.isJoi === true) {
+           return next(createError.BadRequest('Invalid username/password'));
+       }
+       next(error);
+   }
+};
 module.exports.logOutUser=async(req,res)=>{
    const {email}=req.body;
    const user= await userModule.findOne({email:email});
