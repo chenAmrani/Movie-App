@@ -244,6 +244,7 @@ let cashout = async () => {
                 // Show the success modal using vanilla JavaScript
                 let successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
+                clearCart();
                 setTimeout(function() {
                 window.location.href = "/Movie-App/FrontEnd/MovieApp-profile/userprofile.html";
                 },2000)
