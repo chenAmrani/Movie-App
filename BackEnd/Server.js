@@ -15,9 +15,6 @@ const orderRouter=require('./routes/OrderRoutes')
 const PORT=process.env.port||1113; 
 app.use(express.json()) 
 app.use(cors()) 
-app.get('/',verifyAccessToken,async (req,res,next)=>{
-   res.send('hello from my app');
-})
 mongoose.
 connect(process.env.MONGODB_URL) 
 .then(()=>console.log(`conect to MONGODB`)).catch((err)=>console.log(err));

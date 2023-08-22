@@ -45,8 +45,7 @@ const userModule=new mongoose.Schema({
             ref:"Movie"
         }
     ],
-
-
+   
  
 });
 userModule.pre('save',async function (next){ // make the password a hash password .

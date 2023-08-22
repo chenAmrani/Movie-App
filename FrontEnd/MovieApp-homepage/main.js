@@ -7,10 +7,53 @@ let basket = JSON.parse(localStorage.getItem("data")) || []; //if the client has
 //console.log(shop);
 
 
+$(document).ready(function() {
+    // Attach a click event listener to the login button
+    $("#loginForm").submit(function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
+        
+        // Get the form data
+        var email = $("#email").val();
+        var password = $("#password").val();
+        
+        // Prepare the data to send in the POST request
+        var postData = {
+            email: email,
+            password: password
+        };
+        
+        // Send an AJAX POST request
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:1113/login",
+            data: postData,
+            success: function(response) {
+                // Handle the response from the server here
+                localStorage.setItem("email", postData.email);
+                $('#responseModalBody').text("Login successful!"); // Display a success message
+                $('#responseModal').modal('show'); // Show the modal
+               
+                // You can redirect the user or perform other actions as needed
+            },
+            error: function(xhr, status, error) {
+                try {
+                    var errorResponse = JSON.parse(xhr.responseText); // Parse the JSON error response
+                    var errorMessage = errorResponse.error; // Extract the error message
+                    $('#responseModalBody').text(errorMessage); // Display the error message
+                    $('#responseModal').modal('show'); // Show the modal
+                } catch (e) {
+                    // Handle other types of errors
+                    $('#responseModalBody').text("An error occurred during registration."); // Display a generic error message
+                    $('#responseModal').modal('show'); // Show the modal
+                }
+            }
+        });
+    });
+});
 
 let generateShop = () => {
     return shop.innerHTML = shopItemsData.map((x) => {
-        let { id, title, price, desc, year, rating, actors, image } = x;
+        let { id, title, price, desc, year, rating, actors, image, objectID } = x;
         let search = basket.find((x) => x.id === id) || [];
     // Create star rating representation
     let stars = '';
@@ -23,19 +66,19 @@ let generateShop = () => {
     }
 
     return `
-    <div id=product-id-${id} class="item">
+    <div id=product-id-${objectID} class="item">
         <img width="220" src="${image}" alt="image should be here" >
         <div class="details">
             <h3 class="title-movie-details">${title}</h3>
-            <p>${year}</p>
-            <p>${desc}</p>
-            <p>${stars}</p> <!-- Display star rating here -->
+            <p class="details-year">${year}</p>
+            <p class="details-desc">${desc}</p>
+            <p class="details-stars">${stars}</p> <!-- Display star rating here -->
             <div class="price-quantity">
                 <h2 class="movie-price-details">$ ${price}</h2>
                 <div class="buttons">
-                    <i onclick="decrement(${id})" class="bi bi-bag-dash-fill"></i>
-                    <div id=${id} class="quantity">${search.item === undefined ? 0 : search.item}</div>
-                    <i onclick="increment(${id})" class="bi bi-bag-plus-fill"></i>
+                    <i onclick="decrement(${objectID})" class="bi bi-bag-dash-fill"></i>
+                    <div id=${objectID} class="quantity">${search.item === undefined ? 0 : search.item}</div>
+                    <i onclick="increment(${objectID})" class="bi bi-bag-plus-fill"></i>
                 </div>
             </div>
         </div>
@@ -46,39 +89,42 @@ let generateShop = () => {
 
 
 let increment = (id)=>{
-    let selecteditem = id;
-    let search = basket.find((x)=>x.id ==selecteditem.id); //check one one and check id the movie is exist in the basket.
+    let search = basket.find((x)=>x.id == id); //check one one and check id the movie is exist in the basket.
     if(search ==undefined){ //if the movie isnt exist in the basket.
     basket.push({
-        id: selecteditem.id,
+        id: id,
         item: 1
         
     });
 }else{
     search.item +=1;
 }
-    update(selecteditem.id);
+    update(id);
     localStorage.setItem("data",JSON.stringify(basket));
+    generateShop();
+    calculation();
 };
 
 let decrement = (id)=>{
-    let selecteditem = id;
-    let search = basket.find((x)=>x.id ==selecteditem.id); //check one one and check id the movie is exist in the basket.
+    // let selecteditem = id;
+    let search = basket.find((x)=>x.id ==id); //check one one and check id the movie is exist in the basket.
     if(search === undefined) return;
         if(search.item === 0) return; //if the movie isnt exist in the basket dont do anything.
    else{
         search.item -=1;
     }
-    update(selecteditem.id);
+    update(id);
     basket = basket.filter((x) => x.item !== 0);
     localStorage.setItem("data",JSON.stringify(basket));
+    generateShop();
+    calculation();
 };
 
 let update = (id)=>{
     let search = basket.find((x)=>x.id===id)
     console.log(search.item);
     document.getElementById(id).innerHTML = search.item;
-    calculation()
+    
 ;};
 
 //add all the count of the movie
