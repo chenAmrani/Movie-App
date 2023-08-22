@@ -1,11 +1,11 @@
 let shop = document.getElementById('shop');
 let movieModal = document.getElementById('movieModal');
-
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
 
 
 $(document).ready(function() {
+
     var userEmail = localStorage.getItem("email");
     if (userEmail) {
         $("#loginActionButton").hide();
@@ -87,6 +87,7 @@ $(document).ready(function() {
 
     $("#logoutButton").click(function() {
         localStorage.removeItem("email");
+        localStorage.removeItem("movies");
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
         $("#logoutButton").hide();
@@ -114,13 +115,26 @@ $(document).ready(function() {
     
 });
 
+let user;
+
+let generateShop = async () => {
+    const email = localStorage.getItem('email');
+    
+    try {
+        const response = await fetch(`http://localhost:1113/email?email=${email}`);
+
+        user = await response.json();
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
+    }
 
 
-let generateShop = () => {
     return shop.innerHTML = shopItemsData.map((x) => {
         let { _id, title, price, description, year, rating, actors, image } = x;
-        let search = basket.find((item) => item.id === _id); // Use item.id
+        let search = basket.find((item) => item.id === _id);
         let stars = '';
+        
         for (let i = 1; i <= 5; i++) {
             if (i <= rating) {
                 stars += '<i class="bi bi-star-fill"></i>';
@@ -128,29 +142,52 @@ let generateShop = () => {
                 stars += '<i class="bi bi-star"></i>';
             }
         }
+
+        let movieContent = `
+        <div class="row center-text" style="width:250px">
+        <p style="margin-top:5px">You own this movie</p>
+        </div>`;
+        ;
+        if (checkIfMovieIncluded(_id)) { 
+            movieContent = `
+                <h2 id="movie-price-details" class="movie-price-details">$ ${price}</h2>
+                <i id="decrement" onclick="decrement('${_id}')" class="bi bi-bag-dash-fill" style="font-size:24px"></i>
+                <div id="${_id}" class="quantity" style="font-size:24px">${search === undefined ? 0 : search.item}</div>
+                <i id="increment" onclick="increment('${_id}')" class="bi bi-bag-plus-fill" style="font-size:24px"></i>
+            `;
+        }
+
         return `
-        <div id="product-id-${_id}" class="item">
-            <div class="clickable-image">
-                <img width="250" height="400" src="${image}"  style="border-radius: 35px 35px 0 0;min-height:400px"  alt="image should be here">
-            </div>
-            <div class="details">
-                <div class="titleClass">
-                    <h3 class="title-movie-details">${title}</h3>
+            <div id="product-id-${_id}" class="item">
+                <div class="clickable-image">
+                    <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0;min-height:400px" alt="image should be here">
                 </div>
-                <br>
-                <p style="text-align: center;font-size:24px">${year}</p> 
-                <p style="text-align: center;font-size:24px">${stars}</p>
-                <div class="price-quantity">
-                    <h2 class="movie-price-details">$ ${price}</h2>
-                    <i onclick="decrement('${_id}')" class="bi bi-bag-dash-fill" style="font-size:24px"></i>
-                    <div id=${_id} class="quantity" style="font-size:24px">${search === undefined ? 0 : search.item}</div>
-                    <i onclick="increment('${_id}')" class="bi bi-bag-plus-fill" style="font-size:24px"></i>
+                <div class="details">
+                    <div class="titleClass">
+                        <h3 class="title-movie-details">${title}</h3>
+                    </div>
+                    <br>
+                    <p style="text-align: center;font-size:24px">${year}</p> 
+                    <p style="text-align: center;font-size:24px">${stars}</p>
+                    <div class="price-quantity">
+                        ${movieContent}
+                    </div>
                 </div>
             </div>
-        </div>
         `;
     }).join("");
+};
 
+// Function to check if a movie is included in the basket
+let checkIfMovieIncluded = (id) => {
+    
+        for (let i=0;i<user.movies.length;i++){
+            if (user.movies[i]._id==id){
+                return false;
+            } 
+        }
+        return true;
+    
 };
 
 let fetchMovie = (_id) => {

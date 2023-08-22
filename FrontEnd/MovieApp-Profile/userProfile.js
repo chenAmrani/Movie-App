@@ -1,3 +1,4 @@
+
 let currentPage = 1;
 const ordersPerPage = 6;
 let user; // Store user data globally
@@ -67,6 +68,13 @@ function fetchUserDataOnLoad() {
         },
     });
 }
+let calculatePrice=(movies)=>{
+    let price=0;
+    for (let index = 0; index < movies.length; index++) {
+        price+=movies[index].price;
+    }
+    return price;
+}
 
 function printOrders(orders) {
     const faqlist = document.getElementById("faqlist");
@@ -74,6 +82,7 @@ function printOrders(orders) {
     const startIdx = (currentPage - 1) * ordersPerPage;
     const endIdx = startIdx + ordersPerPage;
     const ordersToDisplay = orders.slice(startIdx, endIdx);
+    
 
     faqlist.innerHTML = '';
 
@@ -83,6 +92,12 @@ function printOrders(orders) {
     } else {
     for (let i = 0; i < ordersToDisplay.length; i++) {
         const order = ordersToDisplay[i];
+        const inputDate = order.purchaseDate;
+        let movieArr=order.movies;
+        let price= calculatePrice(movieArr);
+        const parsedDate = new Date(inputDate);
+        const formattedDate = parsedDate.toISOString().split('T')[0];
+        const formattedTime = parsedDate.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
         const movieNames = order.movies.map(movie => `• ${movie.title}`).join('<br>');
         const orderHTML = `
             <div class="accordion-item" style="background-color: #f0f8ff00;>
@@ -91,8 +106,12 @@ function printOrders(orders) {
                         Order number ${i + startIdx + 1}
                     </button>
                 </h2>
-                <div id="content-accordion-${i + 1}" class="accordion-collapse collapse" data-bs-parent="#faqlist" style="border-bottom-left-radius: 25px;border-bottom-right-radius: 25px;background-color:#ffffff7d">
+                <div id="content-accordion-${i + 1}" class="accordion-collapse collapse" data-bs-parent="#faqlist" style="border-bottom-left-radius: 25px;border-bottom-right-radius: 25px;background-color:#ffffff7d;text-align:center">
+                    <p class="orderDate"> Date: ${formattedDate}<br>
+                    Time: ${formattedTime}
+                    </p>
                     <p class="movieName">${movieNames}</p>
+                    <p class="orderPrice">Total order price: ${price}$</p>
                 </div>
             </div>`;
         faqlist.innerHTML += orderHTML;
@@ -105,6 +124,8 @@ function printOrders(orders) {
         </div>`;
     faqlist.innerHTML += paginationButtons;
 }
+
+
 }
 function goToPage(page) {
     currentPage = page;

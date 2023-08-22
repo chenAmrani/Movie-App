@@ -89,6 +89,7 @@ module.exports.loginUser = async (req, res, next) => {
        if (!isMatch) {
            throw createError.Unauthorized('Email/Password is not valid');
        }
+       userMovies=user.movies;
        const accessToken = await signAccessToken(user.id);
        const refreshToken = await signRefreshToken(user.id);
        user.refreshToken = refreshToken;
