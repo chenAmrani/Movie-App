@@ -385,8 +385,23 @@ a{
     border-radius: 4px;
     padding: 3px 6px;
 }
+.page-content {
+    min-height: calc(100vh - 160px); /* Adjust the value to accommodate the header and footer heights */
+    display: flex;
+    flex-direction: column;
+}
 
-
+#footerpad {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: #212529;
+    color: #fff;
+}
+.footerLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 
