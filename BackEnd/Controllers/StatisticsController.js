@@ -1,11 +1,12 @@
 const Order = require("../modules/OrderModules");
+//ממוצע הזמנות לחודש
 module.exports.cumlatioveAmountPerMounth = async (req, res) => {
   try {
-    
     // The result of the $group stage will include the grouped _id field with the year and month,
     // as well as the averageAmount field with the calculated average order number for each group.
     const statistics = await Order.aggregate([
       {
+       
         //The $group stage groups the documents based on the values of the _id field.
         $group: {
           //The _id field is an object with two fields: year and month.
@@ -26,7 +27,7 @@ module.exports.cumlatioveAmountPerMounth = async (req, res) => {
         },
       },
     ]);
-    res.send(year);
+  
     const months = [];
     const averages = [];
 
@@ -41,7 +42,7 @@ module.exports.cumlatioveAmountPerMounth = async (req, res) => {
       averages: averages,
     };
 
-    // res.status(200).json(data);
+    res.status(200).json(data);
   } catch (error) {
      res.status(400).send("Something went wrong -> cumlatioveAmountPerMounth");
   }
@@ -55,6 +56,8 @@ module.exports.cumlatioveAmountPerMounth = async (req, res) => {
  * Constructs an array of months and an array of totals.
  * Sends a response with the constructed data.
  */
+
+//סך כל הרכישות לחודש
 module.exports.totalNumberOfPurchasesPerMonth = async (req, res) => {
   try {
     const statistics = await Order.aggregate([
