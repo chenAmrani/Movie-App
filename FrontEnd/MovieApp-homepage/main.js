@@ -254,12 +254,24 @@ let currentReviewIndex = 0;
 
 
 let generateMovieModal=(movie)=>{
+    let search = basket.find((item) => item.id === movie._id);
     const nextButton = `
         <button id="nextReviewsButton" class="btn btn-primary">Next</button>
     `;
     const previousButton = `
         <button id="previousReviewsButton" class="btn btn-primary" style="display: none;">Previous</button>
     `;
+    const addToCartButtons = `
+    <div class="row" style="display: flex; justify-content: center;width:400px">
+    <h2 id="movie-price-details" class="movie-price-details" style="width:fit-content;color:whitesmoke">$ ${movie.price}</h2>
+    <div class="row" style="justify-content:center">
+    <button id="add-to-cart" onclick="increment('${movie._id}')" style="font-size: 16px; margin: 0 10px;border-radius:20px; padding: 5px 10px; background-color: green; color: white; border: none; cursor: pointer;width:150px;margin-bottom:5px">Add to Cart</button>
+    </div>
+    <div class="row" style="justify-content:center">
+    <button id="remove-from-cart" onclick="decrement('${movie._id}')" style="font-size: 16px;border-radius:20px; margin: 0 10px; padding: 5px 10px; background-color: red; color: white; border: none; cursor: pointer;width:150px">Remove from cart</button>
+    </div>
+    </div>
+`;
         const modalHtml=`
         <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
             <div class="modal-dialog" role="document">
@@ -288,6 +300,9 @@ let generateMovieModal=(movie)=>{
                 <div class="modal-content" id="movieModal" style="max-width:1100px;background-color: #333333;border-radius: 25px;"> 
                     <div class="modal-header data-bs-theme=dark" style="background-color: black;border-radius: 25px;">
                         <h4 class="modal-title" style="color:white"><i class="fa fa-video-camera me-3"></i>Movie Preview</h4>
+                        <div class="row" style="margin-left:140px">
+                        ${addToCartButtons}
+                        </div>
                         <button class="btn-close btn-close-white" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body sys-box-course-modal">
@@ -334,6 +349,10 @@ let generateMovieModal=(movie)=>{
                         </div>
                           <div class="video-container" style="height: 200px;"><iframe allowfullscreen="" frameborder="0" src="${convertToEmbedUrl(movie.trailer)}" width="853" height="480" style="height: 100%;border-radius: 18px;"></iframe></div>
                     </div>
+                    <div class="modal-footer" style="justify-content:center">
+                    
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
                 </div>
             </div>
         </div>
@@ -344,6 +363,10 @@ let generateMovieModal=(movie)=>{
 
     movieModal.innerHTML = modalHtml;
     $('#modal-video-watch').modal('show');
+
+    $('#addToCartButton').on('click', function () {
+        addToCart(movie._id);
+    });
 
     $('#nextReviewsButton').on('click', function() {
         currentReviewIndex += 6;
@@ -615,6 +638,23 @@ let calculation = () => {
     cartIcon.innerHTML = basket.map((x) => x.item).reduce((x, y) => x + y, 0);
 };
 
+let addToCart = (movieId) => {
+    let search = basket.find((item) => item.id === movieId);
+
+    if (search === undefined) {
+        basket.push({
+            id: movieId,
+            item: 1
+        });
+    } else {
+        search.item += 1;
+    }
+
+    update(movieId);
+    localStorage.setItem("data", JSON.stringify(basket));
+    generateShop(); // Update the shop view
+};
+
 async function init() {
     await fetchDataAsync();
     generateShop();
@@ -702,3 +742,58 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+
+function initiLiveChat() {
+    let userTest = localStorage.getItem("user");
+    userTest = JSON.parse(userTest);
+    const socket = io("http://localhost:1113", {
+      transports: ["websocket"],
+    });
+  
+    socket.on("connect", function () {
+      console.log("Connected to socket.io server");
+    });
+  
+    socket.on("message", function (message) {
+      console.log("Received message:", message);
+      appendMessage(message);
+    });
+  
+    // Send chat message when the send button is clicked
+    $("#sendButton").click(function () {
+      const message = $("#messageInput").val();
+      if (message.trim() !== "") {
+        socket.emit("message", userTest.email + ": " + message);
+        // appendMessage("You: " + message);
+        $("#messageInput").val("");
+      }
+    });
+  
+    // Append the message to the chat container
+    function appendMessage(message) {
+      const currentDate = new Date().toLocaleString();
+      const sanitizedMessage = $("<div>").text(message).html(); // Sanitize the message
+      const li = $("<li style='color:black'>").text(sanitizedMessage);
+      const timeSpan = $("</br><span style='font-size: 10px'>")
+        .addClass("message-time")
+        .text(currentDate);
+      li.append(timeSpan);
+      $("#messageList").append(li);
+      $("#chatContainer").scrollTop($("#chatContainer")[0].scrollHeight);
+    }
+  }
+  
+  /* end socket Io */
+  function validationUser() {
+    let userTest = localStorage.getItem("user");
+    userTest = JSON.parse(userTest);
+    if (!userTest) {
+      alert("You must be logged in to use this feature");
+      window.location.href = "view.html";
+    }
+  }
+
+  $(document).ready(function () {
+    initiLiveChat();
+  });

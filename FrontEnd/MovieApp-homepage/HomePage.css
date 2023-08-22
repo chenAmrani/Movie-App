@@ -354,6 +354,11 @@ a{
 .center-text {
     text-align: center;
 }
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .LogInButton{
     right: 80px;
     background-color:rgb(231, 19, 19);
