@@ -1,7 +1,7 @@
 
 body{
     font-family: sans-serif;
-    background-image: url("/Movie-App/BackEnd/imges/statisticsImage.jpg"); 
+    background-image: url("/BackEnd/imges/statisticsImage.jpg"); 
     background-size: cover;  
     
     background-blend-mode: hue;
