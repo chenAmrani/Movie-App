@@ -1,7 +1,7 @@
 
 body{
     font-family: sans-serif;
-    background-image: url("/BackEnd/imges/statisticsImage.jpg"); 
+    background-image: url("/Movie-App/BackEnd/imges/statisticsImage.jpg"); 
     background-size: cover;  
     
     background-blend-mode: hue;
@@ -9,7 +9,8 @@ body{
 }
 
 .headLine{
-    color: rgb(18, 17, 17);
+    color:rgb(218, 16, 16);
+    margin-left: 100px;
 }
 
 .container {
@@ -19,7 +20,7 @@ body{
     height: 100vh; /* Adjust to your preference for vertical centering */
   }
 
-  .chart{
-    background-color: #00000061;
-    width: 35%;
+  .bold-line {
+    stroke-width: 3px; /* Adjust the stroke width as needed */
+    stroke: blue; /* Adjust the stroke color as needed */
   }

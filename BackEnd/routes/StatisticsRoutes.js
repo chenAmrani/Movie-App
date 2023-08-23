@@ -2,14 +2,14 @@ const { Router } = require("express");
 
 
 const{
-    cumlatioveAmountPerMounth,
+    mostGenrePerMonth,
     totalNumberOfPurchasesPerMonth,
 } =require("../Controllers/StatisticsController")
 const router=Router();
 
 
 
-router.get("/cumlatioveAmountPerMounth", cumlatioveAmountPerMounth);
+router.get("/mostGenrePerMonth", mostGenrePerMonth);
 router.get("/totalNumberOfPurchasesPerMonth", totalNumberOfPurchasesPerMonth);
 
 module.exports = router;
