@@ -132,6 +132,7 @@ module.exports.tokenUser=async(req,res)=>{
    res.cookie()
 }
 module.exports.updateUser=async (req,res)=>{
+   console.log(req.body);
    const {_id,name, password, email, age } = req.body;
    userModule.findByIdAndUpdate(_id,{name,password,email,age}).then((data)=>{
       console.log("update user")

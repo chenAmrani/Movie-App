@@ -196,30 +196,49 @@ let user;
 
 
 let generateShop = async () => {
-        // Fetch the genre options from the movies
-        const allGenres = new Set();
-        shopItemsData.forEach(item => {
-            item.genre.forEach(genre => allGenres.add(genre));
-        });
-        // Create genre dropdown options
-    const genreSelect = document.getElementById('genre-select');
-    allGenres.forEach(genre => {
-        const option = document.createElement('option');
-        option.value = genre;
-        option.textContent = genre;
-        genreSelect.appendChild(option);
-    });
+            // Fetch the genre options from the movies
+            const allGenres = new Set();
+            const allRatings = new Set();
 
-    genreSelect.addEventListener('change', () => {
-        const selectedGenre = genreSelect.value;
-        const filteredItems = shopItemsData.filter(item => {
-            return selectedGenre === 'all' || item.genre.includes(selectedGenre);
+            shopItemsData.forEach(item => {
+                item.genre.forEach(genre => allGenres.add(genre));
+                allRatings.add(item.rating);
+
+            });
+            // Create genre dropdown options
+        const genreSelect = document.getElementById('genre-select');
+        const ratingSelect = document.getElementById('rating-select');
+
+        allGenres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = genre;
+            genreSelect.appendChild(option);
         });
+        allRatings.forEach(rating => {
+            const option = document.createElement('option');
+            option.value = rating;
+            option.textContent = rating;
+            ratingSelect.appendChild(option);
+        });
+
+        const applyFilters = () => {
+            const selectedGenre = genreSelect.value;
+            const selectedRating = ratingSelect.value;
     
-        const shopItemsHTML = generateShopItems(filteredItems);
-        shop.innerHTML = shopItemsHTML;
-    });
-
+            const filteredItems = shopItemsData.filter(item => {
+                const matchesGenre = selectedGenre === 'all' || item.genre.includes(selectedGenre);
+                const matchesRating = selectedRating === 'all' || item.rating >= parseInt(selectedRating);
+                return matchesGenre && matchesRating;
+            });
+    
+            const shopItemsHTML = generateShopItems(filteredItems);
+            shop.innerHTML = shopItemsHTML;
+        };
+    
+        genreSelect.addEventListener('change', applyFilters);
+        ratingSelect.addEventListener('change', applyFilters);
+    
     const email = localStorage.getItem('email');
     if (localStorage.getItem('email')){
         try {

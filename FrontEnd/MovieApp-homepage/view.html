@@ -66,17 +66,27 @@
     
     <div class="genre-dropdown" style="display:flex;margin-top: 120px;justify-content: center;text-align: center;">
        
-            <div class="row justify-content-center" style="padding: 25px;background-color: #00000061;border:2px solid black; border-radius: 60px;margin-right: 75px;">
+            <div class="row justify-content-center" style="padding: 25px;background-color: #00000061;border:2px solid black; border-radius: 60px;margin-right: 75px;width:50%">
+                <h1 style="color: whitesmoke;">Apply Filters</h1>
                 <h2 style="color: whitesmoke;">Choose your preffered genre:</h2>
-                <div class="col-md-6" style="width: 75%;">
-                    <select class="form-select" id="genre-select">
+                <div class="col" style="display: flex;width: 75%;justify-content: center;">
+                    <select class="form-select" id="genre-select" style="width: 30%;">
                         <option value="all">Select genre:</option>
                         <!-- Other genre options will be added dynamically using JavaScript -->
                     </select>
                 </div>
+                <h2 style="color: whitesmoke;">Choose minimum rating:</h2>
+                <div class="col" style="display: flex;width: 75%;justify-content: center;">
+                <select class="form-select" id="rating-select" style="width: 30%;">
+                    <option value="all">Select rating:</option>
+                    <!-- Other genre options will be added dynamically using JavaScript -->
+                </select>
+            </div>
             </div>
 
+            
     </div>
+
     <div class="shop" id="shop">
     </div>
     <!-- LOGIN and response modals -->
