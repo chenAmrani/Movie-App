@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <!-- ask nir and dorin which page i need to connect after press the button -->
+    
     <div class="loginButtons">
         <button class="logoutButton" id="logoutButton" style="display: none;">Logout</button>
         <button class="userProfileButton" id="userProfileButton" style="display: none;">User Profile</button>
@@ -54,6 +54,7 @@
         </div>
     </a>
     </div>
+
     <div class="wrapper">
     <div class="loader justify-content-center" id="loader">
         <div class="loader__filmstrip">
@@ -61,6 +62,20 @@
         <p class="loader__text">
             Site is loading
         </p>
+    </div>
+    
+    <div class="genre-dropdown" style="display:flex;margin-top: 120px;justify-content: center;text-align: center;">
+       
+            <div class="row justify-content-center" style="padding: 25px;background-color: #00000061;border:2px solid black; border-radius: 60px;margin-right: 75px;">
+                <h2 style="color: whitesmoke;">Choose your preffered genre:</h2>
+                <div class="col-md-6" style="width: 75%;">
+                    <select class="form-select" id="genre-select">
+                        <option value="all">Select genre:</option>
+                        <!-- Other genre options will be added dynamically using JavaScript -->
+                    </select>
+                </div>
+            </div>
+
     </div>
     <div class="shop" id="shop">
     </div>
