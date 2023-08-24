@@ -142,7 +142,7 @@ a{
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 50px;
     justify-content: center;
-    margin: 150px auto 0; /* Reordered margin properties */
+    margin: 50px auto 0; /* Reordered margin properties */
     padding: 0 15px;
     min-height: 900px;
 
@@ -173,6 +173,7 @@ a{
     margin-block:5px;
     justify-content: space-between;
     overflow: hidden;
+    height: 714px;
 }
 .clickable-image{
     cursor: pointer;

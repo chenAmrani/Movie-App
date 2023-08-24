@@ -37,34 +37,34 @@ $(document).ready(function() {
  
     
         // Append the message to the chat container
-        function appendMessage(message, timestamp) {
-            const messageItem = document.createElement("li");
-            messageItem.classList.add("message");
-        
-            const timeElement = document.createElement("span");
-            timeElement.classList.add("message-time");
-            timeElement.textContent = formatTime(timestamp);
-        
-            const messageContent = document.createElement("div");
-        
-            const messageTextElement = document.createElement("span");
-            messageTextElement.classList.add("message-text");
-        
-            if (message.startsWith(localStorage.getItem('email'))) {
-                // If the message starts with the user's email, consider it as the user's own message
-                messageTextElement.textContent = "You" + message.substr(localStorage.getItem('email').length);
-            } else {
-                // Messages from other users
-                messageTextElement.textContent = message;
-            }
-        
-            messageContent.appendChild(messageTextElement);
-        
-            messageItem.appendChild(timeElement);
-            messageItem.appendChild(messageContent);
-        
-            messageList.appendChild(messageItem);
-        }
+function appendMessage(message, timestamp) {
+    const messageItem = document.createElement("li");
+    messageItem.classList.add("message");
+
+    const timeElement = document.createElement("span");
+    timeElement.classList.add("message-time");
+    timeElement.textContent = formatTime(timestamp);
+
+    const messageContent = document.createElement("div");
+
+    const messageTextElement = document.createElement("span");
+    messageTextElement.classList.add("message-text");
+
+    if (message.startsWith(localStorage.getItem('email'))) {
+        // If the message starts with the user's email, consider it as the user's own message
+        messageTextElement.textContent = "You" + message.substr(localStorage.getItem('email').length);
+    } else {
+        // Messages from other users
+        messageTextElement.textContent = message;
+    }
+
+    messageContent.appendChild(messageTextElement);
+
+    messageItem.appendChild(timeElement);
+    messageItem.appendChild(messageContent);
+
+    messageList.appendChild(messageItem);
+}
     
         function formatTime(date) {
             const hours = date.getHours();
@@ -194,7 +194,32 @@ $(document).ready(function() {
 
 let user;
 
+
 let generateShop = async () => {
+        // Fetch the genre options from the movies
+        const allGenres = new Set();
+        shopItemsData.forEach(item => {
+            item.genre.forEach(genre => allGenres.add(genre));
+        });
+        // Create genre dropdown options
+    const genreSelect = document.getElementById('genre-select');
+    allGenres.forEach(genre => {
+        const option = document.createElement('option');
+        option.value = genre;
+        option.textContent = genre;
+        genreSelect.appendChild(option);
+    });
+
+    genreSelect.addEventListener('change', () => {
+        const selectedGenre = genreSelect.value;
+        const filteredItems = shopItemsData.filter(item => {
+            return selectedGenre === 'all' || item.genre.includes(selectedGenre);
+        });
+    
+        const shopItemsHTML = generateShopItems(filteredItems);
+        shop.innerHTML = shopItemsHTML;
+    });
+
     const email = localStorage.getItem('email');
     if (localStorage.getItem('email')){
         try {
@@ -302,6 +327,58 @@ $(document).ready(function() {
     }).join("");
 };
 
+const generateShopItems = (items) => {
+    console.log(items);
+    return items.map((item) => {
+    let { _id, title, price, description, year, rating, actors, image } = item;
+        let search = basket.find((item) => item.id === _id);
+        let stars = '';
+        
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                stars += '<i class="bi bi-star-fill"></i>';
+            } else {
+                stars += '<i class="bi bi-star"></i>';
+            }
+        }
+
+        let movieContent = `
+        <div class="row center-text" style="width:250px">
+        <p style="margin-top:5px">You own this movie</p>
+        </div>`;
+        ;
+        if (checkIfMovieIncluded(_id)) { 
+            movieContent = `
+                <h2 id="movie-price-details" class="movie-price-details">$ ${price}</h2>
+                <i id="decrement" onclick="decrement('${_id}')" class="bi bi-bag-dash-fill" style="font-size:24px"></i>
+                <div id="${_id}" class="quantity" style="font-size:24px">${search === undefined ? 0 : search.item}</div>
+                <i id="increment" onclick="increment('${_id}')" class="bi bi-bag-plus-fill" style="font-size:24px"></i>
+            `;
+        }
+
+        return `
+            <div id="product-id-${_id}" class="item">
+                <div class="clickable-image">
+                    <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0;min-height:400px" alt="image should be here">
+                </div>
+                <div class="details">
+                    <div class="titleClass">
+                        <h3 class="title-movie-details">${title}</h3>
+                    </div>
+                    <br>
+                    <p style="text-align: center;font-size:24px">${year}</p> 
+                    <p style="text-align: center;font-size:24px">${stars}</p>
+                    <div class="price-quantity">
+                        ${movieContent}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("")
+};
+
+
+
 // Function to check if a movie is included in the basket
 let checkIfMovieIncluded = (id) => {
     if (localStorage.getItem("email")){
@@ -318,6 +395,9 @@ let checkIfMovieIncluded = (id) => {
 
     
 };
+
+
+
 
 let fetchMovie = (_id) => {
 
