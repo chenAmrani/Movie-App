@@ -6,78 +6,73 @@ let basket = JSON.parse(localStorage.getItem("data")) || [];
 
 $(document).ready(function() {
 
-    // function initializeLiveChat() {
-    //     const socket = io("http://localhost:1113", {
-    //         transports: ["websocket"],
-    //     });
+    function initializeLiveChat() {
+        const socket = io("http://localhost:1115", {
+            transports: ["websocket"],
+        });
     
-    //     socket.on("connect", function () {
-    //         console.log("Connected to socket.io server");
-    //     });
+        socket.on("connect", function () {
+            console.log("Connected to socket.io server");
+        });
     
-    //     socket.on("message", function (message) {
-    //         console.log("Received message:", message);
-    //         appendMessage(message.sender, message.text, new Date());
-    //     });
+        socket.on("message", function (message) {
+            console.log("Received message:", message);
+            appendMessage(message, new Date());
+        });
     
-    //     // Hide the chat window when the close button is clicked
-    //     $("#closeChatButton").click(function () {
-    //         $("#chatWindow").hide();
-    //     });
+        // Hide the chat window when the close button is clicked
+        $("#closeChatButton").click(function () {
+            $("#chatWindow").hide();
+        });
     
-    //     // Send chat message when the send button is clicked
-    //     $("#sendButton").click(function () {
-    //         const message = $("#messageInput").val();
-    //         if (message.trim() !== "") {
-    //             socket.emit("message", { sender: "You", text: message });
-    //             appendMessage("You", message, new Date());
-    //             $("#messageInput").val("");
-    //         }
-    //     });
+        // Send chat message when the send button is clicked
+        $("#sendButton").click(function () {
+            const message = $("#messageInput").val();
+            if (message.trim() !== "") {
+                socket.emit("message",localStorage.getItem('email')+": "+message);
+                $("#messageInput").val("");
+            }
+        });
     
-    //     // Send chat message when Enter key is pressed
-    //     $("#messageInput").keydown(function (event) {
-    //         if (event.keyCode === 13) { // Enter key
-    //             event.preventDefault();
-    //             $("#sendButton").click();
-    //         }
-    //     });
+ 
     
-    //     // Append the message to the chat container
-    //     function appendMessage(sender, message, timestamp) {
-    //         const messageItem = document.createElement("li");
-    //         messageItem.classList.add("message");
+        // Append the message to the chat container
+        function appendMessage(message, timestamp) {
+            const messageItem = document.createElement("li");
+            messageItem.classList.add("message");
+        
+            const timeElement = document.createElement("span");
+            timeElement.classList.add("message-time");
+            timeElement.textContent = formatTime(timestamp);
+        
+            const messageContent = document.createElement("div");
+        
+            const messageTextElement = document.createElement("span");
+            messageTextElement.classList.add("message-text");
+        
+            if (message.startsWith(localStorage.getItem('email'))) {
+                // If the message starts with the user's email, consider it as the user's own message
+                messageTextElement.textContent = "You" + message.substr(localStorage.getItem('email').length);
+            } else {
+                // Messages from other users
+                messageTextElement.textContent = message;
+            }
+        
+            messageContent.appendChild(messageTextElement);
+        
+            messageItem.appendChild(timeElement);
+            messageItem.appendChild(messageContent);
+        
+            messageList.appendChild(messageItem);
+        }
     
-    //         const timeElement = document.createElement("span");
-    //         timeElement.classList.add("message-time");
-    //         timeElement.textContent = formatTime(timestamp);
+        function formatTime(date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
     
-    //         const messageContent = document.createElement("div");
-    
-    //         const senderElement = document.createElement("span");
-    //         senderElement.classList.add("message-sender");
-    //         senderElement.textContent = sender + ": ";
-    
-    //         const messageTextElement = document.createElement("span");
-    //         messageTextElement.classList.add("message-text");
-    //         messageTextElement.textContent = message;
-    
-    //         messageContent.appendChild(senderElement);
-    //         messageContent.appendChild(messageTextElement);
-    
-    //         messageItem.appendChild(timeElement);
-    //         messageItem.appendChild(messageContent);
-    
-    //         messageList.appendChild(messageItem);
-    //     }
-    
-    //     function formatTime(date) {
-    //         const hours = date.getHours();
-    //         const minutes = date.getMinutes();
-    
-    //         return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
-    //     }
-    // }
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+        }
+    }
     
     
     var userEmail = localStorage.getItem("email");
@@ -86,7 +81,7 @@ $(document).ready(function() {
         $("#userProfileButton").show();
         $("#logoutButton").show();
 
-        // initializeLiveChat();
+        initializeLiveChat();
     } else {
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
