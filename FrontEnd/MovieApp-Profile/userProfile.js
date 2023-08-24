@@ -483,13 +483,13 @@ let updateUserModal=()=>{
                     <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
                     <form id="updateMovie" style="width:300px">
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="updatename" placeholder="User name" value="${user.name}" name="updatename" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                            <input type="text" id="updatename" placeholder="Enter name" value="${user.name}" name="updatename" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="text" id="updatename" placeholder="User email" value="${user.email}" name="updateemail" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                            <input type="text" id="updateemail" placeholder="Enter email" value="${user.email}" name="updateemail" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
                         </div>
                         <div class="row" style="margin-bottom: 5px;">
-                            <input type="number" id="updatename" placeholder="User age" value="${user.age}" name="updateage" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                            <input type="number" id="updateage" placeholder="Enter age" value="${user.age}" name="updateage" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
                         </div>
                         <div class="row" style="margin-bottom: 15px;display:flex;width:95%;justify-content:center">
                             <button type="button" id="updateUserSubmitButton" style="border-radius: 15px">Update user</button>
@@ -501,18 +501,18 @@ let updateUserModal=()=>{
               </div>
             </div>
             `
-            updateModal.innerHTML=updateUserModalHtml;
+            UserUpdateModal.innerHTML=updateUserModalHtml;
             $('#updateUserModal').modal('show');
 
             $('#updateUserSubmitButton').on('click', function() {
 
-            const userId= user._id;
-            const userName=document.getElementById("updatename").value;
-            const userEmail = document.getElementById("updateemail").value;
-            const userAge = document.getElementById("updateage").value;
+            const _id= user._id;
+            const name=document.getElementById("updatename").value;
+            const email = document.getElementById("updateemail").value;
+            const age = document.getElementById("updateage").value;
 
             
-            const validate= {userId,userName,userEmail, userAge}
+            const validate= {_id,name,email, age}
 
             function isEmpty(value) {
                 return value === undefined || value === null || value === '';
@@ -528,12 +528,14 @@ let updateUserModal=()=>{
                     return;
                 }
             }
-            const postData= {userId,userName,userEmail, userAge};
+
+            const postData= {_id,name,email, age};
+            console.log(postData);
             
 
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:1113//updateUser',
+                url: 'http://localhost:1113/updateUser',
                 data: postData,
 
                 success: function (response) {
@@ -541,6 +543,9 @@ let updateUserModal=()=>{
                     $('#responseModal1Body').text("You have updated your user successfuly");
                     $('#updateUserModal').modal('hide');
                     $('#responseModal1').modal('show');
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000);                    
                     
 
                 },
