@@ -1,6 +1,6 @@
 const mongoose=require('mongoose')
 const validator=require('validator');
-const bcrypt=require('bcrypt');
+const bcryptjs=require('bcryptjs');
 const { error } = require('@hapi/joi/lib/base');
 const userModule=new mongoose.Schema({
     name:{
@@ -51,8 +51,8 @@ const userModule=new mongoose.Schema({
 userModule.pre('save',async function (next){ // make the password a hash password .
     try{
       
-       const salt=await bcrypt.genSalt(10)
-       const hashPassword= await bcrypt.hash(this.password,salt);
+       const salt=await bcryptjs.genSalt(10)
+       const hashPassword= await bcryptjs.hash(this.password,salt);
        this.password=hashPassword;
        next()
     }catch(error){next(error)}
@@ -62,7 +62,7 @@ userModule.pre('save',async function (next){ // make the password a hash passwor
 userModule.methods.isValidPassword=async function(password)
 {
     try{
-       return await bcrypt.compare(password,this.password)
+       return await bcryptjs.compare(password,this.password)
 
     }catch(error) {throw error}
 }
