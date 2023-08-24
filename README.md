@@ -6,4 +6,4 @@ As part of the project requirements, we built a website that allows you to purch
 <br></br>
 <img width="789" alt="image" src="https://github.com/chenAmrani/Movie-App/assets/109721571/86db9ae3-4397-478f-80db-e4402a4fd378">
 <br></br>
-<img width="928" alt="image" src="https://github.com/chenAmrani/Movie-App/assets/109721571/10934e12-a306-48c7-9a2d-18f816a18e1d">"
+<img width="928" alt="image" src="[https://github.com/chenAmrani/Movie-App/assets/109721571/10934e12-a306-48c7-9a2d-18f816a18e1d](https://i.ibb.co/VY4QvjQ/homepage-picture.png)https://i.ibb.co/VY4QvjQ/homepage-picture.png">"
