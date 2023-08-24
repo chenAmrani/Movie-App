@@ -105,7 +105,23 @@
 
     <!-- End of each movie modal -->
     </div>
-  
+ <!-- New Chat Button -->
+<button id="openChatButton" class="btn btn-danger btn-lg">
+    <i class="bi bi-chat-dots"></i> LIVE CHAT
+</button>
+
+<!-- New Chat Window -->
+<div id="chatWindow" class="chat-window">
+    <button id="closeChatButton" class="close-button">X</button> <!-- Close button -->
+    <div id="chatContainer">
+        <ul id="messageList"></ul>
+    </div>
+    <div class="input-container">
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button id="sendButton">Send</button>
+    </div>
+</div>
+
     <!-- Footer -->
     <footer id="footerpad">
         <div class="container">
@@ -127,8 +143,9 @@
     
 </body>
 <script src="data.js"></script>
-<script src="main.js"></script>
 <script src="/Movie-App/FrontEnd/MovieApp-register/assets/bootstrap/js/bootstrap.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<script src="main.js"></script>
 
 </html>
