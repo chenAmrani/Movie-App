@@ -466,3 +466,90 @@ let updateMovieModal=(movieNumber)=>{
 
 
 }
+
+let UserUpdateModal = document.getElementById('updateUserModal');
+
+let updateUserModal=()=>{
+    let updateUserModalHtml=`
+    <div class="modal-dialog" role="document" style="display: grid; justify-content: center;">
+              <div class="modal-content" style="width: 650px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="updateMovieModal">Update existing movie</h5>
+                  <button type="button" class="close" onclick="closeUpdateMovieModal()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body" style="display: grid;justify-content: center;border-radius: 25px;">
+                    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+                    <form id="updateMovie" style="width:300px">
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updatename" placeholder="User name" value="${user.name}" name="updatename" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="text" id="updatename" placeholder="User email" value="${user.email}" name="updateemail" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 5px;">
+                            <input type="number" id="updatename" placeholder="User age" value="${user.age}" name="updateage" required style="width: 90%;text-align: center;border-radius: 15px;height: 50px">
+                        </div>
+                        <div class="row" style="margin-bottom: 15px;display:flex;width:95%;justify-content:center">
+                            <button type="button" id="updateUserSubmitButton" style="border-radius: 15px">Update user</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                </div>
+              </div>
+            </div>
+            `
+            updateModal.innerHTML=updateUserModalHtml;
+            $('#updateUserModal').modal('show');
+
+            $('#updateUserSubmitButton').on('click', function() {
+
+            const userId= user._id;
+            const userName=document.getElementById("updatename").value;
+            const userEmail = document.getElementById("updateemail").value;
+            const userAge = document.getElementById("updateage").value;
+
+            
+            const validate= {userId,userName,userEmail, userAge}
+
+            function isEmpty(value) {
+                return value === undefined || value === null || value === '';
+            }
+            
+            // Check if any property is empty
+            for (const property in validate) {
+                if (isEmpty(validate[property])) {
+                    const errorMessageDiv = document.getElementById("errorMessage");
+                    $('#responseModalLabel').text("Oops"); 
+                    $('#responseModalBody').text(property+" is missing");
+                    $('#responseModal').modal('show');
+                    return;
+                }
+            }
+            const postData= {userId,userName,userEmail, userAge};
+            
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://localhost:1113//updateUser',
+                data: postData,
+
+                success: function (response) {
+                    $('#responseModal1Label').text("User updated"); 
+                    $('#responseModal1Body').text("You have updated your user successfuly");
+                    $('#updateUserModal').modal('hide');
+                    $('#responseModal1').modal('show');
+                    
+
+                },
+                error: function (error) {
+                    $('#responseModal1Label').text("Oops"); 
+                    $('#responseModal1Body').text("Something went wrong");
+                    $('#responseModal1').modal('show');
+                }
+            });
+        })
+
+}
