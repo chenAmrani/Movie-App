@@ -6,78 +6,78 @@ let basket = JSON.parse(localStorage.getItem("data")) || [];
 
 $(document).ready(function() {
 
-    function initializeLiveChat() {
-        const socket = io("http://localhost:1113", {
-            transports: ["websocket"],
-        });
+    // function initializeLiveChat() {
+    //     const socket = io("http://localhost:1113", {
+    //         transports: ["websocket"],
+    //     });
     
-        socket.on("connect", function () {
-            console.log("Connected to socket.io server");
-        });
+    //     socket.on("connect", function () {
+    //         console.log("Connected to socket.io server");
+    //     });
     
-        socket.on("message", function (message) {
-            console.log("Received message:", message);
-            appendMessage(message.sender, message.text, new Date());
-        });
+    //     socket.on("message", function (message) {
+    //         console.log("Received message:", message);
+    //         appendMessage(message.sender, message.text, new Date());
+    //     });
     
-        // Hide the chat window when the close button is clicked
-        $("#closeChatButton").click(function () {
-            $("#chatWindow").hide();
-        });
+    //     // Hide the chat window when the close button is clicked
+    //     $("#closeChatButton").click(function () {
+    //         $("#chatWindow").hide();
+    //     });
     
-        // Send chat message when the send button is clicked
-        $("#sendButton").click(function () {
-            const message = $("#messageInput").val();
-            if (message.trim() !== "") {
-                socket.emit("message", { sender: "You", text: message });
-                appendMessage("You", message, new Date());
-                $("#messageInput").val("");
-            }
-        });
+    //     // Send chat message when the send button is clicked
+    //     $("#sendButton").click(function () {
+    //         const message = $("#messageInput").val();
+    //         if (message.trim() !== "") {
+    //             socket.emit("message", { sender: "You", text: message });
+    //             appendMessage("You", message, new Date());
+    //             $("#messageInput").val("");
+    //         }
+    //     });
     
-        // Send chat message when Enter key is pressed
-        $("#messageInput").keydown(function (event) {
-            if (event.keyCode === 13) { // Enter key
-                event.preventDefault();
-                $("#sendButton").click();
-            }
-        });
+    //     // Send chat message when Enter key is pressed
+    //     $("#messageInput").keydown(function (event) {
+    //         if (event.keyCode === 13) { // Enter key
+    //             event.preventDefault();
+    //             $("#sendButton").click();
+    //         }
+    //     });
     
-        // Append the message to the chat container
-        function appendMessage(sender, message, timestamp) {
-            const messageItem = document.createElement("li");
-            messageItem.classList.add("message");
+    //     // Append the message to the chat container
+    //     function appendMessage(sender, message, timestamp) {
+    //         const messageItem = document.createElement("li");
+    //         messageItem.classList.add("message");
     
-            const timeElement = document.createElement("span");
-            timeElement.classList.add("message-time");
-            timeElement.textContent = formatTime(timestamp);
+    //         const timeElement = document.createElement("span");
+    //         timeElement.classList.add("message-time");
+    //         timeElement.textContent = formatTime(timestamp);
     
-            const messageContent = document.createElement("div");
+    //         const messageContent = document.createElement("div");
     
-            const senderElement = document.createElement("span");
-            senderElement.classList.add("message-sender");
-            senderElement.textContent = sender + ": ";
+    //         const senderElement = document.createElement("span");
+    //         senderElement.classList.add("message-sender");
+    //         senderElement.textContent = sender + ": ";
     
-            const messageTextElement = document.createElement("span");
-            messageTextElement.classList.add("message-text");
-            messageTextElement.textContent = message;
+    //         const messageTextElement = document.createElement("span");
+    //         messageTextElement.classList.add("message-text");
+    //         messageTextElement.textContent = message;
     
-            messageContent.appendChild(senderElement);
-            messageContent.appendChild(messageTextElement);
+    //         messageContent.appendChild(senderElement);
+    //         messageContent.appendChild(messageTextElement);
     
-            messageItem.appendChild(timeElement);
-            messageItem.appendChild(messageContent);
+    //         messageItem.appendChild(timeElement);
+    //         messageItem.appendChild(messageContent);
     
-            messageList.appendChild(messageItem);
-        }
+    //         messageList.appendChild(messageItem);
+    //     }
     
-        function formatTime(date) {
-            const hours = date.getHours();
-            const minutes = date.getMinutes();
+    //     function formatTime(date) {
+    //         const hours = date.getHours();
+    //         const minutes = date.getMinutes();
     
-            return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
-        }
-    }
+    //         return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+    //     }
+    // }
     
     
     var userEmail = localStorage.getItem("email");
@@ -86,7 +86,7 @@ $(document).ready(function() {
         $("#userProfileButton").show();
         $("#logoutButton").show();
 
-        initializeLiveChat();
+        // initializeLiveChat();
     } else {
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
@@ -201,16 +201,20 @@ let user;
 
 let generateShop = async () => {
     const email = localStorage.getItem('email');
-    
-    try {
-        const response = await fetch(`http://localhost:1113/email?email=${email}`);
+    if (localStorage.getItem('email')){
+        try {
+            const response = await fetch(`http://localhost:1113/email?email=${email}`);
 
-        user = await response.json();
+            user = await response.json();
 
-    } catch (error) {
-        console.error("Fetch Error:", error);
+        } catch (error) {
+            console.error("Fetch Error:", error);
+        }
     }
-
+    else{
+        console.log("localstorage is empty");
+    }
+    
 $(document).ready(function() {
     // Attach a click event listener to the login button
     $("#loginForm").submit(function(event) {
@@ -305,6 +309,7 @@ $(document).ready(function() {
 
 // Function to check if a movie is included in the basket
 let checkIfMovieIncluded = (id) => {
+    if (localStorage.getItem("email")){
     
         for (let i=0;i<user.movies.length;i++){
             if (user.movies[i]._id==id){
@@ -312,6 +317,10 @@ let checkIfMovieIncluded = (id) => {
             } 
         }
         return true;
+    }
+    else return true;
+
+
     
 };
 

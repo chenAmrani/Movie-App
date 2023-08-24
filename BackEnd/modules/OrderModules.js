@@ -10,7 +10,7 @@ const orderSchema = new Schema({
   movies: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "movie",
+      ref: "Movie",
     },
   ],
   orderNumber: {
