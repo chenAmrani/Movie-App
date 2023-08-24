@@ -27,6 +27,16 @@ app.use(statisticsRouter)
 app.use(orderRouter)
 app.use(userRouter)
 
+const server = require("http").createServer(app);
+const socketio = require("socket.io");
+const io = socketio(server);
+const { handleClient } = require("./utils/socket.utils");
+handleClient(io);
+
+// using socket comunicatin for the chat.
+server.listen(1115, () => {
+  console.log("Socket Server is running on port 1115");
+});
 
 
 app.listen(PORT,()=>console.log(`listen to:${PORT}`));
