@@ -1,14 +1,89 @@
 $(document).ready(function() {
+    function initializeLiveChat() {
+        const socket = io("http://localhost:1115", {
+            transports: ["websocket"],
+        });
+    
+        socket.on("connect", function () {
+            console.log("Connected to socket.io server");
+        });
+    
+        socket.on("message", function (message) {
+            console.log("Received message:", message);
+            appendMessage(message, new Date());
+        });
+    
+        // Hide the chat window when the close button is clicked
+        $("#closeChatButton").click(function () {
+            $("#chatWindow").hide();
+        });
+    
+        // Send chat message when the send button is clicked
+        $("#sendButton").click(function () {
+            const message = $("#messageInput").val();
+            if (message.trim() !== "") {
+                socket.emit("message",localStorage.getItem('email')+": "+message);
+                $("#messageInput").val("");
+            }
+        });
+    
+ 
+    
+        // Append the message to the chat container
+function appendMessage(message, timestamp) {
+    const messageItem = document.createElement("li");
+    messageItem.classList.add("message");
+
+    const timeElement = document.createElement("span");
+    timeElement.classList.add("message-time");
+    timeElement.textContent = formatTime(timestamp);
+
+    const messageContent = document.createElement("div");
+
+    const messageTextElement = document.createElement("span");
+    messageTextElement.classList.add("message-text");
+
+    if (message.startsWith(localStorage.getItem('email'))) {
+        // If the message starts with the user's email, consider it as the user's own message
+        messageTextElement.textContent = "You" + message.substr(localStorage.getItem('email').length);
+    } else {
+        // Messages from other users
+        messageTextElement.textContent = message;
+    }
+
+    messageContent.appendChild(messageTextElement);
+
+    messageItem.appendChild(timeElement);
+    messageItem.appendChild(messageContent);
+
+    messageList.appendChild(messageItem);
+}
+    
+        function formatTime(date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+    
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+        }
+    }
+    
+    
     var userEmail = localStorage.getItem("email");
     if (userEmail) {
         $("#loginActionButton").hide();
         $("#userProfileButton").show();
         $("#logoutButton").show();
+
+        initializeLiveChat();
     } else {
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
         $("#logoutButton").hide();
+        $("#openChatButton").hide();
     }
+    $("#openChatButton").click(function() {
+        $("#chatWindow").toggle();
+    });
 
     $("#loginForm").submit(function(event) {
         event.preventDefault();
