@@ -1,6 +1,6 @@
-const ReviewModel = require("../modules/ReviewModules");
-const User=require("../modules/userModules")
-const Movie=require("../modules/AppModules")
+const ReviewModel = require("../Models/reviewModel");
+const User=require("../Models/userModel")
+const Movie=require("../Models/movieModel")
 
 module.exports.getObject = async (req, res) => {
   const Review = await ReviewModel.find();

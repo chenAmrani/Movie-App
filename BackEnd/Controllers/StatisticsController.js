@@ -1,4 +1,4 @@
-const Order = require("../modules/OrderModules");
+const Order = require("../Models/orderModel");
 //ממוצע הזמנות לחודש
 module.exports.mostGenrePerMonth = async (req, res) => {
   try {

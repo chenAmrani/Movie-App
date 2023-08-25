@@ -1,6 +1,6 @@
-const userModule = require('../modules/userModules');
+const userModule = require('../Models/userModel');
 const createError=require('http-errors');
-const {authSchema}=require('../modules/validationModule');
+const {authSchema}=require('../Models/validationModel');
 
 
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');

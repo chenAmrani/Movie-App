@@ -1,6 +1,6 @@
-const userModule = require('../modules/userModules');
+const userModule = require('../Models/userModel');
 const userController=require('../Controllers/userController')
-const MovieModel=require('../modules/AppModules') // מייבאת את התיקייה של המודל 
+const MovieModel=require('../Models/movieModel') // מייבאת את התיקייה של המודל 
 module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת אותה שאוכל להשתמש דרך האובייקט של המודל נשתמש בכל הפונקציות
 {
     const Movie=await MovieModel.find(); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
