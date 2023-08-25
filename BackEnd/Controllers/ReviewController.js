@@ -1,6 +1,6 @@
-const ReviewModel = require("../modules/ReviewModules");
-const User=require("../modules/userModules")
-const Movie=require("../modules/AppModules")
+const ReviewModel = require("../Models/reviewModel");
+const User=require("../Models/userModel")
+const Movie=require("../Models/movieModel")
 
 module.exports.getObject = async (req, res) => {
   const Review = await ReviewModel.find();
@@ -34,7 +34,6 @@ module.exports.updateObject = async (req, res) => {
 module.exports.deleteObject = async (req, res) => {
   const { _id } = req.body;
   const deletedReview=await ReviewModel.findById(_id);
-  console.log(deletedReview);
   const movie=await Movie.findById(deletedReview.movieId);
    console.log(movie);
   movie.reviews.pull(deletedReview._id);

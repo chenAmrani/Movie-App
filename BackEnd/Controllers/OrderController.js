@@ -1,6 +1,7 @@
-const Order = require("../modules/OrderModules");
+const Order = require("../Models/orderModel");
 const userController = require("./userController");
-const userModel= require("../modules/userModules");
+const userModel= require("../Models/userModel");
+const movieModal = require("../Models/movieModel");
 
 
 
@@ -9,7 +10,7 @@ const getAllOrders = async (req, res) => {
         const orders = await Order.find().populate("user").populate("movies");
         res.status(200).send(orders);
     } catch (err) {
-        res.status(400).send("Something went wrong -> getAllOrders");
+        res.status(400).send(err.message);
       }
     };
 

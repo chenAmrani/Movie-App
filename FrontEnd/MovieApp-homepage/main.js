@@ -6,16 +6,91 @@ let basket = JSON.parse(localStorage.getItem("data")) || [];
 
 $(document).ready(function() {
 
+    function initializeLiveChat() {
+        const socket = io("http://localhost:1115", {
+            transports: ["websocket"],
+        });
+    
+        socket.on("connect", function () {
+            console.log("Connected to socket.io server");
+        });
+    
+        socket.on("message", function (message) {
+            console.log("Received message:", message);
+            appendMessage(message, new Date());
+        });
+    
+        // Hide the chat window when the close button is clicked
+        $("#closeChatButton").click(function () {
+            $("#chatWindow").hide();
+        });
+    
+        // Send chat message when the send button is clicked
+        $("#sendButton").click(function () {
+            const message = $("#messageInput").val();
+            if (message.trim() !== "") {
+                socket.emit("message",localStorage.getItem('email')+": "+message);
+                $("#messageInput").val("");
+            }
+        });
+    
+ 
+    
+        // Append the message to the chat container
+function appendMessage(message, timestamp) {
+    const messageItem = document.createElement("li");
+    messageItem.classList.add("message");
+
+    const timeElement = document.createElement("span");
+    timeElement.classList.add("message-time");
+    timeElement.textContent = formatTime(timestamp);
+
+    const messageContent = document.createElement("div");
+
+    const messageTextElement = document.createElement("span");
+    messageTextElement.classList.add("message-text");
+
+    if (message.startsWith(localStorage.getItem('email'))) {
+        // If the message starts with the user's email, consider it as the user's own message
+        messageTextElement.textContent = "You" + message.substr(localStorage.getItem('email').length);
+    } else {
+        // Messages from other users
+        messageTextElement.textContent = message;
+    }
+
+    messageContent.appendChild(messageTextElement);
+
+    messageItem.appendChild(timeElement);
+    messageItem.appendChild(messageContent);
+
+    messageList.appendChild(messageItem);
+}
+    
+        function formatTime(date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+    
+            return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
+        }
+    }
+    
+    
     var userEmail = localStorage.getItem("email");
     if (userEmail) {
         $("#loginActionButton").hide();
         $("#userProfileButton").show();
         $("#logoutButton").show();
+
+        initializeLiveChat();
     } else {
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
         $("#logoutButton").hide();
+        $("#openChatButton").hide();
     }
+    $("#openChatButton").click(function() {
+        $("#chatWindow").toggle();
+    });
 
     $(document).on('click', '.item .clickable-image', function (event) {
         event.stopPropagation(); // Prevent event from bubbling up
@@ -91,6 +166,8 @@ $(document).ready(function() {
         $("#loginActionButton").show();
         $("#userProfileButton").hide();
         $("#logoutButton").hide();
+        $("#openChatButton").hide();
+        $("#chatWindow").hide();
     });
 
     $("#loginActionButton").click(function() {
@@ -117,18 +194,66 @@ $(document).ready(function() {
 
 let user;
 
+
 let generateShop = async () => {
-    const email = localStorage.getItem('email');
+            // Fetch the genre options from the movies
+            const allGenres = new Set();
+            const allRatings = new Set();
+
+            shopItemsData.forEach(item => {
+                item.genre.forEach(genre => allGenres.add(genre));
+                allRatings.add(item.rating);
+
+            });
+            // Create genre dropdown options
+        const genreSelect = document.getElementById('genre-select');
+        const ratingSelect = document.getElementById('rating-select');
+
+        allGenres.forEach(genre => {
+            const option = document.createElement('option');
+            option.value = genre;
+            option.textContent = genre;
+            genreSelect.appendChild(option);
+        });
+        allRatings.forEach(rating => {
+            const option = document.createElement('option');
+            option.value = rating;
+            option.textContent = rating;
+            ratingSelect.appendChild(option);
+        });
+
+        const applyFilters = () => {
+            const selectedGenre = genreSelect.value;
+            const selectedRating = ratingSelect.value;
     
-    try {
-        const response = await fetch(`http://localhost:1113/email?email=${email}`);
+            const filteredItems = shopItemsData.filter(item => {
+                const matchesGenre = selectedGenre === 'all' || item.genre.includes(selectedGenre);
+                const matchesRating = selectedRating === 'all' || item.rating >= parseInt(selectedRating);
+                return matchesGenre && matchesRating;
+            });
+    
+            const shopItemsHTML = generateShopItems(filteredItems);
+            shop.innerHTML = shopItemsHTML;
+        };
+    
+        genreSelect.addEventListener('change', applyFilters);
+        ratingSelect.addEventListener('change', applyFilters);
+    
+    const email = localStorage.getItem('email');
+    if (localStorage.getItem('email')){
+        try {
+            const response = await fetch(`http://localhost:1113/email?email=${email}`);
 
-        user = await response.json();
+            user = await response.json();
 
-    } catch (error) {
-        console.error("Fetch Error:", error);
+        } catch (error) {
+            console.error("Fetch Error:", error);
+        }
     }
-
+    else{
+        console.log("localstorage is empty");
+    }
+    
 $(document).ready(function() {
     // Attach a click event listener to the login button
     $("#loginForm").submit(function(event) {
@@ -221,8 +346,61 @@ $(document).ready(function() {
     }).join("");
 };
 
+const generateShopItems = (items) => {
+    console.log(items);
+    return items.map((item) => {
+    let { _id, title, price, description, year, rating, actors, image } = item;
+        let search = basket.find((item) => item.id === _id);
+        let stars = '';
+        
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                stars += '<i class="bi bi-star-fill"></i>';
+            } else {
+                stars += '<i class="bi bi-star"></i>';
+            }
+        }
+
+        let movieContent = `
+        <div class="row center-text" style="width:250px">
+        <p style="margin-top:5px">You own this movie</p>
+        </div>`;
+        ;
+        if (checkIfMovieIncluded(_id)) { 
+            movieContent = `
+                <h2 id="movie-price-details" class="movie-price-details">$ ${price}</h2>
+                <i id="decrement" onclick="decrement('${_id}')" class="bi bi-bag-dash-fill" style="font-size:24px"></i>
+                <div id="${_id}" class="quantity" style="font-size:24px">${search === undefined ? 0 : search.item}</div>
+                <i id="increment" onclick="increment('${_id}')" class="bi bi-bag-plus-fill" style="font-size:24px"></i>
+            `;
+        }
+
+        return `
+            <div id="product-id-${_id}" class="item">
+                <div class="clickable-image">
+                    <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0;min-height:400px" alt="image should be here">
+                </div>
+                <div class="details">
+                    <div class="titleClass">
+                        <h3 class="title-movie-details">${title}</h3>
+                    </div>
+                    <br>
+                    <p style="text-align: center;font-size:24px">${year}</p> 
+                    <p style="text-align: center;font-size:24px">${stars}</p>
+                    <div class="price-quantity">
+                        ${movieContent}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join("")
+};
+
+
+
 // Function to check if a movie is included in the basket
 let checkIfMovieIncluded = (id) => {
+    if (localStorage.getItem("email")){
     
         for (let i=0;i<user.movies.length;i++){
             if (user.movies[i]._id==id){
@@ -230,8 +408,15 @@ let checkIfMovieIncluded = (id) => {
             } 
         }
         return true;
+    }
+    else return true;
+
+
     
 };
+
+
+
 
 let fetchMovie = (_id) => {
 
@@ -611,6 +796,7 @@ let increment = (_id) => {
     update(selecteditem);
     localStorage.setItem("data", JSON.stringify(basket));
     generateShop(); // Update the shop view
+    
 };
 
 let decrement = (_id) => {
@@ -625,6 +811,7 @@ let decrement = (_id) => {
     basket = basket.filter((x) => x.item !== 0);
     localStorage.setItem("data", JSON.stringify(basket));
     generateShop(); // Update the shop view
+
 };
 
 let update = (id) => {
@@ -741,6 +928,9 @@ document.addEventListener('DOMContentLoaded', function () {
             searchResultsDropdown.style.display = 'none';
         }
     });
+
+   
+    
 });
 
 

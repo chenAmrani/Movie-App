@@ -1,6 +1,6 @@
-const userModule = require('../modules/userModules');
+const userModule = require('../Models/userModel');
 const createError=require('http-errors');
-const {authSchema}=require('../modules/validationModule');
+const {authSchema}=require('../Models/validationModel');
 
 
 const{signAccessToken,signRefreshToken,verifyRefreshToken}=require('../utils/jwt_helper');
@@ -75,7 +75,6 @@ module.exports.getUsersById=async(req,res)=>{
 module.exports.getUsers=async(req,res)=>{
    userModule.find().then((data)=>{
     console.log("get all users")
-    console.log(data)
     res.send(data)
    }); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
     
