@@ -1,14 +1,16 @@
 const Order = require("../Models/orderModel");
 //ממוצע הזמנות לחודש
+
 module.exports.mostGenrePerMonth = async (req, res) => {
   try {
     const statistics = await Order.aggregate([
       {
+        $unwind: "$movies", // Unwind the movies array
         $group: {
           _id: {
             year: { $year: "$purchaseDate" },
             month: { $month: "$purchaseDate" },
-            genre: {$genre: "$genre"}, // Group by genre as well
+            genre: "$movies.genres", // Group by movie genre
           },
           count: { $sum: 1 }, // Count the number of movies with the same genre in each month
         },
@@ -56,20 +58,6 @@ module.exports.mostGenrePerMonth = async (req, res) => {
     res.status(400).send("Something went wrong -> mostGenrePerMonth");
   }
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

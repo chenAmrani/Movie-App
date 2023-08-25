@@ -1,5 +1,3 @@
-
-
 let shopItemsData=[];
 function fetchDataFromServer(response){
     // console.log(response);
@@ -21,6 +19,4 @@ async function fetchDataAsync() {
     }
 }
 fetchDataAsync();
-
-
-
+//chen
