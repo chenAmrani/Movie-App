@@ -796,6 +796,7 @@ let increment = (_id) => {
     update(selecteditem);
     localStorage.setItem("data", JSON.stringify(basket));
     generateShop(); // Update the shop view
+    
 };
 
 let decrement = (_id) => {
@@ -810,6 +811,7 @@ let decrement = (_id) => {
     basket = basket.filter((x) => x.item !== 0);
     localStorage.setItem("data", JSON.stringify(basket));
     generateShop(); // Update the shop view
+
 };
 
 let update = (id) => {
