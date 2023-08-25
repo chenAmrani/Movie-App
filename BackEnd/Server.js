@@ -20,7 +20,7 @@ app.use(express.json())
 app.use(cors()) 
 mongoose.
 connect(process.env.MONGODB_URL) 
-.then(()=>console.log(`conect to MONGODB`)).catch((err)=>console.log(err));
+.then(()=>console.log(`mongoDB connected`)).catch((err)=>console.log(err));
 app.use(movieRouter) 
 app.use(reviewRouter)
 app.use(statisticsRouter)

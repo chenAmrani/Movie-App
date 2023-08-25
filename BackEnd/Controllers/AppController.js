@@ -12,7 +12,6 @@ module.exports.getObjectById = async (req, res) => {
       if (id==undefined){
         const {id} =req.query;
       }
-      console.log(id);
       const movie = await MovieModel.findById(id).populate("reviews");
       if (movie) {
           res.status(200).json(movie); // Send the movie as a JSON response
@@ -28,14 +27,12 @@ module.exports.validateMovie=async(req, res, next)=>
     const { userId } = req.body;
   
     if (await userModule.findById(userId)==null) {
-      console.log("userId doesant find")
-      res.status(400);
+      res.status(400).send("Unable to find ID");
       return;
     }
      else{
           const user = await userController.getUserByID(userId);
         if (user.isAdmin !== true) {
-          console.log("user is not admin");
           res.status(400).json("Only admin can edit/add/remove movies");
           return;
         }
@@ -47,8 +44,6 @@ module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חד�
   console.log("Arrived"); 
     const{_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
    MovieModel.create({_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
-        console.log('adding to a list of movie ');
-        console.log(data);
         res.send(data) //השרת ישלח לנו את המשימה החדשה 
     })
 }

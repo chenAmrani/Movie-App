@@ -34,7 +34,6 @@ module.exports.updateObject = async (req, res) => {
 module.exports.deleteObject = async (req, res) => {
   const { _id } = req.body;
   const deletedReview=await ReviewModel.findById(_id);
-  console.log(deletedReview);
   const movie=await Movie.findById(deletedReview.movieId);
    console.log(movie);
   movie.reviews.pull(deletedReview._id);
