@@ -100,9 +100,13 @@ function fetchMostGenrePerMonth() {
     url: "http://localhost:1113/mostGenrePerMonth",
     dataType: "json",
     success: function (data) {
-      // Replace null values with zeros
-      const mostBoughtGenres = data.mostBoughtGenres.map((value) => value || 0);
-      drawPieChart(data.months, mostBoughtGenres);
+      if (data && data.mostGenrePerMonth) {
+        // Replace null values with zeros
+        const mostGenrePerMonth = data.mostGenrePerMonth.map((value) => value || 0);
+        drawPieChart(data.months, mostGenrePerMonth);
+      } else {
+        console.error("Invalid or empty response from the server");
+      }
     },
     error: function (xhr, status, error) {
       console.error(error);
@@ -111,7 +115,7 @@ function fetchMostGenrePerMonth() {
 }
 
 
-function drawPieChart(months, mostBoughtGenres) {
+function drawPieChart(months, mostGenrePerMonth) {
   // Define the dimensions of the pie chart
   const width = 400;
   const height = 400;
@@ -133,7 +137,7 @@ function drawPieChart(months, mostBoughtGenres) {
   const pie = d3.pie().value((d) => d);
 
   // Create the pie slices
-  const slices = svg.selectAll("arc").data(pie(mostBoughtGenres)).enter();
+  const slices = svg.selectAll("arc").data(pie(mostGenrePerMonth)).enter();
 
   // Draw the pie chart
   slices

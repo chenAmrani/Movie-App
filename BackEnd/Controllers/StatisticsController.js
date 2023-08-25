@@ -6,11 +6,24 @@ module.exports.mostGenrePerMonth = async (req, res) => {
     const statistics = await Order.aggregate([
       {
         $unwind: "$movies", // Unwind the movies array
+      },
+      {
+        $lookup: {
+          from: "orders", // Replace with the actual name of your Movie collection
+          localField: "movies", // Field in the Order collection containing movie IDs
+          foreignField: "_id", // Field in the Movie collection containing movie IDs
+          as: "movieData", // Create a new array field "movieData" to store movie information
+        },
+      },
+      {
+        $unwind: "$movieData", // Unwind the "movieData" array
+      },
+      {
         $group: {
           _id: {
             year: { $year: "$purchaseDate" },
             month: { $month: "$purchaseDate" },
-            genre: "$movies.genres", // Group by movie genre
+            genre: "$movieData.genre", // Use the genre from the movieData
           },
           count: { $sum: 1 }, // Count the number of movies with the same genre in each month
         },
@@ -28,7 +41,7 @@ module.exports.mostGenrePerMonth = async (req, res) => {
             year: "$_id.year",
             month: "$_id.month",
           },
-          mostBoughtGenre: { $first: "$_id.genre" }, // Get the most bought genre for each month
+          mostGenrePerMonth: { $first: "$_id.genre" }, // Get the most bought genre for each month
         },
       },
       {
@@ -40,24 +53,30 @@ module.exports.mostGenrePerMonth = async (req, res) => {
     ]);
 
     const months = [];
-    const mostBoughtGenres = [];
+    const mostGenrePerMonth = [];
 
     statistics.forEach((statistic) => {
       const month = `${statistic._id.year}-${statistic._id.month}`;
       months.push(month);
-      mostBoughtGenres.push(statistic.mostBoughtGenre);
+      mostGenrePerMonth.push(statistic.mostGenrePerMonth);
     });
+    
+    
+
 
     const data = {
       months: months,
-      mostBoughtGenres: mostBoughtGenres,
+      mostGenrePerMonth: mostGenrePerMonth,
     };
 
+
+ 
     res.status(200).json(data);
   } catch (error) {
     res.status(400).send("Something went wrong -> mostGenrePerMonth");
   }
 };
+
 
 
 
