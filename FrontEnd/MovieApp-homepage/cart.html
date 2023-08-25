@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cart</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="cart.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
@@ -13,7 +12,11 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700,700i">
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/accordion-faq-list.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+
+    <!-- <link rel="stylesheet" href="assets/css/accordion-faq-list.css"> -->
     </head>
 
 
@@ -46,6 +49,22 @@
     
         </div>
     </a>
+    </div>
+
+    <button id="openChatButton" class="btn btn-danger btn-lg">
+        <i class="bi bi-chat-dots"></i> LIVE CHAT
+    </button>
+    
+    <!-- New Chat Window -->
+    <div id="chatWindow" class="chat-window">
+        <button id="closeChatButton" class="close-button">X</button> <!-- Close button -->
+        <div id="chatContainer">
+            <ul id="messageList"></ul>
+        </div>
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="Type your message...">
+            <button id="sendButton">Send</button>
+        </div>
     </div>
 
     <div id="loginModal" class="modal">

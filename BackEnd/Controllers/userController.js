@@ -133,14 +133,13 @@ module.exports.tokenUser=async(req,res)=>{
 module.exports.updateUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
    userModule.findByIdAndUpdate(_id,{name,password,email,age}).then((data)=>{
-      console.log("update user")
       res.send(data)
    })
 }
 
 module.exports.deleteUser=async (req,res)=>{
    const {_id,name, password, email, age } = req.body;
-   userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succsess")).catch((err)=>console.log(err));
+   userModule.findByIdAndDelete(_id).then(()=>res.send("DELETE succeeded")).catch((err)=>console.log(err));
 
 }
 
