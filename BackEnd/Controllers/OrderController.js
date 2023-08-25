@@ -1,7 +1,7 @@
-const Order = require("../modules/OrderModules");
+const Order = require("../Models/orderModel");
 const userController = require("./userController");
-const userModel= require("../modules/userModules");
-const movieModal = require("../modules/AppModules");
+const userModel= require("../Models/userModel");
+const movieModal = require("../Models/movieModel");
 
 
 

@@ -2,7 +2,7 @@ const xss = require("xss");
 
 const handleClient = (io) => {
   io.on("connection", (socket) => {
-    console.log("New WS Connection...");
+    console.log("New WebSocket Connection...");
 
     // Listen for incoming chat messages
     socket.on("message", (message) => {
