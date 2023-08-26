@@ -100,10 +100,10 @@ function fetchMostGenrePerMonth() {
     url: "http://localhost:1113/mostGenrePerMonth",
     dataType: "json",
     success: function (data) {
-      if (data && data.mostGenrePerMonth) {
+      if (data && data.mostBoughtGenres) {
         // Replace null values with zeros
-        const mostGenrePerMonth = data.mostGenrePerMonth.map((value) => value || 0);
-        drawPieChart(data.months, mostGenrePerMonth);
+        const mostBoughtGenres = data.mostBoughtGenres.map((value) => value || 0);
+        drawPieChart(data.months, mostBoughtGenres);
       } else {
         console.error("Invalid or empty response from the server");
       }
