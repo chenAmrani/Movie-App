@@ -1,0 +1,26 @@
+
+body{
+    font-family: sans-serif;
+    background-image: url("/Movie-App/BackEnd/imges/statisticsImage.jpg"); 
+    background-size: cover;  
+    
+    background-blend-mode: hue;
+    background-color: #ffffff54!important;
+}
+
+.headLine{
+    color:rgb(218, 16, 16);
+    margin-left: 100px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust to your preference for vertical centering */
+  }
+
+  .bold-line {
+    stroke-width: 3px; /* Adjust the stroke width as needed */
+    stroke: blue; /* Adjust the stroke color as needed */
+  }

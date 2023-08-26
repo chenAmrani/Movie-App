@@ -1,3 +1,58 @@
+@import url('https://fonts.googleapis.com/css?family=Anton');
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.loader__text {
+    margin-top: 40px;
+    color: #3D314A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: Anton, sans-serif;
+    font-size: 34px;
+}
+
+.loader__filmstrip {
+    position: relative;
+    width: 168px;
+    height: 208px;
+    background: #ffffff;
+    z-index: -1;
+}
+
+.loader__filmstrip:before,
+.loader__filmstrip:after {
+    content: '';
+    position: absolute;
+    height: 120%;
+    border-left: 5px dashed #000000;
+    animation: roll 20ms infinite;
+}
+
+.loader__filmstrip:before {
+    left: 5px;
+}
+
+.loader__filmstrip:after {
+    right: 5px;
+}
+    
+@keyframes roll {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: -15px;
+    }
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -9,10 +64,11 @@ body{
     background-image: url("/BackEnd/imges/back.jpg"); 
     background-size: cover;  
     background-repeat: no-repeat;
-    /* background-attachment: fixed;  */
-    /* background-position: center center; */
+    background-blend-mode: hue;
+    background-color: #ffffff54!important;
     
 }
+
 
 i{
     cursor: pointer;
@@ -22,7 +78,12 @@ a{
     text-decoration: none;
     color: red;
 }
-
+.sticky {
+    position: fixed !important;
+    top: 0 !important;
+    width: 100% !important;
+    z-index: 100 !important;
+}
 .navbar{
     display: flex;
     flex-direction: row;
@@ -32,6 +93,14 @@ a{
     color: white;
     padding: 25px 20px;
     margin-bottom: 30px;
+}
+
+#logo{
+    width: 220px;
+    height: 60px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .item.img{
@@ -46,6 +115,9 @@ a{
     font-size: 30px;
     padding: 5px;
     border-radius: 4px;
+    margin-right: 20px;
+    margin-top: 10px;
+    width: 40px;
 }
 
 .cartAmount{
@@ -56,19 +128,26 @@ a{
     background-color: red;
     color: white;
     padding: 3px;
-    border-radius: 3px;
+    border-radius: 50%;
+    width: 15px;
 }
 
 /**
 * !shoop item styles are here
 **/
 
-.shop{
+.shop {
     display: grid;
-    grid-template-columns: repeat(4,223px);
-    gap: 30px;
+    width: 55%;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 50px;
     justify-content: center;
+    margin: 50px auto 0; /* Reordered margin properties */
+    padding: 0 15px;
+    min-height: 900px;
+
 }
+
 
 @media (max-width: 1000px){
     .shop{
@@ -86,7 +165,18 @@ a{
     border:  2px solid black;
     border-radius: 3px;
     color: white;
-    background-color: black;
+    background-color: #0000004a;
+    border: 2px solid black;
+    border-radius: 40px;
+    color: white;
+    width:250px;
+    margin-block:5px;
+    justify-content: space-between;
+    overflow: hidden;
+    height: 714px;
+}
+.clickable-image{
+    cursor: pointer;
 }
 
 .title-movie-details{
@@ -96,11 +186,12 @@ a{
 
 
 .details{
-    background-color: black;
+    background-color: #00000061;
     display: flex;
     flex-direction: column;
     padding: 10px;
     gap:10px;
+
 }
 
 .price-quantity{
@@ -146,6 +237,14 @@ a{
     cursor: pointer;
     margin-top: 10px;
 }
+.titleClass {
+    min-height: 75px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .checkout{
     background-color: green;
@@ -181,6 +280,7 @@ a{
   gap:  15px;
 }
 
+
 /**
 * style rules for the cart-item
 **/
@@ -211,11 +311,21 @@ a{
     padding: 3px 6px;
 }
 
-
-
+#footerpad {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    background-color: #212529;
+    color: #fff;
+  }
+.footerLogo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .search{
     font-size: 20px;
+    margin-left: 180px;
 }
 
 .bi-search{
@@ -230,6 +340,7 @@ a{
     border-color: transparent;
     justify-content: center;
     margin-right: 5px;
+    width: 400px;
 }
 
 .logIn{
@@ -241,7 +352,14 @@ a{
     border-radius: 4px;
     
 }
-
+.center-text {
+    text-align: center;
+}
+.center-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .LogInButton{
     right: 80px;
     background-color:rgb(231, 19, 19);
@@ -254,6 +372,33 @@ a{
     border-radius: 5px;
     border-color: transparent;
     padding: 5px;
+}
+
+.logoutButton{
+    right: 80px;
+    background-color:rgb(231, 19, 19);
+    color: white;
+    cursor: pointer;
+    position:fixed;
+    font-size: 16px;
+    margin-top: -15px; 
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;}
+.userProfileButton{
+    right: 80px;
+    background-color:rgb(231, 19, 19);
+    color: white;
+    cursor: pointer;
+    position:fixed;
+    font-size: 16px;
+    margin-top: -15px; 
+    margin-right: 10px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 5px;
+    margin-right: 80px;
 }
 
 /* Styles for the Modal */
@@ -277,6 +422,8 @@ a{
     width: 80%;
     max-width: 400px;
 }
+
+
 
 .close {
     color: #aaa;
@@ -315,4 +462,94 @@ a{
     cursor: pointer;
 }
 
+<<<<<<< HEAD
+=======
+/* Chat Button Styles */
+#openChatButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: red; /* Change to the desired color */
+    color: white;
+    border: none;
+    border-radius: 10px; /* Adjust the border-radius to control the roundness */
+    padding: 15px 20px; /* Adjust padding for larger button */
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Chat Window Styles */
+.chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 450px; /* Increase the width for a larger window */
+    background-color: black; /* Change to the desired color */
+    border: 2px solid red; /* Add a border with the desired color */
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    color: white; /* Change text color for better visibility */
+}
+
+#chatContainer {
+    max-height: 300px; /* Increase max-height for more messages */
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.input-container {
+    display: flex;
+    padding: 10px;
+}
+
+#messageInput {
+    flex: 1;
+    border: none; /* Remove border for a cleaner input field */
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #333; /* Change input field color */
+    color: white; /* Change text color for better visibility */
+}
+
+#sendButton {
+    background-color: red; /* Change to the desired color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px; /* Adjust padding for larger button */
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.message-time {
+    color: #999;
+    font-size: 12px;
+    float: right; /* Float the time element to the right */
+}
+
+.message {
+    list-style-type: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+.message-sender {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    padding: 1px 4px; /* Adjust the padding to make the button smaller */
+    font-size: 12px; /* Adjust the font size for smaller text */
+    cursor: pointer;
+}
+>>>>>>> 9b8db3da0da5e07406b0c9c2438e6a2cdda4eb96
 
