@@ -157,6 +157,85 @@ window.addEventListener("click", function(event) {
         document.getElementById("loginModal").style.display = "none";
     }
 });
+// JavaScript code
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Reference to the input field, search icon, and search results container
+    const searchBar = document.getElementById('search-bar');
+    const searchIcon = document.getElementById('search-icon');
+    const searchResults = document.getElementById('search-results');
+
+    // Event listener for input changes
+    searchBar.addEventListener('input', function () {
+        // Get the user's search query
+        const query = this.value.trim();
+
+        // Fetch movies based on the query using AJAX
+        getMoviesByQuery(query);
+    });
+
+    // Event listener for search icon click
+    searchIcon.addEventListener('click', function () {
+        // Get the user's search query
+        const query = searchBar.value.trim();
+
+        // Fetch movies based on the query using AJAX
+        getMoviesByQuery(query);
+    });
+
+    // Function to populate the search results container with movie options
+    function populateSearchResults(movies) {
+        searchResults.innerHTML = ''; // Clear previous search results
+
+        movies.forEach(function (movie) {
+            const {
+                _id,
+                title,
+                image
+            } = movie;
+
+            // Create a search result item element
+            const searchResultItem = document.createElement('div');
+            searchResultItem.classList.add('search-result-item');
+            searchResultItem.innerHTML = `
+                <img width="20" height="15" src="${image}" alt="Movie Image">
+                <span>${title}</span>
+            `;
+
+            // Add a click event listener to handle the selection of the movie
+            searchResultItem.addEventListener('click', function () {
+                const movieId = _id;
+                // Handle the selection of the movie here
+                console.log(`Selected movie ID: ${movieId}`);
+                // Clear the search results
+                searchResults.innerHTML = '';
+            });
+
+            searchResults.appendChild(searchResultItem);
+        });
+    }
+
+    // Function to fetch movies based on the query using AJAX
+    function getMoviesByQuery(query) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:1113/Movies',
+            success: function (movies) {
+                // Filter movies based on the query
+                const filteredMovies = movies.filter(function (movie) {
+                    return movie.title.toLowerCase().startsWith(query.toLowerCase());
+                });
+
+                // Populate the search results container with filtered movies
+                populateSearchResults(filteredMovies);
+            },
+            error: function (error) {
+                console.error('Error fetching movies: ', error);
+            }
+        });
+    }
+});
+
 
 
 // ----------------------------------------------------------------------------------------------------

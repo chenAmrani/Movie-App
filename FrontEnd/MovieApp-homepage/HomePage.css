@@ -6,7 +6,7 @@
 
 body{
     font-family: sans-serif;
-    background-image: url("/Movie-App/BackEnd/imges/back.jpg"); 
+    background-image: url("/BackEnd/imges/back.jpg"); 
     background-size: cover;  
     background-repeat: no-repeat;
     /* background-attachment: fixed;  */
@@ -314,3 +314,5 @@ a{
     border: none;
     cursor: pointer;
 }
+
+

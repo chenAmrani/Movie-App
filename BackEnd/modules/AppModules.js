@@ -26,7 +26,10 @@ const movieSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref:"Review"
     }
-  ]
+  ],
+  PurchaseData:{
+    type:Number
+  }
 });
 
 module.exports = mongoose.model('Movie', movieSchema);
