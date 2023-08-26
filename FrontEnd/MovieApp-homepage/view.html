@@ -166,8 +166,37 @@
         </div>
     </footer>
     <!-- end of footer -->
+    <script>
     
+    <!-- Add a section to display currency exchange rates -->
+    // Function to fetch currency exchange rates from the Exchangerates API
+    function fetchExchangeRates() {
+      // Replace 'YOUR_API_KEY' with your actual API key
+      const apiKey = 'a1a47a6b458a060118c061071d238e47';
+      const apiUrl = `https://api.exchangeratesapi.io/v1/latest?access_key=${apiKey}`;
+    
+      fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+          // Update the displayed rates
+          document.getElementById('usdToEur').textContent = data.rates.EUR;
+          document.getElementById('usdToGbp').textContent = data.rates.GBP;
+          document.getElementById('usdToUsd').textContent = data.rates.USD;
+        })
+        .catch((error) => {
+          console.error('Error fetching exchange rates:', error);
+        });
+    }
+    
+    // Fetch and update rates initially
+    fetchExchangeRates();
+    
+    // Fetch and update rates every 30 seconds (adjust the interval as needed)
+    setInterval(fetchExchangeRates, 300000); // 30 seconds
+</script>
+  
 </body>
+
 <script src="data.js"></script>
 <script src="/Movie-App/FrontEnd/MovieApp-register/assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
