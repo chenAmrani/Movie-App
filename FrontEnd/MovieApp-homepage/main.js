@@ -929,8 +929,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-   
-    
+
+const createCurrency = async () => {
+    let usdToILS = 0;
+    await $.ajax({
+      url: `https://api.apilayer.com/exchangerates_data/latest?symbols=ils&base=usd`,
+      type: "GET",
+      secure: true,
+      cors: true,
+      headers: {
+        "apikey": "TFpsc4FIunqEjYbDuIpY6EBj4FV6hyfJ"
+      },
+    }).done((res) => usdToILS = res.rates.ILS);
+  
+    document.querySelector('#currency').innerHTML =
+      `<currency>
+    <h5 style ="margin-top: 10px; color: green;">Exchange rate: 1 USD = ${1 * usdToILS} ILS</i></h5>
+  </currency>`
+  }
+  createCurrency();
+
 });
-
-
