@@ -10,7 +10,7 @@ $(document).ready(function() {
     
         socket.on("message", function (message) {
             console.log("Received message:", message);
-            appendMessage(message, new Date());
+            appendMessage(message, new Date()); 
         });
     
         // Hide the chat window when the close button is clicked
