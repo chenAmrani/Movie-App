@@ -183,6 +183,37 @@ a{
     margin-bottom: 2px;
 }
 
+/* Position the currency section */
+.currency-section {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 250px;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 10px;
+    position: fixed;
+}
+
+/* Style for the currency title */
+.currency-title {
+    color: green; /* Green text color */
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* Style for the currency rate */
+.currency-rate {
+    color: green; /* Black text color */
+    margin-top: 10px;
+    font-size: 16px;
+    
+}
+
+
+
 
 
 .details{
