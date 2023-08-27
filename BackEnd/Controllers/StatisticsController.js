@@ -1,77 +1,41 @@
 const Order = require("../Models/orderModel");
 //ממוצע הזמנות לחודש
 
-module.exports.mostGenrePerMonth = async (req, res) => {
+module.exports.genreChart = async (req, res) => {
   try {
     const statistics = await Order.aggregate([
       {
-        $unwind: "$movies", // Unwind the movies array
+        $unwind: "$movies", // Flatten the 'movies' array
       },
       {
         $lookup: {
-          from: "Movie", // Replace with the actual name of your Movie collection
-          localField: "movies", // Field in the Order collection containing movie IDs
-          foreignField: "_id", // Field in the Movie collection containing movie IDs
-          as: "movieData", // Create a new array field "movieData" to store movie information
+          from: "movies", // Collection name of movies
+          localField: "movies",
+          foreignField: "_id",
+          as: "movieDetails",
         },
       },
       {
-        $unwind: "$movieData", // Unwind the "movieData" array
+        $unwind: "$movieDetails",
       },
       {
         $group: {
-          _id: {
-            year: { $year: "$purchaseDate" },
-            month: { $month: "$purchaseDate" },
-            genre: "$movieData.genre", // Use the genre from the movieData
-          },
-          count: { $sum: 1 }, // Count the number of movies with the same genre in each month
-        },
-      },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1,
-          count: -1, // Sort by count in descending order (most bought genre first)
-        },
-      },
-      {
-        $group: {
-          _id: {
-            year: "$_id.year",
-            month: "$_id.month",
-          },
-          mostBoughtGenre: { $first: "$_id.genre" }, // Get the most bought genre for each month
-        },
-      },
-      {
-        $sort: {
-          "_id.year": 1,
-          "_id.month": 1,
+          _id: "$movieDetails.genre", // Group by genre
+          totalPurchases: { $sum: 1 }, // Count the number of orders per genre
         },
       },
     ]);
 
-    const months = [];
-    const mostBoughtGenres = [];
+    const genreData = statistics.map((statistic) => ({
+      genre: statistic._id,
+      totalPurchases: statistic.totalPurchases,
+    }));
 
-    statistics.forEach((statistic) => {
-      const month = `${statistic._id.year}-${statistic._id.month}`;
-      months.push(month);
-      mostBoughtGenres.push(statistic.mostBoughtGenre);
-    });
-
-    const data = {
-      months: months,
-      mostBoughtGenres: mostBoughtGenres,
-    };
-
-    res.status(200).json(data);
+    res.status(200).json(genreData);
   } catch (error) {
-    res.status(400).send("Something went wrong -> mostGenrePerMonth");
+    res.status(400).send("Something went wrong -> genreStatistics");
   }
 };
-
 
 
 

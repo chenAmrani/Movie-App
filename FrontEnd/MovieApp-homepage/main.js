@@ -199,9 +199,8 @@ let generateShop = async () => {
             // Fetch the genre options from the movies
             const allGenres = new Set();
             const allRatings = new Set();
-
             shopItemsData.forEach(item => {
-                item.genre.forEach(genre => allGenres.add(genre));
+                allGenres.add(item.genre);
                 allRatings.add(item.rating);
 
             });
