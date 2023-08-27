@@ -1,3 +1,4 @@
+let userName='';
 $(document).ready(function() {
     function initializeLiveChat() {
         const socket = io("http://localhost:1115", {
@@ -298,27 +299,60 @@ async function fetchUserCheckout() {
 
 let orderNumber=1;
 
+// Function to post updates to the Facebook page using AJAX
+function postToFacebookPage(message) {
+    const pageAccessToken = 'EAARn6rNxEIYBOxmUmkpnQivo9WSEZANA0FxD8f7sL4cr5pvejUBkY3KyCeMw5qr1HnI2pQOSaem1Tqgy93fAOnkAjAirHZBsZC8yEjCtZCMzqeEeb5SqZBH2GuieJUOUM3lAzxqZCwG6l4ccuBoQalrbaunxlGkYdrXZC2ey2CtRPYGCwgDNGtsUYB7mS2twdYZD';
+    const pageId = '108469582352707';
+    
+    $.ajax({
+      url: `https://graph.facebook.com/v12.0/${pageId}/feed`,
+      method: 'POST',
+      data: {
+        message: message,
+        access_token: pageAccessToken,
+      },
+      success: function(response) {
+        console.log('Posted to Facebook page:', response);
+      },
+      error: function(error) {
+        console.error('Error posting to Facebook page:', error.responseJSON);
+      }
+    });
+  }
+  
+  // Call the function to post updates
+  
+  
+  let message='';
+ 
 let cashout = async () => {
     if (localStorage.getItem("email")!=undefined){
     try {
         const user = await fetchUserCheckout();
-
+        userName= await user.name;
+        console.log(userName)
         // Assuming you have the order data in some format
         const orderData = {
             user: user._id,
             movies: basket.map(item => item.id),
             orderNumber: 1,
         };
-
+        
+      
         $.ajax({
             url: "http://localhost:1113/createOrder",
             type: "POST",
             data: { order: orderData },
             success: function(response) {
-                console.log(response);
+                
+                
+                console.log(basket);
+
                 // Show the success modal using vanilla JavaScript
                 let successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
+                message=`User ${userName} has made a new order !`
+          postToFacebookPage(message);
                 clearCart();
                 setTimeout(function() {
                 window.location.href = "/Movie-App/FrontEnd/MovieApp-profile/userprofile.html";
