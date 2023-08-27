@@ -97,25 +97,23 @@ function drawChart(months, totals) {
 // second graph:
 function fetchMostGenrePerMonth() {
   $.ajax({
-    url: "http://localhost:1113/mostGenrePerMonth",
+    url: "http://localhost:1113/genreChart",
     dataType: "json",
     success: function (data) {
-      if (data && data.mostBoughtGenres) {
-        // Replace null values with zeros
-        const mostBoughtGenres = data.mostBoughtGenres.map((value) => value || 0);
-        drawPieChart(data.months, mostBoughtGenres);
+      if (data) {
+        const genres = data.map((item) => item.genre);
+        const totalPurchases = data.map((item) => item.totalPurchases);
+          drawPieChart(genres, totalPurchases);
       } else {
         console.error("Invalid or empty response from the server");
       }
-    },
-    error: function (xhr, status, error) {
-      console.error(error);
     },
   });
 }
 
 
-function drawPieChart(months, mostGenrePerMonth) {
+function drawPieChart(genres, totalPurchases) {
+  console.log(genres,totalPurchases);
   // Define the dimensions of the pie chart
   const width = 400;
   const height = 400;
@@ -137,7 +135,7 @@ function drawPieChart(months, mostGenrePerMonth) {
   const pie = d3.pie().value((d) => d);
 
   // Create the pie slices
-  const slices = svg.selectAll("arc").data(pie(mostGenrePerMonth)).enter();
+  const slices = svg.selectAll("arc").data(pie(totalPurchases)).enter();
 
   // Draw the pie chart
   slices
@@ -148,12 +146,17 @@ function drawPieChart(months, mostGenrePerMonth) {
   // Add labels
   slices
     .append("text")
-    .attr("transform", (d) => `translate(${d3.arc().centroid(d)})`)
+    .attr("transform", (d) => {
+      // Calculate the centroid of the arc for positioning the text
+      const centroid = d3.arc().centroid(d);
+      return `translate(${centroid[0]}, ${centroid[1]})`;
+    })
     .attr("dy", "0.35em")
-    .text((d, i) => `${months[i]}`);
+    .text((d, i) => `${genres[i]} (${totalPurchases[i]})`);
 
   // Add title
-  svg.append("text")
+  svg
+    .append("text")
     .attr("class", "chart-title")
     .attr("x", 0)
     .attr("y", -height / 2 - 10)
