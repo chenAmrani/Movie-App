@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="assets/css/SlideShow.css">
     <link rel="stylesheet" href="userProfile.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+
 </head>  
 
 <body>
@@ -151,9 +153,15 @@
                         </button>
                     </div>
                     <div class="modal-body" style="display: grid; justify-content: center; padding: 30px;">
-                        <div class="row" style="margin-bottom: 5px; justify-content: end;">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal" style="justify-self: end; width: 150px;">Add new movie</button>
+                        <div class="row" style="margin-bottom: 5px;display: flex;">
+                            <div class="col-6" style="margin-bottom: 5px; justify-content: end;display: flex;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal" style="width: 150px;">Add new movie</button>
+                            </div>
+                            <div class="col-6" style="margin-bottom: 5px; justify-content: start;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticsModal" style="width: 150px;" id="showStatsButton">Show statistics</button>
+                            </div>
                         </div>
+
                         <div>
                             <div class="eachMovie" id="eachMovie" style="text-align: center;">
                                 <!-- Your table with movie information goes here -->
@@ -283,6 +291,30 @@
 
         <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="updateUserModal" aria-hidden="true">
             
+        </div>
+        <div class="modal fade" id="statisticsModal" tabindex="-1" aria-labelledby="statisticsModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: fit-content;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="statisticsModal">Here are the shop statistics:</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="statisticsModalBody">
+                          <div class="chart" id="chart" style="justify-content: center;"></div> <!-- This is where your first chart will appear -->
+                          <div id="secondChart"></div> <!-- This is where your second chart will appear -->
+                           </button>
+                        </div>
+                        <div class="container" style="max-width: 80vw; margin-bottom: 2rem">
+                          
+                          <div  id="allGamesContainer" class="row" style="border-color: var(--bs-gray-500)">
+                          </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="statisticsModalCloseBtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
 

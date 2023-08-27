@@ -113,7 +113,7 @@ function fetchMostGenrePerMonth() {
 
 
 function drawPieChart(genres, totalPurchases) {
-  console.log(genres,totalPurchases);
+  console.log(genres, totalPurchases);
   // Define the dimensions of the pie chart
   const width = 400;
   const height = 400;
@@ -128,30 +128,38 @@ function drawPieChart(genres, totalPurchases) {
     .append("g")
     .attr("transform", `translate(${width / 2},${height / 2})`);
 
-  // Create a color scale
-  const color = d3.scaleOrdinal(d3.schemeCategory10);
+  // Create a color scale for the pie chart
+  const pieColor = d3.scaleOrdinal(d3.schemeCategory10);
 
   // Define the pie function
   const pie = d3.pie().value((d) => d);
 
   // Create the pie slices
-  const slices = svg.selectAll("arc").data(pie(totalPurchases)).enter();
+  const arcs = pie(totalPurchases);
 
   // Draw the pie chart
-  slices
+  svg
+    .selectAll("path")
+    .data(arcs)
+    .enter()
     .append("path")
     .attr("d", d3.arc().innerRadius(0).outerRadius(radius))
-    .attr("fill", (d, i) => color(i));
+    .attr("fill", (d, i) => pieColor(i));
 
   // Add labels
-  slices
+  svg
+    .selectAll("text")
+    .data(arcs)
+    .enter()
     .append("text")
     .attr("transform", (d) => {
-      // Calculate the centroid of the arc for positioning the text
-      const centroid = d3.arc().centroid(d);
-      return `translate(${centroid[0]}, ${centroid[1]})`;
+      const angle = (d.startAngle + d.endAngle) / 2;
+      const x = Math.sin(angle) * (radius * 0.8); // Adjust the multiplier for centering
+      const y = -Math.cos(angle) * (radius * 0.8); // Adjust the multiplier for centering
+      return `translate(${x}, ${y})`;
     })
     .attr("dy", "0.35em")
+    .attr("text-anchor", "middle")
     .text((d, i) => `${genres[i]} (${totalPurchases[i]})`);
 
   // Add title
@@ -163,6 +171,7 @@ function drawPieChart(genres, totalPurchases) {
     .attr("text-anchor", "middle")
     .text("Most Bought Genre per Month");
 }
+
 
 $(document).ready(function () {
   fetchTotalNumberOfPurchase(); // Fetch and draw the first chart
