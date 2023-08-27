@@ -21,7 +21,7 @@ $("#register").submit(function(event) {
         data: data,
         success: function(response){
             localStorage.setItem("email", data.email);
-
+            
             $('#responseModalBody').text("Registration successful!, you are redirected"); // Display a success message
             $('#responseModal').modal('show'); // Show the modal
             
