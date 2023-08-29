@@ -243,7 +243,7 @@ async function generateCartItems() {
         console.log(basket);
         shoppingCart.innerHTML = ``;
         lable.innerHTML = `
-        <h2 style="margin-top:140px">Cart is Empty</h2>
+        <h2 style="margin-top:20px">Cart is Empty</h2>
         <a href="view.html">
             <button class="HomeBtn">Back to store</button>
         </a>
