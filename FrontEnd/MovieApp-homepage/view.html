@@ -201,34 +201,13 @@
         </div>
     </footer>
     <!-- end of footer -->
-    <script>
     
-    <!-- Add a section to display currency exchange rates -->
-    // Function to fetch currency exchange rates from the Exchangerates API
-    function fetchExchangeRates() {
-      // Replace 'YOUR_API_KEY' with your actual API key
-      const apiKey = 'a1a47a6b458a060118c061071d238e47';
-      const apiUrl = `https://api.exchangeratesapi.io/v1/latest?access_key=${apiKey}`;
-    
-      fetch(apiUrl)
-      .then((response) => response.json())
-      .then((data) => {
-          // Update the displayed rates
-          //document.getElementById('usdToEur').textContent = data.rates.EUR;
-          //document.getElementById('usdToGbp').textContent = data.rates.GBP;
-          //document.getElementById('usdToUsd').textContent = data.rates.USD;
-        })
-        .catch((error) => {
-          console.error('Error fetching exchange rates:', error);
-        });
-    }
-    
-    // Fetch and update rates initially
-    fetchExchangeRates();
-    
-    // Fetch and update rates every 1 hour (adjust the interval as needed) 3000=30 sec
-    setInterval(fetchExchangeRates, 21600000); // 30 seconds
-</script>
+    <div id="currency" class="currency-section">
+        <currency>
+            <h1 class="currency-title">Currency Exchange</h1>
+            <h5 class="currency-rate">Exchange rate: 1 USD = <span id="conversion-rate"></span> ILS</h5>
+        </currency>
+    </div>
   
 </body>
 

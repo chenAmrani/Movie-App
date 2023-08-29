@@ -937,8 +937,7 @@ document.addEventListener('DOMContentLoaded', function () {
           },
         }).done((res) => usdToILS = res.rates.ILS);
       
-        document.querySelector('#currency').innerHTML =
-          `<currency>
+        document.querySelector('#currency').innerHTML =`<currency>
         <h5 style ="margin-top: 10px; color: green;">Exchange rate: 1 USD = ${1 * usdToILS} ILS</i></h5>
       </currency>`
       }
