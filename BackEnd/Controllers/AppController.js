@@ -33,7 +33,7 @@ module.exports.validateMovie=async(req, res, next)=>
      else{
           const user = await userController.getUserByID(userId);
         if (user.isAdmin !== true) {
-          res.status(400).json("Only admin can edit/add/remove movies");
+          res.status(401).json("Only admin can edit/add/remove movies");
           return;
         }
     }
