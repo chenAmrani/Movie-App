@@ -388,11 +388,12 @@ let TotalAmount =async ()=>{
       secure: true,
       cors: true,
       headers: {
-        "apikey": "6PlRg2D3qY6wF9YlAr1GqwWtGmpoAdD9"
+        "apikey": "0ANm9a5WoRrLd4aDgRJgu4tiQSySLGg6"
       },
     }).done((res) => usdToILS = res.rates.ILS);
 
-    if(basket.length !==0){
+    if(basket.length !=0){ 
+        console.log("arrived");
         lable.innerHTML =`
         <div class="Shopping-Cart-HeadLine" style="margin-top:15px">
         <h1>SHOOPING CART</h1>
