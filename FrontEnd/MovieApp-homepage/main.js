@@ -944,3 +944,7 @@ document.addEventListener('DOMContentLoaded', function () {
       createCurrency();
     
     });
+
+    module.export={
+        usdToILS: usdToILS
+    };
