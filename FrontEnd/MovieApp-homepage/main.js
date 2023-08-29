@@ -242,14 +242,12 @@ let generateShop = async () => {
     if (localStorage.getItem('email')){
         try {
             const response = await fetch(`http://localhost:1113/email?email=${email}`);
-            if(user){
             user = await response.json();
-            }else{
-                localStorage.removeItem('email')
-            }
 
         } catch (error) {
-            console.error("Fetch Error:", error);
+            console.log("arrived");
+
+            localStorage.removeItem('email')
         }
     }
     else{

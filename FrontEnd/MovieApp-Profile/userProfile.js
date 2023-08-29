@@ -414,6 +414,20 @@ let createNewMovie=()=>{
             $('#responseModalBody').text("You have added the movie successfuly");
             $('#responseModal').modal('show');
             $('#addMovieModal').modal('hide');
+            document.getElementById("title").value = "";
+            document.getElementById("year").value = "";
+            document.getElementById("rating").value = "";
+            document.getElementById("actorName1").value = "";
+            document.getElementById("actorName2").value = "";
+            document.getElementById("actorName3").value = "";
+            document.getElementById("actorURL1").value = "";
+            document.getElementById("actorURL2").value = "";
+            document.getElementById("actorURL3").value = "";
+            document.getElementById("price").value = "";
+            document.getElementById("genre").value = "";
+            document.getElementById("trailer").value = "";
+            document.getElementById("image").value = "";
+            document.getElementById("description").value = "";
         },
         error: function (error) {
             $('#responseModalLabel').text("Oops"); 
@@ -466,7 +480,7 @@ let updateMovieModal=(movieNumber)=>{
                                 <option value="Comedy">Comedy</option>
                                 <option value="Horror">Horror</option>
                                 <option value="Science-fiction">Science fiction</option>
-                                <option value="drama">Drama</option>
+                                <option value="Drama">Drama</option>
                                 <option value="sports">Sports</option>
                                 <option value="Fantasy">Fantasy</option>
                             </select>
