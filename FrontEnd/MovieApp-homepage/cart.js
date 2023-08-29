@@ -1,3 +1,5 @@
+import {usdToILS} from "./main"
+
 let userName='';
 $(document).ready(function() {
     function initializeLiveChat() {
@@ -229,7 +231,9 @@ async function generateCartItems() {
                     <!-- Rest of your buttons... -->
                 </div>
                     
+
                 <h3 style="text-align:center">Subtotal : $ ${price}</h3>
+                <h3 style="text-align:center">Subtotal : ₪ ${price*usdToILS}</h3
              </div>   
             </div>
             `;
