@@ -12,7 +12,7 @@ userRouter.post('/refresh-token',refreshT)
 
 
 // CRUD
-// userRouter.get("/users", getUsers); לזכור להוסיף לפני שעושה pull
+userRouter.get("/users", getUsers);
 userRouter.get("/email", getUserByEmail);
 userRouter.get("/:id", getUsersById);
 userRouter.post('/updateUser',updateUser);

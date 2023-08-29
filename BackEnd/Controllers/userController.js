@@ -40,10 +40,10 @@ module.exports.getUsersById=async(req,res)=>{
 
  module.exports.addUser = async (req, res, next) => {
    try {
-      const { email, password, name, age } = req.body;
+      const { email, password, name, age ,isAdmin} = req.body;
 
       // Validate input data using the authSchema
-      await authSchema.validateAsync({ name, email, password, age });
+      await authSchema.validateAsync({ name, email, password, age,isAdmin });
 
       const doesExist = await userModule.findOne({ email: email });
       if (doesExist) {
@@ -56,7 +56,7 @@ module.exports.getUsersById=async(req,res)=>{
       const refreshToken = await signRefreshToken(email);
 
       const result = {
-         email, password, name, age, refreshToken
+         email, password, name, age, refreshToken ,isAdmin
       };
 
       const user = new userModule(result);
@@ -73,11 +73,9 @@ module.exports.getUsersById=async(req,res)=>{
    }
 }
 module.exports.getUsers=async(req,res)=>{
-   userModule.find().then((data)=>{
-    console.log("get all users")
-    res.send(data)
-   }); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
-    
+   const users = await userModule.find().populate('movies'); // Use populate to populate the 'movies' field
+        console.log('get all users');
+        res.send(users);
  }
 
 module.exports.loginUser = async (req, res, next) => {
@@ -131,8 +129,8 @@ module.exports.tokenUser=async(req,res)=>{
    res.cookie()
 }
 module.exports.updateUser=async (req,res)=>{
-   const {_id,name, password, email, age } = req.body;
-   userModule.findByIdAndUpdate(_id,{name,password,email,age}).then((data)=>{
+   const {_id,name, password, email, age,isAdmin } = req.body;
+   userModule.findByIdAndUpdate(_id,{name,password,email,age,isAdmin}).then((data)=>{
       res.send(data)
    })
 }

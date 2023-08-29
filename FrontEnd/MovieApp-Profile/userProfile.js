@@ -181,9 +181,9 @@ function printOrders(orders) {
     } else {
     for (let i = 0; i < ordersToDisplay.length; i++) {
         const order = ordersToDisplay[i];
-        const inputDate = order.purchaseDate;
         let movieArr=order.movies;
         let price= calculatePrice(movieArr);
+        const inputDate = order.purchaseDate;
         const parsedDate = new Date(inputDate);
         const formattedDate = parsedDate.toISOString().split('T')[0];
         const formattedTime = parsedDate.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
@@ -770,7 +770,7 @@ function fetchMostGenrePerMonth() {
   
     // Create an SVG element for the pie chart
     const svg = d3
-      .select("#chart")
+      .select("#secondChart")
       .append("svg")
       .attr("width", width)
       .attr("height", height)
@@ -803,8 +803,8 @@ function fetchMostGenrePerMonth() {
       .append("text")
       .attr("transform", (d) => {
         const angle = (d.startAngle + d.endAngle) / 2;
-        const x = Math.sin(angle) * (radius * 0.8); // Adjust the multiplier for centering
-        const y = -Math.cos(angle) * (radius * 0.8); // Adjust the multiplier for centering
+        const x = Math.sin(angle) * (radius * 0.7); 
+        const y = -Math.cos(angle) * (radius * 0.7);
         return `translate(${x}, ${y})`;
       })
       .attr("dy", "0.35em")
@@ -826,7 +826,282 @@ function fetchMostGenrePerMonth() {
     showStatsButton.addEventListener("click", showStats);
 });
     
-  function showStats(){
+function showStats() {
+    // Clear previous charts by emptying the chart containers
+    d3.select("#chart").selectAll("*").remove();
+    d3.select("#secondChart").selectAll("*").remove();
+  
+    // Append chart titles
+    d3.select("#chart")
+      .append("h2")
+      .text("Amount of purchases per month")
+      .style("text-align", "center");
+  
+    d3.select("#secondChart")
+      .append("h2")
+      .text("Purchases by genres")
+      .style("text-align", "center");
+  
     fetchTotalNumberOfPurchase(); // Fetch and draw the first chart
     fetchMostGenrePerMonth(); // Fetch and draw the second chart
+  }
+    $("#showOrdersButton").click(function () {
+        $('#adminPanelModal').modal('hide');
+        fetchOrdersForAdmin();
+    });
+    $("#statisticsModalCloseBtn, #statisticsModalClose1Btn, #ordersModalClose1Btn, #ordersModalCloseBtn,#usersModalClose1Btn, #usersModalCloseBtn").click(function () {
+        $('#adminPanelModal').modal('show');
+    });
+    $("#orderResponseCloseButton, #orderResponseClose1Button").click(function () {
+        fetchOrdersForAdmin();
+    });
+    $("#showUsersButton").click(function () {
+        $('#adminPanelModal').modal('hide');
+        fetchUsersForAdmin();
+    });
+    
+    $("#userResponseCloseButton, #userResponseClose1Button").click(function () {
+        fetchUsersForAdmin();
+    });
+    $("#addUserBtn").click(function () {
+        $('#usersModal').modal('hide');
+        $('#addUserModal').modal('show');
+    });
+    $("#addUserModalCloseButton, #addUserModalClose1Button").click(function () {
+        $('#addUserModal').modal('hide');
+        $('#usersModal').modal('show');
+    });
+
+    $(document).ready(function() {
+        $('#createUserButton').click(function() {
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const age = document.getElementById("age").value;
+            const isAdmin = document.getElementById("isAdminCheckBox").checked;
+    
+            const postData = { name, email, password, age, isAdmin };
+    
+            // Check for empty fields
+            const emptyFields = [];
+            if (!name) emptyFields.push("Name");
+            if (!email) emptyFields.push("Email");
+            if (!password) emptyFields.push("Password");
+            if (!age) emptyFields.push("Age");
+    
+            if (emptyFields.length > 0) {
+                const errorMessage = "Please fill in the following fields: " + emptyFields.join(", ");
+                $('#errorMessage1').text(errorMessage).show();
+                return;
+            }
+    
+            // If no empty fields, proceed with AJAX request
+            $.ajax({
+                url: "http://localhost:1113/register",
+                type: "POST",
+                data: postData,
+                success: function(response) {
+                    $('#userResponseModalTitle').text("Success");
+                    $('#userResponseModalBody').text("User " + name + " has been created");
+                    $('#addUserModal').modal('hide');
+                    $('#userResponseModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    const errorMessage = xhr.responseJSON.error;
+                    $('#errorMessage1').text(errorMessage).show();
+                },
+            });
+        });
+    });
+
+
+    
+
+
+  let fetchOrdersForAdmin=()=>{
+    $.ajax({
+        url: "http://localhost:1113/getAllOrders",
+        type: "GET",
+        success: function(response) {
+            let allOrders=response;
+            printOrdersToModal(allOrders);
+        },
+        error: function(xhr, status, error) {
+           
+        },
+    });
+  }
+
+  let fetchUsersForAdmin=()=>{
+    $.ajax({
+        url: "http://localhost:1113/users",
+        type: "GET",
+        success: function(response) {
+            let allUsers=response;
+            printUsersToModal(allUsers);
+        },
+        error: function(xhr, status, error) {
+           
+        },
+    });
+  }
+  let printUsersToModal=(allUsers)=>{
+    console.log(allUsers);
+    userList= document.getElementById('userItems');
+    userList.innerHTML=``;
+    for (let i = 0; i < allUsers.length; i++) {
+        let userItem=`
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100" style="justify-content:center">
+            <h4 class="mb-1 display-6">${allUsers[i].name}</h5></div>
+        <div class="d-flex w-100 justify-content-between">
+            <small>${allUsers[i].email}</small>
+            <small>${allUsers[i].isAdmin?"Admin":"Not Admin"}</small>
+        </div>
+        <div class="usersBoughtMovies" id="usersBoughtMovies" style="margin-bottom:10px;margin-top:5px;min-height:70px;height: 100px; overflow-y: auto;">
+            ${showUsersMovies(allUsers[i].movies)}
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Total purchases: ${allUsers[i].orders.length}
+            </div>
+             <div class="col-6" style="justify-content:end;display:flex;">
+                ${adminActions(allUsers[i])}
+                <button type="button" onclick="deleteUser('${allUsers[i]._id}')" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                </div>
+        </div>
+        </div>
+        </div>
+        `
+        userList.innerHTML+=userItem;
+    }
+
+    $('#usersModal').modal('show');
+  }
+  let adminActions=(userToChange)=>{
+    if (userToChange.isAdmin){
+        return `<button type="button" onclick="removeAdmin('${userToChange._id}')" class="btn btn-primary" style="margin-right:2px">Remove Admin</button>`
+    }
+    else{
+        return `<button type="button" onclick="makeAdmin('${userToChange._id}')" class="btn btn-primary" style="margin-right:2px">Make Admin</button>`
+    }
+  }
+  let makeAdmin=(userID)=>{
+    console.log(userID);
+    $.ajax({
+        url: "http://localhost:1113/updateUser",
+        type: "POST",
+        data: { _id: userID ,isAdmin: true},
+        success: function(response) {
+            $('#userResponseModalTitle').text("Success");
+            $('#userResponseModalBody').text(response.name+" is now Admin"); 
+            $('#usersModal').modal('hide');
+            $('#userResponseModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+
+        },
+    });
+  }
+  let removeAdmin=(userID)=>{
+    console.log(userID);
+    $.ajax({
+        url: "http://localhost:1113/updateUser",
+        type: "POST",
+        data: { _id: userID ,isAdmin: false},
+        success: function(response) {
+            $('#userResponseModalTitle').text("Success");
+            $('#userResponseModalBody').text(response.name+" is now not an Admin"); 
+            $('#usersModal').modal('hide');
+            $('#userResponseModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+
+        },
+    });
+  }
+
+
+  let deleteUser=(_id)=>{
+    $.ajax({
+        url: "http://localhost:1113/deleteUser",
+        type: "POST",
+        data: { _id: _id },
+        success: function(response) {
+            $('#userResponseModalTitle').text("User Deleted"); 
+            $('#userResponseModalBody').text("User has been deleted"); 
+            $('#usersModal').modal('hide');
+            $('#userResponseModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+
+        },
+    });
+  }
+
+  let showUsersMovies=(usersMovies)=>{
+    if (usersMovies.length>0){
+    return `Movies: ${usersMovies.map(item => `<div>• ${item.title}</div>`).join('')}`
+    }
+    else return `User has no movies`;
+  }
+
+  let printOrdersToModal=(allOrders)=>{
+    orderList= document.getElementById('Orderitems');
+    orderList.innerHTML=``;
+    if  (allOrders.length>0){
+    for (let i = 0; i < allOrders.length; i++) {
+        console.log(allOrders[i].user);
+        let totalprice=0;
+        for(let j=0;j<allOrders[i].movies.length;j++){
+            totalprice+=allOrders[i].movies[j].price
+        }
+        const inputDate = allOrders[i].purchaseDate;
+        const parsedDate = new Date(inputDate);
+        const formattedDate = parsedDate.toISOString().split('T')[0];
+        const order=`
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">Order ${i+1}</h5>
+            <small>${formattedDate}</small>
+        </div>
+        <div class="boughtMovies" id="boughtMovies" style="margin-bottom:10px;min-height:70px">
+            • ${allOrders[i].movies.map(item => item.title)}
+        </div>
+        <div class="row">
+            <div class="col-6">
+                Total Price: ${totalprice}$ <br>
+                User: ${allOrders[i].user.name}
+            </div>
+             <div class="col-6" style="justify-content:end;display:flex;">
+                <button type="button" onclick="deleteOrder('${allOrders[i]._id}')" class="btn btn-danger"><i class="bi bi-trash3"></i></button>
+                </div>
+        </div>
+        </div>
+        `
+        orderList.innerHTML+=order;
+    }
+    }
+    else{
+        orderList.innerHTML+=`There are no orders yet`
+    }
+
+    $('#ordersModal').modal('show');
+  }
+
+  let deleteOrder=(_id)=>{
+    $.ajax({
+        url: "http://localhost:1113/deleteOrderById",
+        type: "POST",
+        data: { _id: _id },
+        success: function(response) {
+            $('#orderResponseModalTitle').text("Order Deleted"); 
+            $('#orderResponseModalBody').text("Order has been deleted"); 
+            $('#ordersModal').modal('hide');
+            $('#orderResponseModal').modal('show');
+        },
+        error: function(xhr, status, error) {
+
+        },
+    });
   }

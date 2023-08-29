@@ -76,10 +76,14 @@ const updateOrder = async (req, res) => {
   const deleteOrderById = async (req,res) => {
     try {
       const { _id } = req.body;
-      const deletedOrder = await Order.findByIdAndDelete(_id);
+      const deletedOrder = await Order.findByIdAndDelete(_id).populate("movies");
       const user = await userController.getUserByID(deletedOrder.user);
       user.orders.pull(deletedOrder._id); 
-      await userModel.findByIdAndDelete(user._id);
+      for (const movie of deletedOrder.movies) {
+        user.movies.pull(movie);
+      }
+      await user.save();
+
       res.status(200).send(deletedOrder);
     } catch (err) {
       res.status(400).send(err.message);

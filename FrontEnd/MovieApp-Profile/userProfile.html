@@ -154,15 +154,22 @@
                     </div>
                     <div class="modal-body" style="display: grid; justify-content: center; padding: 30px;">
                         <div class="row" style="margin-bottom: 5px;display: flex;">
-                            <div class="col-6" style="margin-bottom: 5px; justify-content: end;display: flex;">
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal" style="width: 150px;">Add new movie</button>
+                            <div class="col-4" style="margin-bottom: 5px">
+                                <button type="button" class="btn btn-primary" style="width: 150px;" id="showOrdersButton">Orders</button>
                             </div>
-                            <div class="col-6" style="margin-bottom: 5px; justify-content: start;">
+                            <div class="col-4" style="margin-bottom: 5px">
+                                <button type="button" class="btn btn-primary" style="width: 150px;" id="showUsersButton">Users</button>
+                            </div>
+                            <div class="col-4" style="margin-bottom: 5px">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#statisticsModal" style="width: 150px;" id="showStatsButton">Show statistics</button>
+                            </div>
+                            <div class="row" style="margin-bottom: 5px;margin-top: 15px;display: flex;justify-content: center;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMovieModal" style="width: 150px;">Add new movie</button>
                             </div>
                         </div>
 
                         <div>
+                            
                             <div class="eachMovie" id="eachMovie" style="text-align: center;">
                                 <!-- Your table with movie information goes here -->
                             </div>
@@ -297,26 +304,170 @@
                 <div class="modal-content" style="width: fit-content;">
                     <div class="modal-header">
                         <h5 class="modal-title" id="statisticsModal">Here are the shop statistics:</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" id="statisticsModalClose1Btn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body" id="statisticsModalBody">
-                          <div class="chart" id="chart" style="justify-content: center;"></div> <!-- This is where your first chart will appear -->
-                          <div id="secondChart"></div> <!-- This is where your second chart will appear -->
-                           </button>
-                        </div>
-                        <div class="container" style="max-width: 80vw; margin-bottom: 2rem">
-                          
-                          <div  id="allGamesContainer" class="row" style="border-color: var(--bs-gray-500)">
-                          </div>
+                        <div class="chart" id="chart">
+
+                        </div> 
+                        <div class="chart" id="secondChart" style="justify-content: center;display: grid;">
+                        </div> 
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" id="statisticsModalCloseBtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="modal fade" id="ordersModal" tabindex="-1" aria-labelledby="ordersModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" id="ordersModalCloseBtn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="ordersModalBody" style="max-height: 800px; overflow-y: auto;">
+                        <h2>Orders:</h2>
+                        
+                        <div class="orderList" id="orderList">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="mx-auto">
+                                        <div class="list-group" id="Orderitems" style="width: 100%;">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+               
+                <div class="modal-footer">
+                    <button type="button" id="ordersModalClose1Btn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal fade" id="orderResponseModal" tabindex="-1" aria-labelledby="orderResponseModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderResponseModalTitle"></h5>
+                        <button type="button" id="orderResponseClose1Button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="orderResponseModalBody">
+                    </div>
                     <div class="modal-footer">
-                        <button type="button" id="statisticsModalCloseBtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="orderResponseCloseButton" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="usersModal" tabindex="-1" aria-labelledby="usersModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Users:</h2>
+                        <button type="button" id="usersModalClose1Btn" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="usersModalBody">
+                        <div class="addUserClass" style="justify-content: center;display: grid;margin-bottom: 10px;">
+                            <button type="button" id="addUserBtn" class="btn btn-primary">Create new user</button>
+                        </div>
+                        <div class="userList" id="userList" style="overflow-y: auto; max-height: 800px;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="mx-auto">
+                                        <div class="list-group" id="userItems" style="width: 100%;">
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="modal-footer">
+                    <button type="button" id="usersModalCloseBtn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="modal fade" id="userResponseModal" tabindex="-1" aria-labelledby="userResponseModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userResponseModalTitle"></h5>
+                        <button type="button" id="userResponseClose1Button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="userResponseModalBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="userResponseCloseButton" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalTitle">Create new user</h5>
+                        <button type="button" id="addUserModalClose1Button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="addUserModalBody">
+                        <div id="errorMessage1" class="alert alert-danger" style="display: none;"></div>
+                            <form id="addMovie">
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;display: flex;">
+                                    <div class="col-2">
+                                        Name:
+                                    </div>
+                                    <div class="col-10">
+                                    <input type="text" id="name" placeholder="*User's name" name="name" required style="width: 70%;border-radius: 10px;margin-left: 2px;">
+                                    </div>
+                                </div><br>
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;display: flex;">
+                                    <div class="col-2">
+                                        Email:
+                                    </div>
+                                    <div class="col-10">
+                                    <input type="text" id="email" placeholder="*Enter user's email" name="email" required style="width: 70%;border-radius: 10px;margin-left: 2px;">
+                                    </div>
+                                </div><br>
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;display: flex;">
+                                    <div class="col-2">
+                                        Password:
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="password" id="password" placeholder="Enter password" name="password" required style="width: 70%;border-radius: 10px;margin-left: 2px;">
+                                    </div>
+                                </div><br>
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;display: flex;">
+                                    <div class="col-2">
+                                    Age:
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="number" id="age" placeholder="Enter Age" name="age" required style="width: 70%;border-radius: 10px;margin-left: 2px;">
+                                    </div>
+                                </div><br>
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;">
+                                    <div class="col-auto p-0" style="margin-right: 1px;">
+                                        Make user Admin:
+                                    </div>
+                                    <div class="col-auto p-0">
+                                        <input type="checkbox" id="isAdminCheckBox" name="isAdmin">
+                                    </div>
+                                </div><br>
+                                <div class="row" style="margin-bottom: 5px;justify-content: center;display: flex;">
+                                    <button type="button" id="createUserButton" style="border-radius: 15px;width: 50%;">Create User</button>
+                                </div>
+                            </form>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" id="addUserModalCloseButton" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>

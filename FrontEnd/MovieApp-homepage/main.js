@@ -123,42 +123,7 @@ function appendMessage(message, timestamp) {
     });
 
 
-    $("#loginForm").submit(function(event) {
-        event.preventDefault();
-        var email = $("#email").val();
-        var password = $("#password").val();
-        var postData = {
-            email: email,
-            password: password
-        };
-        
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:1113/login", 
-            data: postData,
-            success: function(response) {
-                localStorage.setItem("email", postData.email);
-                $('#responseModalBody').text("Login successful!, you are redirected");
-                $('#responseModal').modal('show');
-                setTimeout(function() {
-                    window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
-                }, 2000);
-            },
-            error: function (xhr, status, error) {
-                if (error) {
-                    $('#responseModalLabel').text("Oops"); 
-                    $('#responseModalBody').text("Wrong email/password, Please try again");
-                    
-                    // Clear the password field
-                    $("#password").val("");
-                } else {
-                    $('#responseModalLabel').text("Oops");
-                    $('#responseModalBody').text("An error occurred. Please try again later.");
-                }
-                $('#responseModal').modal('show');
-            }
-        });
-    });
+    
 
     $("#logoutButton").click(function() {
         localStorage.removeItem("email");
@@ -253,49 +218,43 @@ let generateShop = async () => {
         console.log("localstorage is empty");
     }
     
-$(document).ready(function() {
-    // Attach a click event listener to the login button
     $("#loginForm").submit(function(event) {
-        event.preventDefault(); // Prevent the form from submitting normally
-        
-        // Get the form data
+        event.preventDefault();
         var email = $("#email").val();
         var password = $("#password").val();
-        
-        // Prepare the data to send in the POST request
         var postData = {
             email: email,
             password: password
         };
+        console.log(postData);
         
-        // Send an AJAX POST request
         $.ajax({
             type: "POST",
-            url: "http://localhost:1113/login",
+            url: "http://localhost:1113/login", 
             data: postData,
             success: function(response) {
-                // Handle the response from the server here
                 localStorage.setItem("email", postData.email);
-                $('#responseModalBody').text("Login successful!"); // Display a success message
-                $('#responseModal').modal('show'); // Show the modal
-               
-                // You can redirect the user or perform other actions as needed
+                $('#responseModalBody').text("Login successful!, you are redirected");
+                $('#responseModal').modal('show');
+                setTimeout(function() {
+                    window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
+                }, 2000);
             },
-            error: function(xhr, status, error) {
-                try {
-                    var errorResponse = JSON.parse(xhr.responseText); // Parse the JSON error response
-                    var errorMessage = errorResponse.error; // Extract the error message
-                    $('#responseModalBody').text(errorMessage); // Display the error message
-                    $('#responseModal').modal('show'); // Show the modal
-                } catch (e) {
-                    // Handle other types of errors
-                    $('#responseModalBody').text("An error occurred during registration."); // Display a generic error message
-                    $('#responseModal').modal('show'); // Show the modal
+            error: function (xhr, status, error) {
+                if (error) {
+                    $('#responseModalLabel').text("Oops"); 
+                    $('#responseModalBody').text("Wrong email/password, Please try again");
+                    
+                    // Clear the password field
+                    $("#password").val("");
+                } else {
+                    $('#responseModalLabel').text("Oops");
+                    $('#responseModalBody').text("An error occurred. Please try again later.");
                 }
+                $('#responseModal').modal('show');
             }
         });
     });
-});
 
     return shop.innerHTML = shopItemsData.map((x) => {
         let { _id, title, price, description, year, rating, actors, image } = x;
