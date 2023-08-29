@@ -1,5 +1,3 @@
-import {usdToILS} from "./main"
-
 let userName='';
 $(document).ready(function() {
     function initializeLiveChat() {
@@ -233,7 +231,6 @@ async function generateCartItems() {
                     
 
                 <h3 style="text-align:center">Subtotal : $ ${price}</h3>
-                <h3 style="text-align:center">Subtotal : ₪ ${price*usdToILS}</h3
              </div>   
             </div>
             `;
@@ -382,7 +379,19 @@ let cashout = async () => {
 
 
 
-let TotalAmount = ()=>{
+
+let TotalAmount =async ()=>{
+    let usdToILS=0;
+    await $.ajax({
+      url: `https://api.apilayer.com/exchangerates_data/latest?symbols=ils&base=usd`,
+      type: "GET",
+      secure: true,
+      cors: true,
+      headers: {
+        "apikey": "6PlRg2D3qY6wF9YlAr1GqwWtGmpoAdD9"
+      },
+    }).done((res) => usdToILS = res.rates.ILS);
+
     if(basket.length !==0){
         lable.innerHTML =`
         <div class="Shopping-Cart-HeadLine" style="margin-top:15px">
@@ -390,6 +399,7 @@ let TotalAmount = ()=>{
         </div>
         <div class="Total-Bill-HeadLine">
         <h2>Total Bill: $ ${total}</h2>
+        <h2>Total Bill: ₪ ${parseFloat(total*usdToILS).toFixed(2)}</h2>
         <button onclick="cashout() "class="checkout">Checkout</button>
         <button onclick="clearCart()" class="removeAll">Clear Cart</button>
         </div>

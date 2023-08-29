@@ -945,6 +945,3 @@ document.addEventListener('DOMContentLoaded', function () {
     
     });
 
-    module.export={
-        usdToILS: usdToILS
-    };
