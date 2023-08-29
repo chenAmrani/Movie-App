@@ -159,6 +159,17 @@ function appendMessage(message, timestamp) {
 
 let user;
 
+$("#show-filters").click(function(){
+    document.getElementById("all-filters").style.display = "flex";
+    $("#show-filters").hide();
+    $("#hide-filters").show();
+})
+
+$("#hide-filters").click(function(){
+    document.getElementById("all-filters").style.display = "none";
+    $("#hide-filters").hide();
+    $("#show-filters").show();
+})
 
 let generateShop = async () => {
             // Fetch the genre options from the movies
@@ -189,16 +200,40 @@ let generateShop = async () => {
         const applyFilters = () => {
             const selectedGenre = genreSelect.value;
             const selectedRating = ratingSelect.value;
-    
+            const selectedPrice = getSelectedPriceFilter();
+        
             const filteredItems = shopItemsData.filter(item => {
                 const matchesGenre = selectedGenre === 'all' || item.genre.includes(selectedGenre);
                 const matchesRating = selectedRating === 'all' || item.rating >= parseInt(selectedRating);
-                return matchesGenre && matchesRating;
+                const matchesPrice = selectedPrice === null || item.price <= selectedPrice;
+        
+                return matchesGenre && matchesRating && matchesPrice;
             });
-    
+        
             const shopItemsHTML = generateShopItems(filteredItems);
             shop.innerHTML = shopItemsHTML;
         };
+        
+        // Function to get the selected price filter value
+        const getSelectedPriceFilter = () => {
+            const selectedPriceOption = document.querySelector('input[name="price-filter"]:checked');
+            if (selectedPriceOption) {
+                const priceValue = selectedPriceOption.value;
+                if (priceValue === 'none') {
+                    return null; // If "None" is selected, return null to disable price filtering
+                } else {
+                    return parseFloat(priceValue); // Otherwise, return the selected price value
+                }
+            }
+            return null; // If no option is selected, return null
+        };
+        
+        // Add event listeners to price filter radio buttons
+        const priceFilters = document.getElementsByName('price-filter');
+        for (const filter of priceFilters) {
+            filter.addEventListener('change', applyFilters);
+        }
+        
     
         genreSelect.addEventListener('change', applyFilters);
         ratingSelect.addEventListener('change', applyFilters);
@@ -207,8 +242,11 @@ let generateShop = async () => {
     if (localStorage.getItem('email')){
         try {
             const response = await fetch(`http://localhost:1113/email?email=${email}`);
-
+            if(user){
             user = await response.json();
+            }else{
+                localStorage.removeItem('email')
+            }
 
         } catch (error) {
             console.error("Fetch Error:", error);
@@ -359,7 +397,6 @@ const generateShopItems = (items) => {
 // Function to check if a movie is included in the basket
 let checkIfMovieIncluded = (id) => {
     if (localStorage.getItem("email")){
-    
         for (let i=0;i<user.movies.length;i++){
             if (user.movies[i]._id==id){
                 return false;
