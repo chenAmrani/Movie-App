@@ -80,7 +80,7 @@ a{
     color: white;
     padding: 3px;
     border-radius: 50%;
-    width: 15px;
+    width: fit-content;
 }
 .cart-line {
     display: flex;

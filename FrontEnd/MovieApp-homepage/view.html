@@ -30,12 +30,21 @@
         <div class="dropdown">
             <input class="search-bar" type="text" id="search-bar" placeholder="Search Movie">
             <i class="bi bi-search" id="search-icon"></i>
+            <button class="show-filters btn" id="show-filters" style="color: white; font-size:20px;">Filters
+                <i class="bi bi-filter-circle"></i>
+            </button>
+            <button class="hide-filters btn" id="hide-filters" style="display: none; color: white; font-size:20px;">Hide
+                <i class="bi bi-filter-circle-fill"></i>
+            </button>
             <div class="dropdown-menu" id="search-results-dropdown" aria-labelledby="dropdownMenuButton" style="margin-left: 55px;">
             </div>
         </div>
+       
     </div>
 
-    
+   
+   
+
     <div class="loginButtons">
         <button class="logoutButton" id="logoutButton" style="display: none;">Logout</button>
         <button class="userProfileButton" id="userProfileButton" style="display: none;">User Profile</button>
@@ -64,28 +73,54 @@
         </p>
     </div>
     
-    <div class="genre-dropdown" style="display:flex;margin-top: 120px;justify-content: center;text-align: center;">
+   
+
+    <div class="genre-dropdown" id="all-filters" style="display:none; margin-top: 120px;justify-content: center;text-align: center;">
        
-            <div class="row justify-content-center" style="padding: 25px;background-color: #00000061;border:2px solid black; border-radius: 60px;margin-right: 75px;width:50%">
-                <h1 style="color: whitesmoke;">Apply Filters</h1>
-                <h2 style="color: whitesmoke;">Choose your preffered genre:</h2>
-                <div class="col" style="display: flex;width: 75%;justify-content: center;">
-                    <select class="form-select" id="genre-select" style="width: 30%;">
-                        <option value="all">Select genre:</option>
-                        <!-- Other genre options will be added dynamically using JavaScript -->
-                    </select>
-                </div>
-                <h2 style="color: whitesmoke;">Choose minimum rating:</h2>
-                <div class="col" style="display: flex;width: 75%;justify-content: center;">
-                <select class="form-select" id="rating-select" style="width: 30%;">
-                    <option value="all">Select rating:</option>
+        <div class="row justify-content-center" style="padding: 25px;background-color: #00000061;border:2px solid black; border-radius: 60px;margin-right: 44px;width:600px">
+            <h1 style="color: whitesmoke;">Apply Filters</h1>
+            <h2 style="color: whitesmoke;">Choose your preffered genre:</h2>
+            <div class="col-4" style="display: flex;width: 75%;justify-content: center;">
+                <select class="form-select" id="genre-select" style="width: 145px;">
+                    <option value="all">Select genre:</option>
                     <!-- Other genre options will be added dynamically using JavaScript -->
                 </select>
             </div>
+            <h2 style="color: whitesmoke;">Choose minimum rating:</h2>
+            <div class="col-4" style="display: flex;width: 75%;justify-content: center;">
+            <select class="form-select" id="rating-select" style="width: 145px;">
+                <option value="all">Select rating:</option>
+                <!-- Other genre options will be added dynamically using JavaScript -->
+            </select>
+            </div>
+            <h2 style="color: whitesmoke;">Filter by price:</h2>
+            <div class="col-4" style="display: flex;width: 75%;justify-content: center; color: white;">
+            <div>
+                <input type="radio" name="price-filter" id="price-filter-none" value="none">
+                <label for="price-filter-none">None</label>
+            </div>
+            <div>
+                <input type="radio" name="price-filter" id="price-filter-10" value="10">
+                <label for="price-filter-10">Up to $10</label>
+            </div>
+            <div>
+                <input type="radio" name="price-filter" id="price-filter-20" value="20">
+                <label for="price-filter-20">Up to $20</label>
+            </div>
+            <div>
+                <input type="radio" name="price-filter" id="price-filter-30" value="30">
+                <label for="price-filter-30">Up to $30</label>
+            </div>
+            <div>
+                <input type="radio" name="price-filter" id="price-filter-40" value="40">
+                <label for="price-filter-40">Up to $40</label>
+            </div>
+        </div>
+
             </div>
 
-            
-    </div>
+                
+        </div>
 
     <div class="shop" id="shop">
     </div>
@@ -157,7 +192,7 @@
                         <img id="logo" src="/Movie-App/BackEnd/imges/cineheaven logo.png" alt="Movie Store Image">
                     </div>
                     <ul class="list-inline text-center" style="margin-top: 5px;">
-                        <li class="list-inline-item"><a href="https://www.facebook.com/profile.php?id=61550479142189"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
+                        <li class="list-inline-item"><a href="#"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-facebook fa-stack-1x fa-inverse"></i></span></a></li>
                         <li class="list-inline-item"><a href="/Movie-App/FrontEnd/MovieApp-map/map.html"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-map-marker fa-stack-1x fa-inverse"></i></span></a></li>
                     </ul>
                     <p class="copyright text-muted text-center" style="color: var(--bs-body-bg)!important;">Copyright © All rights reserved to Nir Miranda, Dorin Cohen, Chen Amrani, Ori Farkash</p>
@@ -166,14 +201,35 @@
         </div>
     </footer>
     <!-- end of footer -->
-
-    <div id="currency" class="currency-section">
-        <currency>
-            <h1 class="currency-title">Currency Exchange</h1>
-            <h5 class="currency-rate">Exchange rate: 1 USD = <span id="conversion-rate"></span> ILS</h5>
-        </currency>
-    </div>
+    <script>
     
+    <!-- Add a section to display currency exchange rates -->
+    // Function to fetch currency exchange rates from the Exchangerates API
+    function fetchExchangeRates() {
+      // Replace 'YOUR_API_KEY' with your actual API key
+      const apiKey = 'a1a47a6b458a060118c061071d238e47';
+      const apiUrl = `https://api.exchangeratesapi.io/v1/latest?access_key=${apiKey}`;
+    
+      fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+          // Update the displayed rates
+          //document.getElementById('usdToEur').textContent = data.rates.EUR;
+          //document.getElementById('usdToGbp').textContent = data.rates.GBP;
+          //document.getElementById('usdToUsd').textContent = data.rates.USD;
+        })
+        .catch((error) => {
+          console.error('Error fetching exchange rates:', error);
+        });
+    }
+    
+    // Fetch and update rates initially
+    fetchExchangeRates();
+    
+    // Fetch and update rates every 1 hour (adjust the interval as needed) 3000=30 sec
+    setInterval(fetchExchangeRates, 21600000); // 30 seconds
+</script>
+  
 </body>
 
 <script src="data.js"></script>
