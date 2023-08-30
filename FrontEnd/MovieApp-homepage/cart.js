@@ -104,16 +104,21 @@ function appendMessage(message, timestamp) {
                 $('#responseModalBody').text("Login successful!, you are redirected");
                 $('#responseModal').modal('show');
                 setTimeout(function() {
-                    window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/cart.html";
+                    window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
                 }, 2000);
             },
-            error: function(xhr, status, error) {
-                try {
-                    var errorResponse = JSON.parse(xhr.responseText);
-                    var errorMessage = errorResponse.error;
-                    $('#responseModalBody').text(errorMessage);
-                    $('#responseModal').modal('show');
-                } catch (e) {}
+            error: function (xhr, status, error) {
+                if (error) {
+                    $('#responseModalLabel').text("Oops"); 
+                    $('#responseModalBody').text("Wrong email/password, Please try again");
+                    
+                    // Clear the password field
+                    $("#password").val("");
+                } else {
+                    $('#responseModalLabel').text("Oops");
+                    $('#responseModalBody').text("An error occurred. Please try again later.");
+                }
+                $('#responseModal').modal('show');
             }
         });
     });
@@ -388,7 +393,7 @@ let TotalAmount =async ()=>{
       secure: true,
       cors: true,
       headers: {
-        "apikey": "0ANm9a5WoRrLd4aDgRJgu4tiQSySLGg6"
+        "apikey": "6PlRg2D3qY6wF9YlAr1GqwWtGmpoAdD9"
       },
     }).done((res) => usdToILS = res.rates.ILS);
 

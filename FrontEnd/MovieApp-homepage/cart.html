@@ -64,21 +64,22 @@
             <button id="sendButton">Send</button>
         </div>
     </div>
-
     <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <h2>Login</h2>
-            <form id="loginForm">
-                <label for="username">Email:</label>
-                <input type="text" id="email" name="email" required><br>
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required><br>
-                <button type="submit">Login</button>
-                <p>Didn't registered yet? <a href="/Movie-App/FrontEnd/MovieApp-register/register.html">Click here to register</a></p>           
-             </form>
-        </div>
-    </div>
+      <div class="modal-content">
+          <span class="close" id="closeModal">&times;</span>
+          <h2>Login</h2>
+          <form id="loginForm">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required><br>
+              <span class="error-message" id="emailErrorMessage"></span> <!-- Add error message span -->
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" required minlength="6"><br>
+              <span class="error-message" id="passwordErrorMessage"></span> <!-- Add error message span -->
+              <button type="submit">Login</button>
+              <p>Didn't registered yet? <a href="/Movie-App/FrontEnd/MovieApp-register/register.html">Click here to register</a></p>           
+           </form>
+      </div>
+  </div>
 
     <div class="modal fade" id="responseModal" tabindex="-1" aria-labelledby="responseModalLabel" aria-hidden="true">
         <div class="modal-dialog">

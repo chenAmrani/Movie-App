@@ -1,4 +1,3 @@
-let shop = document.getElementById('shop');
 let movieModal = document.getElementById('movieModal');
 let basket = JSON.parse(localStorage.getItem("data")) || [];
 
@@ -171,6 +170,11 @@ $("#hide-filters").click(function(){
     $("#show-filters").show();
 })
 
+
+
+let currentPage = 1; // Track the current page of movie items
+const moviesPerPage = 10; // Number of movies to load per page
+
 let generateShop = async () => {
             // Fetch the genre options from the movies
             const allGenres = new Set();
@@ -292,52 +296,36 @@ let generateShop = async () => {
         });
     });
 
-    return shop.innerHTML = shopItemsData.map((x) => {
-        let { _id, title, price, description, year, rating, actors, image } = x;
-        let search = basket.find((item) => item.id === _id);
-        let stars = '';
-        
-        for (let i = 1; i <= 5; i++) {
-            if (i <= rating) {
-                stars += '<i class="bi bi-star-fill"></i>';
-            } else {
-                stars += '<i class="bi bi-star"></i>';
-            }
-        }
+    const shop = document.getElementById('shop');
 
-        let movieContent = `
-        <div class="row center-text" style="width:250px">
-        <p style="margin-top:5px">You own this movie</p>
-        </div>`;
-        ;
-        if (checkIfMovieIncluded(_id)) { 
-            movieContent = `
-                <h2 id="movie-price-details" class="movie-price-details">$ ${price}</h2>
-                <i id="decrement" onclick="decrement('${_id}')" class="bi bi-bag-dash-fill" style="font-size:24px"></i>
-                <div id="${_id}" class="quantity" style="font-size:24px">${search === undefined ? 0 : search.item}</div>
-                <i id="increment" onclick="increment('${_id}')" class="bi bi-bag-plus-fill" style="font-size:24px"></i>
-            `;
-        }
+    const loadMoreButton = document.getElementById('loadMoreButton');
 
-        return `
-            <div id="product-id-${_id}" class="item">
-                <div class="clickable-image">
-                    <img width="250" height="400" src="${image}" style="border-radius: 35px 35px 0 0;min-height:400px" alt="image should be here">
-                </div>
-                <div class="details">
-                    <div class="titleClass">
-                        <h3 class="title-movie-details">${title}</h3>
-                    </div>
-                    <br>
-                    <p style="text-align: center;font-size:24px">${year}</p> 
-                    <p style="text-align: center;font-size:24px">${stars}</p>
-                    <div class="price-quantity">
-                        ${movieContent}
-                    </div>
-                </div>
-            </div>
-        `;
-    }).join("");
+    loadMoreButton.addEventListener('click', () => {
+        currentPage++;
+        if (currentPage*moviesPerPage>=shopItemsData.length){
+            loadMoreButton.style.display='none';
+            console.log(currentPage*moviesPerPage);
+        }
+        fetchAndDisplayMovies();
+    });
+
+    // Fetch and display the initial movies
+    await fetchAndDisplayMovies();
+    
+};
+
+const fetchAndDisplayMovies = async () => {
+    const startIdx = (currentPage - 1) * moviesPerPage;
+    const endIdx = startIdx + moviesPerPage - 1;
+
+    const moviesToDisplay = shopItemsData.slice(startIdx, endIdx + 1);
+    const shopItemsHTML = generateShopItems(moviesToDisplay);
+
+    const shop = document.getElementById('shop');
+
+
+    // Append new movies instead of clearing the content
+    shop.insertAdjacentHTML('beforeend', shopItemsHTML);
 };
 
 const generateShopItems = (items) => {
@@ -463,10 +451,10 @@ let generateMovieModal=(movie)=>{
                                 <div class="input-group-prepend"></div>
                             </div>
                             <div></div>
-                            <div class="mb-3"><label class="form-label" for="reviewerName" style="margin: 0 0 4px 0;">Your Name:</label><input class="shadow form-control item" type="text" id="reviewerName" placeholder="Please tell us your full name" required="" minlength="3" style="border-radius: 8 px;"></div>
-                            <div class="mb-3" style="border-radius: 8 px;"></div>
+                            <div class="mb-3"><label class="form-label" for="reviewerName" style="margin: 0 0 4px 0;">Your Name:</label><input class="shadow form-control item" type="text" id="reviewerName" placeholder="Please tell us your full name" required="" minlength="3" style="border-radius: 8px;height:50px"></div>
+                            <div class="mb-3" style="border-radius: 8px;"></div>
                             <div class="mb-3" style="box-shadow: 0px 0px;"></div>
-                            <div class="mb-3 my-3"><label class="form-label" for="review" style="box-shadow: 0px 0px;">Review:</label><textarea class="shadow form-control item" id="message" placeholder="Tell us your thoughts about the movie." required="" minlength="8" maxlength="500" rows="7" style="border-style: solid;border-radius: 16px;"></textarea></div>
+                            <div class="mb-3 my-3"><label class="form-label" for="review" style="box-shadow: 0px 0px;">Review:</label><textarea class="shadow form-control item" id="message" placeholder="Tell us your thoughts about the movie." required="" minlength="8" maxlength="500" rows="7" style="height:250px;border-style: solid;border-radius: 16px;"></textarea></div>
                             <div class="mb-3">    <button class="btn btn-success btn-lg d-block mx-auto" type="submit">Submit Form</button></div>
                         </form>
                     </div>
