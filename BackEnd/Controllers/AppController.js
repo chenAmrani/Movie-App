@@ -1,25 +1,25 @@
 const userModule = require('../Models/userModel');
 const userController=require('../Controllers/userController')
-const MovieModel=require('../Models/movieModel') // מייבאת את התיקייה של המודל 
-module.exports.getObject=async(req,res)=> // כל מטודה אני מייבאת אותה שאוכל להשתמש דרך האובייקט של המודל נשתמש בכל הפונקציות
+const MovieModel=require('../Models/movieModel') 
+module.exports.getObject=async(req,res)=> 
 {
-    const Movie=await MovieModel.find(); // יביא לנו את כל המשימות כמו גט משרת רק פה אנחנו מבקשים מהמודל
-    res.send(Movie) //כביכול הלקוח יבקש את כל המשימות והשרת ישלח לו אותם
+    const Movie=await MovieModel.find(); 
+    res.send(Movie) 
 }
 module.exports.getObjectById = async (req, res) => {
   try {
-      const { id } = req.query; // Use req.params instead of req.query
+      const { id } = req.query; 
       if (id==undefined){
         const {id} =req.query;
       }
       const movie = await MovieModel.findById(id).populate("reviews");
       if (movie) {
-          res.status(200).json(movie); // Send the movie as a JSON response
+          res.status(200).json(movie); 
       } else {
-          res.status(404).json({ message: "Movie not found" }); // Movie not found
+          res.status(404).json({ message: "Movie not found" }); 
       }
   } catch (err) {
-      res.status(500).json({ message: "Internal server error" }); // Handle errors
+      res.status(500).json({ message: "Internal server error" }); 
   }
 };
 module.exports.validateMovie=async(req, res, next)=>
@@ -39,12 +39,12 @@ module.exports.validateMovie=async(req, res, next)=>
     }
     next(); 
 }
-module.exports.addObject=async(req,res,next)=> //ליצור אובייקט חדש 
+module.exports.addObject=async(req,res,next)=> 
 {   
   console.log("Arrived"); 
-    const{_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}=req.body //הלקוח הקליד בקשה כביכול מזין אובייקט שזה משימה חדש 
-   MovieModel.create({_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}).then((data)=>{ //כל הפעולות האלה נעשות עי ה המודל שלנו עם מטודות בנויות מראש 
-        res.send(data) //השרת ישלח לנו את המשימה החדשה 
+    const{_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}=req.body 
+   MovieModel.create({_id,title, year, rating, actors,actor_facets,price, genre, trailer,image, description}).then((data)=>{ 
+        res.send(data) 
     })
 }
 module.exports.updateObject=async(req,res,next)=>

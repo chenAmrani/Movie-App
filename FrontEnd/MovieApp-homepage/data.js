@@ -19,4 +19,3 @@ async function fetchDataAsync() {
     }
 }
 fetchDataAsync();
-//chen
