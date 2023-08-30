@@ -156,7 +156,7 @@ window.addEventListener("click", function(event) {
 });
 
 
-// Function to fetch movie data using AJAX
+// Function to fetch movie data 
 async function fetchMovie(movieId) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -236,7 +236,7 @@ async function generateCartItems() {
             `;
         }
 
-        shoppingCart.appendChild(lineContainer); // Append the last line container
+        shoppingCart.appendChild(lineContainer); 
         TotalAmount()
 
         
@@ -300,7 +300,7 @@ async function fetchUserCheckout() {
 
 let orderNumber=1;
 
-// Function to post updates to the Facebook page using AJAX
+// Function to post updates to the Facebook page 
 function postToFacebookPage(message) {
     const pageAccessToken = 'EAARn6rNxEIYBOxmUmkpnQivo9WSEZANA0FxD8f7sL4cr5pvejUBkY3KyCeMw5qr1HnI2pQOSaem1Tqgy93fAOnkAjAirHZBsZC8yEjCtZCMzqeEeb5SqZBH2GuieJUOUM3lAzxqZCwG6l4ccuBoQalrbaunxlGkYdrXZC2ey2CtRPYGCwgDNGtsUYB7mS2twdYZD';
     const pageId = '108469582352707';
@@ -321,7 +321,7 @@ function postToFacebookPage(message) {
     });
   }
   
-  // Call the function to post updates
+  
   
   
   let message='';
@@ -332,7 +332,6 @@ let cashout = async () => {
         const user = await fetchUserCheckout();
         userName= await user.name;
         console.log(userName)
-        // Assuming you have the order data in some format
         const orderData = {
             user: user._id,
             movies: basket.map(item => item.id),
@@ -349,7 +348,7 @@ let cashout = async () => {
                 
                 console.log(basket);
 
-                // Show the success modal using vanilla JavaScript
+                
                 let successModal = new bootstrap.Modal(document.getElementById('successModal'));
                 successModal.show();
                 message=`User ${userName} has made a new order !`
@@ -361,11 +360,9 @@ let cashout = async () => {
             },
             error: function(xhr, status, error) {
                 console.error("AJAX Error:", status, error);
-                // Handle the error if needed
             },
         });
     } catch (error) {
-        // Handle the error if needed
         console.error("Error:", error);
     }
     }

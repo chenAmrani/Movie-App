@@ -36,7 +36,6 @@
                         </button>
                         <script>
                             function navigateToHomepage() {
-                                // Use JavaScript to navigate to the desired URL
                                 window.location.href = "/Movie-App/FrontEnd/MovieApp-homepage/view.html";
                             }
                             </script>
@@ -101,7 +100,8 @@
                             <div style="margin-top: 50px;">
                                 <div class="slideshow-container" style="width: fit-content;height: fit-content;margin-top: -40px;">
                                     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                                    <div id="movieContainer"></div> <!-- Container for movie slides -->
+                                    <!-- Container for movie slides -->
+                                    <div id="movieContainer"></div> 
                                     <div id="movieContainer"></div>
                                     <div id="noMoviesMessage" class="text-center" style="color: white; display: none;">You didn't buy movies yet</div>
                                     <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -117,7 +117,6 @@
                     <section class="orders">
                         <div class="container">
                             <div id="faqlist" class="accordion accordion-flush">
-                                <!-- Accordion items will be added here using JavaScript -->
                             </div>
                         </div>
                     </section>
@@ -171,7 +170,6 @@
                         <div>
                             
                             <div class="eachMovie" id="eachMovie" style="text-align: center;">
-                                <!-- Your table with movie information goes here -->
                             </div>
                             <div class="buttonsRow">
                                 <button class="btn btn-secondary" onclick="changePage(-1)" style="margin-right: 5px;">Previous</button>
@@ -190,7 +188,7 @@
         
         <!-- New Chat Window -->
         <div id="chatWindow" class="chat-window">
-            <button id="closeChatButton" class="close-button">X</button> <!-- Close button -->
+            <button id="closeChatButton" class="close-button">X</button> 
             <div id="chatContainer">
                 <ul id="messageList"></ul>
             </div>

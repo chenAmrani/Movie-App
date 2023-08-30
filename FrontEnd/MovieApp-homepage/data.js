@@ -1,8 +1,6 @@
 let shopItemsData=[];
 function fetchDataFromServer(response){
-    // console.log(response);
     shopItemsData = response;
-    // console.log(shopItemsData);
 }
 
 async function fetchDataAsync() {
@@ -10,7 +8,6 @@ async function fetchDataAsync() {
         const response = await $.ajax({
             url: "http://localhost:1113/Movies",
             type: "GET",
-            //data: data,
         });
 
         await fetchDataFromServer(response);

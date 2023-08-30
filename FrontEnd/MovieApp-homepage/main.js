@@ -123,8 +123,6 @@ function appendMessage(message, timestamp) {
     });
 
 
-    
-
     $("#logoutButton").click(function() {
         localStorage.removeItem("email");
         localStorage.removeItem("movies");
@@ -152,9 +150,6 @@ function appendMessage(message, timestamp) {
         document.getElementById("loginModal").style.display = "none";
     });
 
-
-
-    
 });
 
 let user;
@@ -222,7 +217,7 @@ let generateShop = async () => {
                 if (priceValue === 'none') {
                     return null; // If "None" is selected, return null to disable price filtering
                 } else {
-                    return parseFloat(priceValue); // Otherwise, return the selected price value
+                    return parseFloat(priceValue); //return the selected price value
                 }
             }
             return null; // If no option is selected, return null
@@ -404,8 +399,6 @@ let checkIfMovieIncluded = (id) => {
     }
     else return true;
 
-
-    
 };
 
 
@@ -413,16 +406,14 @@ let checkIfMovieIncluded = (id) => {
 
 let fetchMovie = (_id) => {
 
-
     $.ajax({
         type: "GET",
-        url: "http://localhost:1113/MovieById", // Remove one slash here
-        data: { id: _id }, // Format the data as an object
+        url: "http://localhost:1113/MovieById",
+        data: { id: _id }, 
         success: function(response) {
             generateMovieModal(response);
         },
         error: function(xhr, status, error) {
-            // Handle errors
         }
     });
 
@@ -612,13 +603,9 @@ let generateMovieModal=(movie)=>{
                 $('#modal-1').modal('hide');
                 $('#modal-video-watch').modal('show');
 
-
-                // Optionally, you can reset the form inputs here
-            
                 return true;
             },
             error: function (xhr, status, error) {
-                // Handle errors
             },
         });
     });
@@ -774,7 +761,7 @@ let generateActorCards = (actorFacets, actorNames) => {
 
 let increment = (_id) => {
     let selecteditem = _id;
-    let search = basket.find((item) => item.id === selecteditem); // Use item.id
+    let search = basket.find((item) => item.id === selecteditem);
     if (search === undefined) {
         basket.push({
             id: selecteditem,
@@ -794,7 +781,7 @@ let increment = (_id) => {
 
 let decrement = (_id) => {
     let selecteditem = _id;
-    let search = basket.find((item) => item.id === selecteditem); // Use item.id
+    let search = basket.find((item) => item.id === selecteditem); 
     if (search === undefined) return;
     if (search.item === 0) return;
     else {
@@ -808,7 +795,7 @@ let decrement = (_id) => {
 };
 
 let update = (id) => {
-    let search = basket.find((item) => item.id === id); // Use item.id
+    let search = basket.find((item) => item.id === id); 
     document.getElementById(id).innerHTML = search.item;
     calculation();
 };
@@ -863,7 +850,7 @@ window.addEventListener("click", function(event) {
 });
 
 
-// From here on , is the part of SEARCH
+//The part of SEARCH
 document.addEventListener('DOMContentLoaded', function () {
     const searchBar = document.getElementById('search-bar');
     const searchIcon = document.getElementById('search-icon');
