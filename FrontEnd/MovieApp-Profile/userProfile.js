@@ -809,7 +809,7 @@ function fetchMostGenrePerMonth() {
       .attr("d", d3.arc().innerRadius(0).outerRadius(radius))
       .attr("fill", (d, i) => pieColor(i));
   
-    // Add labels
+    
     svg
       .selectAll("text")
       .data(arcs)
@@ -825,7 +825,7 @@ function fetchMostGenrePerMonth() {
       .attr("text-anchor", "middle")
       .text((d, i) => `${genres[i]} (${totalPurchases[i]})`);
   
-    // Add title
+
     svg
       .append("text")
       .attr("class", "chart-title")
